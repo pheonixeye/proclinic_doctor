@@ -127,7 +127,7 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
               const SizedBox(
                 width: 10,
               ),
-              Text('${e.toString().toUpperCase()}', textScaleFactor: 2.0)
+              Text('${e.toString().toUpperCase()}', textScaler: TextScaler.linear(2.0): 2.0)
             ],
           ),
         ),

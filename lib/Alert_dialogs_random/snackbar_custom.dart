@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 
 void showCustomSnackbar({
   required BuildContext context,
@@ -26,4 +27,31 @@ void showCustomSnackbar({
     ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
+
+SnackBar docInfoSnackBar(Doctor doctor) {
+  return SnackBar(
+    duration: const Duration(seconds: 1),
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Doctor :   '),
+        Text(
+          doctor.docnameEN.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Text('selected.'),
+        const SizedBox(
+          width: 20,
+        ),
+        const Icon(
+          Icons.thumb_up_alt_rounded,
+          color: Colors.green,
+        )
+      ],
+    ),
+  );
 }

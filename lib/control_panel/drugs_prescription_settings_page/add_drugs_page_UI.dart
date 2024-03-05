@@ -38,7 +38,7 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
       appBar: AppBar(
         title: const Text(
           'Drugs & Prescriptions',
-          textScaleFactor: 2,
+          textScaler: TextScaler.linear(2.0): 2,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

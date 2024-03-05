@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
+import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 //all doctors stream from mongo//

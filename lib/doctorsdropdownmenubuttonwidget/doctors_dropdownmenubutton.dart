@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_doctors/mongo_doctors_db.dart';
+import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
+import 'package:proclinic_doctor_windows/models/doctorModel.dart';
+import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
+import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:provider/provider.dart';
 
-late String globallySelectedDoctor;
-late String globallySelectedClinic;
+// String globallySelectedDoctor = '';
+// String globallySelectedClinic = '';
 
 class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
   const NewlyFormatedDoctorsDropDownButton({super.key});
@@ -14,93 +19,59 @@ class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
 
 class _NewlyFormatedDoctorsDropDownButtonState
     extends State<NewlyFormatedDoctorsDropDownButton> {
-  DoctorsMongoDatabase doctormongo = DoctorsMongoDatabase();
-  int? intselval;
+  Doctor? _doctor;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: doctormongo.allDoctorsfromMongo,
-      builder: (context, snapshot) {
-        List? data = !snapshot.hasData ? [] : snapshot.data;
-        // print(data);
-        List data_ = [];
-
-        //the data_ list is added to avoid the .length method was called on null
-        data_.addAll(data!);
-
-        List<DropdownMenuItem<int>> _items = [];
-        for (int i = 0; i < data_.length; i++) {
-          _items.add(DropdownMenuItem<int>(
-            value: i,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(
-                width: 10,
+    return Consumer<PxDoctorListProvider>(
+      builder: (context, doctors, c) {
+        List<DropdownMenuItem<Doctor>> _items = [];
+        for (int i = 0; i < doctors.doctorList!.length; i++) {
+          _items.add(
+            DropdownMenuItem<Doctor>(
+              value: doctors.doctorList![i],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    doctors.doctorList![i].docnameEN.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(doctors.doctorList![i].clinicEN),
+                ],
               ),
-              Text(
-                data[i]['docname'].toString().toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(data[i]['clinic'].toString())
-            ]),
-          ));
+            ),
+          );
         }
         return SizedBox(
           height: 50.0,
           child: Container(
-            decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(4.0, 4.0),
-                  blurRadius: 4.0,
-                ),
-              ],
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: DropdownButton<int>(
+            decoration: ThemeConstants.cd,
+            child: DropdownButton<Doctor>(
               hint: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('Select Clinic . . .')],
+                children: [
+                  Text('Select Clinic . . .'),
+                ],
               ),
-              value: intselval,
+              value: _doctor,
               items: _items,
               onChanged: (value) async {
-                final snackbar = SnackBar(
-                    duration: const Duration(seconds: 1),
-                    content: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Doctor :   '),
-                          Text(
-                            '${data[value!]['docname']}   '.toUpperCase(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Text('selected.'),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Icon(
-                            Icons.thumb_up_alt_rounded,
-                            color: Colors.green,
-                          )
-                        ]));
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(docInfoSnackBar(value!));
                 setState(() {
-                  intselval = value;
-                  globallySelectedDoctor = data[intselval!]['docname'];
-                  globallySelectedClinic = data[intselval!]['clinic'];
-                  print('---------------------${globallySelectedDoctor}');
+                  _doctor = value;
                 });
+                context.read<PxSelectedDoctor>().selectDoctor(value);
               },
               underline: Container(
                 height: 2,

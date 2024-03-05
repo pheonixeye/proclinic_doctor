@@ -1,5 +1,4 @@
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -40,8 +39,12 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
               icon: const Icon(Icons.refresh),
               label: const Text('Retry'),
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoadingScreen()));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoadingScreen(),
+                  ),
+                );
               },
             ),
             const SizedBox(
@@ -53,8 +56,12 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
               onPressed: () async {
                 await netset.resetnetwork();
                 await Future.delayed(const Duration(milliseconds: 50));
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoadingScreen()));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoadingScreen(),
+                  ),
+                );
               },
             ),
             const SizedBox(

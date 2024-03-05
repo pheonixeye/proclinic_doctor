@@ -23,32 +23,34 @@ class YearClinicPickerState extends State<YearClinicPicker> {
     return Visibility(
       visible: globalVisibility,
       child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(4.0, 4.0),
-                blurRadius: 4.0,
-              ),
-            ],
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: CupertinoPicker(
-              scrollController: FixedExtentScrollController(
-                  initialItem: years.indexOf(DateTime.now().year)),
-              looping: true,
-              itemExtent: 32,
-              onSelectedItemChanged: (value) {
-                setState(() {
-                  selectedyear = value;
-                  globalYear = years[value];
-                  print(globalYear);
-                });
-              },
-              children: years.map((e) {
-                return Text('${e}');
-              }).toList())),
+        height: 50,
+        decoration: BoxDecoration(
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(4.0, 4.0),
+              blurRadius: 4.0,
+            ),
+          ],
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: CupertinoPicker(
+          scrollController: FixedExtentScrollController(
+              initialItem: years.indexOf(DateTime.now().year)),
+          looping: true,
+          itemExtent: 32,
+          onSelectedItemChanged: (value) {
+            setState(() {
+              selectedyear = value;
+              globalYear = years[value];
+              print(globalYear);
+            });
+          },
+          children: years.map((e) {
+            return Text('$e');
+          }).toList(),
+        ),
+      ),
     );
   }
 }
@@ -86,31 +88,33 @@ class MonthClinicPickerState extends State<MonthClinicPicker> {
     return Visibility(
       visible: globalVisibility,
       child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(4.0, 4.0),
-                blurRadius: 4.0,
-              ),
-            ],
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: CupertinoPicker(
-              useMagnifier: true,
-              looping: true,
-              itemExtent: 32,
-              onSelectedItemChanged: (value) {
-                setState(() {
-                  selectedMonthValue = value;
-                  globalMonth = months[value].substring(0, 2);
-                  print(globalMonth);
-                });
-              },
-              children: months.map((e) {
-                return Text('${e}');
-              }).toList())),
+        height: 50,
+        decoration: BoxDecoration(
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(4.0, 4.0),
+              blurRadius: 4.0,
+            ),
+          ],
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: CupertinoPicker(
+          useMagnifier: true,
+          looping: true,
+          itemExtent: 32,
+          onSelectedItemChanged: (value) {
+            setState(() {
+              selectedMonthValue = value;
+              globalMonth = months[value].substring(0, 2);
+              print(globalMonth);
+            });
+          },
+          children: months.map((e) {
+            return Text(e);
+          }).toList(),
+        ),
+      ),
     );
   }
 }
@@ -165,32 +169,34 @@ class _DayClinicPickerState extends State<DayClinicPicker> {
     return Visibility(
       visible: globalVisibility,
       child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(4.0, 4.0),
-                blurRadius: 4.0,
-              ),
-            ],
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: CupertinoPicker(
-              // magnification: 1.5,
-              useMagnifier: true,
-              looping: true,
-              itemExtent: 32,
-              onSelectedItemChanged: (value) {
-                setState(() {
-                  selectedday = value;
-                  globalDay = days[value];
-                  print(globalDay);
-                });
-              },
-              children: days.map((e) {
-                return Text('${e}');
-              }).toList())),
+        height: 50,
+        decoration: BoxDecoration(
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(4.0, 4.0),
+              blurRadius: 4.0,
+            ),
+          ],
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: CupertinoPicker(
+          // magnification: 1.5,
+          useMagnifier: true,
+          looping: true,
+          itemExtent: 32,
+          onSelectedItemChanged: (value) {
+            setState(() {
+              selectedday = value;
+              globalDay = days[value];
+              print(globalDay);
+            });
+          },
+          children: days.map((e) {
+            return Text(e);
+          }).toList(),
+        ),
+      ),
     );
   }
 }

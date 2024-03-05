@@ -1,7 +1,7 @@
 import 'dart:async' show Timer;
 
-import 'package:proclinic_doctor_windows/Login_screen/login_Page.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
+import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
+import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/Not_Connected_To_Db/not_connected_db.dart';
 import 'package:proclinic_doctor_windows/get_mac_adress_fns/get_mac_adress.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +29,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
       );
     }).catchError((e) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NoDBConnectionPage(
-                    error: e.toString(),
-                  )));
+        context,
+        MaterialPageRoute(
+          builder: (context) => NoDBConnectionPage(
+            error: e.toString(),
+          ),
+        ),
+      );
     });
   }
 

@@ -20,8 +20,8 @@ class _PasswordSettingPageState extends State<PasswordSettingPage> {
   @override
   Widget build(BuildContext context) {
     DoctorsMongoDatabase docmongo = DoctorsMongoDatabase();
-    double hor_size = MediaQuery.of(context).size.width / 5;
-    double ver_size = MediaQuery.of(context).size.height / 5;
+    double horSize = MediaQuery.of(context).size.width / 5;
+    double verSize = MediaQuery.of(context).size.height / 5;
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -32,7 +32,7 @@ class _PasswordSettingPageState extends State<PasswordSettingPage> {
         ),
         title: Text(
           widget.docname.toUpperCase(),
-          textScaleFactor: 2.0,
+          textScaler: const TextScaler.linear(2.0),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -55,8 +55,7 @@ class _PasswordSettingPageState extends State<PasswordSettingPage> {
             child: Card(
               shadowColor:
                   Colors.primaries[Random().nextInt(Colors.primaries.length)],
-              margin:
-                  EdgeInsets.fromLTRB(hor_size, ver_size, hor_size, ver_size),
+              margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
               elevation: 20,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),

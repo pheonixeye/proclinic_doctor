@@ -69,7 +69,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
             appBar: AppBar(
               title: const Text(
                 'Settings Page',
-                textScaleFactor: 2.0,
+                textScaler: TextScaler.linear(2.0): 2.0,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,

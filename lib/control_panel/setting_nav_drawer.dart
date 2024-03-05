@@ -1,7 +1,7 @@
-import 'dart:math';
-
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 class CustomSettingsNavDrawer extends StatefulWidget {
   const CustomSettingsNavDrawer({super.key});
@@ -17,17 +17,7 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
     return Drawer(
       elevation: 20,
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white54.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors
-                      .primaries[Random().nextInt(Colors.primaries.length)],
-                  offset: const Offset(5, 5),
-                  blurRadius: 5,
-                  spreadRadius: 5),
-            ]),
+        decoration: ThemeConstants.cd,
         child: Column(
           children: [
             //avatar
@@ -44,10 +34,14 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Dr. ${globallySelectedDoctor.toUpperCase()} Clinic',
-                    textScaleFactor: 2,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: Consumer<PxSelectedDoctor>(
+                    builder: (context, d, c) {
+                      return Text(
+                        'Dr. ${d.doctor!.docnameEN.toUpperCase()} Clinic',
+                        textScaler: const TextScaler.linear(2.0),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      );
+                    },
                   ),
                 ),
               ),

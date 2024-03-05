@@ -28,7 +28,7 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
       appBar: AppBar(
         title: const Text(
           'Labs & Rads',
-          textScaleFactor: 2,
+          textScaler: TextScaler.linear(2.0): 2,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

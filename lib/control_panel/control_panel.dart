@@ -1,13 +1,13 @@
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
 import 'package:proclinic_doctor_windows/Find_Patients_page/find_patients_page.dart';
-import 'package:proclinic_doctor_windows/Login_screen/login_Page.dart';
+import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/today_patients_page/today_patients_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/popupbutton_logout_settings.dart';
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:provider/provider.dart';
 
 class ControlPanelPage extends StatefulWidget {
-  // the main - homepage of the app
   final String? docname;
 
   const ControlPanelPage({Key? key, this.docname}) : super(key: key);
@@ -18,10 +18,15 @@ class ControlPanelPage extends StatefulWidget {
 class _ControlPanelPageState extends State<ControlPanelPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  final d = DateTime.now();
 
   @override
   void initState() {
-    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    _tabController = TabController(
+      initialIndex: 0,
+      length: 3,
+      vsync: this,
+    );
 
     super.initState();
   }
@@ -49,9 +54,14 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                 ),
                 label: const Text('Confirm'),
                 onPressed: () async {
+                  context.read<PxSelectedDoctor>().selectDoctor(null);
                   Navigator.pop(context);
-                  await Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  await Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
                 },
               ),
               ElevatedButton.icon(
@@ -81,37 +91,30 @@ class _ControlPanelPageState extends State<ControlPanelPage>
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                backgroundColor: Colors.orange,
-              ),
               icon: const Icon(Icons.refresh),
               label: const Text('Refresh'),
               onPressed: () {
+                //TODO: refetch data??
                 setState(() {});
               },
             ),
           )
         ],
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          ),
+        title: Consumer<PxSelectedDoctor>(
+          builder: (context, d, c) {
+            return Text(
+              'Dr. ${d.doctor!.docnameEN.toUpperCase()} Clinic',
+              textScaler: const TextScaler.linear(2.0),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            );
+          },
         ),
-        title: Text(
-          'Dr. ${globallySelectedDoctor.toUpperCase()} Clinic',
-          textScaleFactor: 2.0,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           tabs: <Tab>[
             Tab(
               icon: const Icon(Icons.person),
-              text: 'Today ${DateTime.now().toString().substring(0, 10)}',
+              text: 'Today ${d.day} - ${d.month} - ${d.year}',
             ),
             const Tab(
               icon: Icon(
@@ -130,10 +133,10 @@ class _ControlPanelPageState extends State<ControlPanelPage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[
+        children: const <Widget>[
           TodayPatients(),
           FindPatients(),
-          const BookKeepingPage()
+          BookKeepingPage()
         ],
       ),
     );

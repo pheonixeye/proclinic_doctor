@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
+import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class GridFSimageFileReaderOneVisitDate {
@@ -24,7 +24,7 @@ class GridFSimageFileReaderOneVisitDate {
 
   //all images stream one doctor one visit//
   Stream<List> get allimagesdata async* {
-    DbCollection patientNamedCollection = Database.mongo!.collection(phone);
+    DbCollection patientNamedCollection = Database.mongo.collection(phone);
 
     List alldata = await patientNamedCollection
         .find(where
