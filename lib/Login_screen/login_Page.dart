@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
+    //TODO: dispose of listening to doctor stream
     super.dispose();
   }
 
@@ -236,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NetworkSettingsPage()));
+                                                  const NetworkSettingsPage()));
                                     },
                                   ),
                                 )

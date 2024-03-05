@@ -24,7 +24,7 @@ class GridFSimageFileReaderOneVisitDate {
 
   //all images stream one doctor one visit//
   Stream<List> get allimagesdata async* {
-    DbCollection patientNamedCollection = mongo!.collection(phone);
+    DbCollection patientNamedCollection = Database.mongo!.collection(phone);
 
     List alldata = await patientNamedCollection
         .find(where

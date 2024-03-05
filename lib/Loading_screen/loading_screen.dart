@@ -7,6 +7,8 @@ import 'package:proclinic_doctor_windows/get_mac_adress_fns/get_mac_adress.dart'
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatefulWidget {
+  const LoadingScreen({super.key});
+
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -16,12 +18,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     runshellmac(context);
     super.initState();
-    openYaMongo().then((value) {
+    Database.openYaMongo().then((value) {
       Timer(
-        Duration(seconds: 5),
+        const Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => LoginPage(),
+            builder: (BuildContext context) => const LoginPage(),
           ),
         ),
       );
@@ -42,7 +44,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       body: Container(
         alignment: Alignment.center,
         color: Colors.white70.withOpacity(0.3),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
