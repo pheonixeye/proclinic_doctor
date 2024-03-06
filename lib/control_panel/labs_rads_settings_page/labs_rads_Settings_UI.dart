@@ -1,11 +1,11 @@
-import 'dart:math';
-
-import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/labs_db.dart';
-import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/rads_db.dart';
+import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/models/doctorModel.dart';
+import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 class LabsAndRadsSettingsPage extends StatefulWidget {
   const LabsAndRadsSettingsPage({super.key});
@@ -16,11 +16,26 @@ class LabsAndRadsSettingsPage extends StatefulWidget {
 }
 
 class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
-  TextEditingController labController = TextEditingController();
-  TextEditingController radController = TextEditingController();
-  LabsClass labs = LabsClass(docname: globallySelectedDoctor);
-  RadsClass rads = RadsClass(docname: globallySelectedDoctor);
-  final ScrollController _scrollController = ScrollController();
+  late final TextEditingController labController;
+  late final TextEditingController radController;
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    labController = TextEditingController();
+    radController = TextEditingController();
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    labController.dispose();
+    radController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,35 +43,19 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
       appBar: AppBar(
         title: const Text(
           'Labs & Rads',
-          textScaler: TextScaler.linear(2.0): 2,
+          textScaler: TextScaler.linear(2.0),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Colors.white54.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
-                    offset: const Offset(5, 5),
-                    blurRadius: 5,
-                    spreadRadius: 5),
-              ]),
+          decoration: ThemeConstants.cd,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
-              elevation: 15,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              shadowColor:
-                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child: CupertinoScrollbar(
                 controller: _scrollController,
                 thickness: 10,
@@ -73,54 +72,63 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                           children: [
                             const CircleAvatar(),
                             const SizedBox(width: 20),
-                            const SizedBox(width: 150, child: Text('Labs :')),
+                            const SizedBox(
+                              width: 150,
+                              child: Text('Labs :'),
+                            ),
                             const SizedBox(
                               width: 50,
                             ),
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText:
-                                          'Add Laboratory Requests / Items',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: labController,
-                                  )),
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText:
+                                        'Add Laboratory Requests / Items',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: labController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
                             ),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.add),
-                              label: const Text('Add to Lab List'),
-                              onPressed: () async {
-                                await labs.updateDoctorLabstoMongo(
-                                    docname: globallySelectedDoctor,
-                                    lab: labController.text.toLowerCase());
-                                await Future.delayed(
-                                    const Duration(milliseconds: 50));
-                                labController.clear();
-                                setState(() {});
+                            Consumer<PxSelectedDoctor>(
+                              builder: (context, d, c) {
+                                return ElevatedButton.icon(
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Add to Lab List'),
+                                  onPressed: () async {
+                                    await d.updateSelectedDoctor(
+                                      docname: d.doctor!.docnameEN,
+                                      attribute: 'labs',
+                                      value: [
+                                        ...d.doctor!.labs,
+                                        labController.text
+                                      ],
+                                    );
+                                    if (context.mounted) {
+                                      showCustomSnackbar(
+                                        context: context,
+                                        message: 'Lab Added.',
+                                      );
+                                    }
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 50));
+                                    labController.clear();
+                                  },
+                                );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -128,57 +136,46 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
-                        child: StreamBuilder(
-                            stream: labs.doctorlablist,
-                            builder: (context, snapshot) {
-                              List labdata =
-                                  !snapshot.hasData ? [] : snapshot.data;
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3, childAspectRatio: 6),
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.primaries[Random()
-                                          .nextInt(Colors.primaries.length)],
-                                      child: Text('${index + 1}'),
+                        decoration: ThemeConstants.cd,
+                        child: Consumer<PxSelectedDoctor>(
+                          builder: (context, d, c) {
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 6,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    child: Text('${index + 1}'),
+                                  ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(d.doctor!.labs[index]),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.red,
                                     ),
-                                    title: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(labdata[index]
-                                          .toString()
-                                          .toUpperCase()),
-                                    ),
-                                    trailing: IconButton(
-                                      icon: const Icon(
-                                        Icons.delete_forever,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () async {
-                                        await labs.deleteDoctorLabsFromMongo(
-                                            docname: globallySelectedDoctor,
-                                            lab: labdata[index]);
-                                        setState(() {});
-                                      },
-                                    ),
-                                  );
-                                },
-                                itemCount:
-                                    !snapshot.hasData ? 0 : labdata.length,
-                              );
-                            }),
+                                    onPressed: () async {
+                                      final newLabs = [...d.doctor!.labs]
+                                        ..remove(index);
+
+                                      await d.updateSelectedDoctor(
+                                        docname: d.doctor!.docnameEN,
+                                        attribute: SxDoctor.LABS,
+                                        value: newLabs,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              itemCount: d.doctor!.labs.length,
+                            );
+                          },
+                        ),
                       ),
                       //end of lab list + field + button
                       const Padding(
@@ -200,55 +197,63 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                           children: [
                             const CircleAvatar(),
                             const SizedBox(width: 20),
-                            const SizedBox(width: 150, child: Text('Rads :')),
+                            const SizedBox(
+                              width: 150,
+                              child: Text('Rads :'),
+                            ),
                             const SizedBox(
                               width: 50,
                             ),
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText:
-                                          'Add Radiology Requests / Items',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: radController,
-                                  )),
+                                color: Colors.purple[100],
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Radiology Requests / Items',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: radController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
                             ),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.add),
-                              label: const Text('Add to Rad List'),
-                              onPressed: () async {
-                                await rads.updateDoctorRadstoMongo(
-                                    docname: globallySelectedDoctor,
-                                    rad: radController.text.toLowerCase());
-                                await Future.delayed(
-                                    const Duration(milliseconds: 50));
-
-                                radController.clear();
-                                setState(() {});
+                            Consumer<PxSelectedDoctor>(
+                              builder: (context, d, c) {
+                                return ElevatedButton.icon(
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Add to Rad List'),
+                                  onPressed: () async {
+                                    await d.updateSelectedDoctor(
+                                      docname: d.doctor!.docnameEN,
+                                      attribute: SxDoctor.RADS,
+                                      value: [
+                                        ...d.doctor!.rads,
+                                        radController.text
+                                      ],
+                                    );
+                                    if (context.mounted) {
+                                      showCustomSnackbar(
+                                        context: context,
+                                        message: 'Lab Added.',
+                                      );
+                                    }
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 50));
+                                    radController.clear();
+                                  },
+                                );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -256,57 +261,46 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
-                        child: StreamBuilder(
-                            stream: rads.doctorradlist,
-                            builder: (context, snapshot) {
-                              List raddata =
-                                  !snapshot.hasData ? [] : snapshot.data;
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3, childAspectRatio: 6),
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.primaries[Random()
-                                          .nextInt(Colors.primaries.length)],
-                                      child: Text('${index + 1}'),
+                        decoration: ThemeConstants.cd,
+                        child: Consumer<PxSelectedDoctor>(
+                          builder: (context, d, c) {
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 6,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    child: Text('${index + 1}'),
+                                  ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(d.doctor!.rads[index]),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.red,
                                     ),
-                                    title: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(raddata[index]
-                                          .toString()
-                                          .toUpperCase()),
-                                    ),
-                                    trailing: IconButton(
-                                      icon: const Icon(
-                                        Icons.delete_forever,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () async {
-                                        await rads.deleteDoctorRadsFromMongo(
-                                            docname: globallySelectedDoctor,
-                                            rad: raddata[index]);
-                                        setState(() {});
-                                      },
-                                    ),
-                                  );
-                                },
-                                itemCount:
-                                    !snapshot.hasData ? 0 : raddata.length,
-                              );
-                            }),
+                                    onPressed: () async {
+                                      final newRads = [...d.doctor!.rads]
+                                        ..remove(index);
+
+                                      await d.updateSelectedDoctor(
+                                        docname: d.doctor!.docnameEN,
+                                        attribute: SxDoctor.RADS,
+                                        value: newRads,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              itemCount: d.doctor!.rads.length,
+                            );
+                          },
+                        ),
                       ),
                       //end of rad list + field + button
                       const Padding(

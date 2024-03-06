@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names, file_names
 
+import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
+
 class Doctor {
   final int id;
   final String docnameEN;
@@ -18,6 +20,9 @@ class Doctor {
   final List<String> affiliatesAR;
   final List<String> affiliatesEN;
   final List<String> fields;
+  final List<String> labs;
+  final List<String> rads;
+  final List<Drug> drugs;
   final bool published;
 
   const Doctor({
@@ -39,6 +44,9 @@ class Doctor {
     required this.affiliatesEN,
     required this.fields,
     required this.published,
+    required this.labs,
+    required this.rads,
+    required this.drugs,
   });
 
   factory Doctor.fromJson(dynamic json) {
@@ -61,6 +69,11 @@ class Doctor {
       affiliatesEN: _stringifyList(json[SxDoctor.AFFILIATES_E]),
       fields: _stringifyList(json[SxDoctor.FIELDS]),
       published: json[SxDoctor.PUBLISHED],
+      labs: _stringifyList(json[SxDoctor.LABS]),
+      rads: _stringifyList(json[SxDoctor.RADS]),
+      drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
+          .map((e) => Drug.fromJson(e))
+          .toList(),
     );
   }
   Map<String, dynamic> toJson() {
@@ -83,6 +96,9 @@ class Doctor {
       SxDoctor.FIELDS: fields,
       SxDoctor.GRID: grid,
       SxDoctor.PUBLISHED: published,
+      SxDoctor.LABS: labs,
+      SxDoctor.RADS: rads,
+      SxDoctor.DRUGS: drugs.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -107,6 +123,11 @@ class Doctor {
         affiliatesEN: _stringifyList(json[SxDoctor.AFFILIATES_E]),
         fields: _stringifyList(json[SxDoctor.FIELDS]),
         published: json[SxDoctor.PUBLISHED],
+        labs: _stringifyList(json[SxDoctor.LABS]),
+        rads: _stringifyList(json[SxDoctor.RADS]),
+        drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
+            .map((e) => Drug.fromJson(e))
+            .toList(),
       );
     }).toList();
     return dl;
@@ -136,4 +157,7 @@ class SxDoctor {
   static const String FIELDS = 'fields';
   static const String GRID = 'grid';
   static const String PUBLISHED = 'published';
+  static const String LABS = 'labs';
+  static const String RADS = 'rads';
+  static const String DRUGS = 'drugs';
 }
