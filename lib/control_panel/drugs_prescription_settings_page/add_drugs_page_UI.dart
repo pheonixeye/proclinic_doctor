@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/clinic_details_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/doc_titles_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/doses_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drug_page_db.dart.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/misc_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
 
 class AddDrugsPage extends StatefulWidget {
   const AddDrugsPage({super.key});
@@ -38,7 +36,7 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
       appBar: AppBar(
         title: const Text(
           'Drugs & Prescriptions',
-          textScaler: TextScaler.linear(2.0): 2,
+          textScaler: TextScaler.linear(2.0),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -48,25 +46,10 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Colors.white54.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
-                    offset: const Offset(5, 5),
-                    blurRadius: 5,
-                    spreadRadius: 5),
-              ]),
+          decoration: ThemeConstants.cd,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
-              elevation: 15,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              shadowColor:
-                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child: CupertinoScrollbar(
                 controller: _controller,
                 thickness: 10,
@@ -92,29 +75,22 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText: 'Add Drugs',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: drugController,
-                                  )),
+                                color: Colors.purple[100],
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Drugs',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: drugController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
@@ -129,7 +105,6 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                 await Future.delayed(
                                     const Duration(milliseconds: 50));
                                 drugController.clear();
-                                setState(() {});
                               },
                             )
                           ],
@@ -139,64 +114,48 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: StreamBuilder(
-                            stream: drugs.doctordruglist,
-                            builder: (context, snapshot) {
-                              List drugdata =
-                                  !snapshot.hasData ? [] : snapshot.data;
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3, childAspectRatio: 6),
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.primaries[Random()
-                                          .nextInt(Colors.primaries.length)],
-                                      child: Text('${index + 1}'),
+                          stream: drugs.doctordruglist,
+                          builder: (context, snapshot) {
+                            List drugdata =
+                                !snapshot.hasData ? [] : snapshot.data;
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 6,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    child: Text('${index + 1}'),
+                                  ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(drugdata[index]
+                                        .toString()
+                                        .toUpperCase()),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.red,
                                     ),
-                                    title: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(drugdata[index]
-                                          .toString()
-                                          .toUpperCase()),
-                                    ),
-                                    trailing: IconButton(
-                                      icon: const Icon(
-                                        Icons.delete_forever,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () async {
-                                        await drugs.deleteDoctorDrugsFromMongo(
-                                            docname: globallySelectedDoctor,
-                                            drug: drugdata[index]);
-                                        setState(() {});
-                                      },
-                                    ),
-                                  );
-                                },
-                                itemCount:
-                                    !snapshot.hasData ? 0 : drugdata.length,
-                                // separatorBuilder: (context, index) {
-                                //   return Divider(
-                                //     color: Colors.blueGrey,
-                                //     thickness: 5,
-                                //     height: 10,
-                                //   );
-                                // },
-                              );
-                            }),
+                                    onPressed: () async {
+                                      await drugs.deleteDoctorDrugsFromMongo(
+                                          docname: globallySelectedDoctor,
+                                          drug: drugdata[index]);
+                                      setState(() {});
+                                    },
+                                  ),
+                                );
+                              },
+                              itemCount:
+                                  !snapshot.hasData ? 0 : drugdata.length,
+                            );
+                          },
+                        ),
                       ),
                       //end of drug list + field + button
                       const Padding(
@@ -222,29 +181,21 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText: 'Add Doses',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: doseController,
-                                  )),
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Doses',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: doseController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
@@ -271,56 +222,42 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: StreamBuilder(
-                            stream: doses.doctordoselist,
-                            builder: (context, snapshot) {
-                              List dosedata =
-                                  !snapshot.hasData ? [] : snapshot.data;
-                              return Center(
-                                child: ListView.builder(
-                                  itemCount:
-                                      !snapshot.hasData ? 0 : dosedata.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        child: Text('${index + 1}'),
-                                        backgroundColor: Colors.primaries[
-                                            Random().nextInt(
-                                                Colors.primaries.length)],
+                          stream: doses.doctordoselist,
+                          builder: (context, snapshot) {
+                            List dosedata =
+                                !snapshot.hasData ? [] : snapshot.data;
+                            return Center(
+                              child: ListView.builder(
+                                itemCount:
+                                    !snapshot.hasData ? 0 : dosedata.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      child: Text('${index + 1}'),
+                                    ),
+                                    title: Text(dosedata[index]
+                                        .toString()
+                                        .toUpperCase()),
+                                    trailing: IconButton(
+                                      icon: const Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.red,
                                       ),
-                                      title: Text(dosedata[index]
-                                          .toString()
-                                          .toUpperCase()),
-                                      trailing: IconButton(
-                                        icon: const Icon(
-                                          Icons.delete_forever,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: () async {
-                                          await doses
-                                              .deleteDoctorDosesFromMongo(
-                                                  docname:
-                                                      globallySelectedDoctor,
-                                                  dose: dosedata[index]);
-                                          setState(() {});
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            }),
+                                      onPressed: () async {
+                                        await doses.deleteDoctorDosesFromMongo(
+                                            docname: globallySelectedDoctor,
+                                            dose: dosedata[index]);
+                                        setState(() {});
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -346,29 +283,21 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText: 'Add Doctor Titles',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: doctitleController,
-                                  )),
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Doctor Titles',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: doctitleController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
@@ -394,57 +323,43 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: StreamBuilder(
-                            stream: titles.doctortitlelist,
-                            builder: (context, snapshot) {
-                              List titledata =
-                                  !snapshot.hasData ? [] : snapshot.data;
-                              return Center(
-                                child: ListView.builder(
-                                  itemCount:
-                                      !snapshot.hasData ? 0 : titledata.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.primaries[
-                                            Random().nextInt(
-                                                Colors.primaries.length)],
-                                        child: Text('${index + 1}'),
+                          stream: titles.doctortitlelist,
+                          builder: (context, snapshot) {
+                            List titledata =
+                                !snapshot.hasData ? [] : snapshot.data;
+                            return Center(
+                              child: ListView.builder(
+                                itemCount:
+                                    !snapshot.hasData ? 0 : titledata.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      child: Text('${index + 1}'),
+                                    ),
+                                    title: Text(titledata[index]
+                                        .toString()
+                                        .toUpperCase()),
+                                    trailing: IconButton(
+                                      icon: const Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.red,
                                       ),
-                                      title: Text(titledata[index]
-                                          .toString()
-                                          .toUpperCase()),
-                                      trailing: IconButton(
-                                        icon: const Icon(
-                                          Icons.delete_forever,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: () async {
-                                          await titles
-                                              .deleteDoctorTitlesFromMongo(
-                                                  docname:
-                                                      globallySelectedDoctor,
-                                                  title: titledata[index]);
-                                          setState(() {});
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            }),
+                                      onPressed: () async {
+                                        await titles
+                                            .deleteDoctorTitlesFromMongo(
+                                                docname: globallySelectedDoctor,
+                                                title: titledata[index]);
+                                        setState(() {});
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -470,29 +385,21 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText: 'Add Clinic Details',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: clinicdetailController,
-                                  )),
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Clinic Details',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: clinicdetailController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
@@ -521,17 +428,7 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: StreamBuilder(
                             stream: clinicdetails.doctorClinicDetailslist,
                             builder: (context, snapshot) {
@@ -545,9 +442,6 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       leading: CircleAvatar(
-                                        backgroundColor: Colors.primaries[
-                                            Random().nextInt(
-                                                Colors.primaries.length)],
                                         child: Text('${index + 1}'),
                                       ),
                                       title: Text(clinicdetailsdata[index]
@@ -597,29 +491,21 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                             SizedBox(
                               width: 350,
                               child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(10),
-                                  )),
-                                  color: Colors.purple[100],
-                                  child: TextField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      icon: Icon(Icons.add_to_queue),
-                                      hintText: '...',
-                                      labelText: 'Add Misc.',
-                                      alignLabelWithHint: true,
-                                      fillColor: Colors.white,
-                                    ),
-                                    onChanged: (String value) async {
-                                      setState(() {});
-                                    },
-                                    maxLines: null,
-                                    controller: miscController,
-                                  )),
+                                child: TextField(
+                                  enableInteractiveSelection: true,
+                                  enabled: true,
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    icon: Icon(Icons.add_to_queue),
+                                    hintText: '...',
+                                    labelText: 'Add Misc.',
+                                    alignLabelWithHint: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                  maxLines: null,
+                                  controller: miscController,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 50,
@@ -645,17 +531,7 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                            color: Colors.white54.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.primaries[Random()
-                                      .nextInt(Colors.primaries.length)],
-                                  offset: const Offset(5, 5),
-                                  blurRadius: 5,
-                                  spreadRadius: 5),
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: StreamBuilder(
                             stream: misc.doctormisclist,
                             builder: (context, snapshot) {
@@ -668,9 +544,6 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       leading: CircleAvatar(
-                                        backgroundColor: Colors.primaries[
-                                            Random().nextInt(
-                                                Colors.primaries.length)],
                                         child: Text('${index + 1}'),
                                       ),
                                       title: Text(miscdata[index]

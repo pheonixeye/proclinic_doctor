@@ -104,20 +104,22 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
           shape: shapelist[Random().nextInt(shapelist.length)],
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: RouteSettings(arguments: {
-                      'ptname': widget.ptname,
-                      'docname': widget.docname,
-                      'phone': widget.phone,
-                      'day': widget.day,
-                      'month': widget.month,
-                      'year': widget.year,
-                      'id': widget.id
-                    }),
-                    builder: (context) => SRLCP(
-                          scrlp: headlines[headlines.indexOf(e)],
-                        )));
+              context,
+              MaterialPageRoute(
+                settings: RouteSettings(arguments: {
+                  'ptname': widget.ptname,
+                  'docname': widget.docname,
+                  'phone': widget.phone,
+                  'day': widget.day,
+                  'month': widget.month,
+                  'year': widget.year,
+                  'id': widget.id
+                }),
+                builder: (context) => SRLCP(
+                  scrlp: headlines[headlines.indexOf(e)],
+                ),
+              ),
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +129,10 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
               const SizedBox(
                 width: 10,
               ),
-              Text('${e.toString().toUpperCase()}', textScaler: TextScaler.linear(2.0): 2.0)
+              Text(
+                '${e.toString().toUpperCase()}',
+                textScaler: TextScaler.linear(2.0),
+              ),
             ],
           ),
         ),
