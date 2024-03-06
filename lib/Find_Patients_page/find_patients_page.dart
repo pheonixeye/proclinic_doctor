@@ -1,5 +1,4 @@
 import 'package:proclinic_doctor_windows/Find_Patients_page/all_patients_under/all_patients_under_page.dart';
-import 'package:proclinic_doctor_windows/Find_Patients_page/organizer_pts/organizer_pts_UI.dart';
 import 'package:proclinic_doctor_windows/Find_Patients_page/search_patients_under/search_patients_under.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,11 @@ class _FindPatientsState extends State<FindPatients>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      initialIndex: 0,
+      vsync: this,
+    );
     super.initState();
   }
 
@@ -47,21 +50,14 @@ class _FindPatientsState extends State<FindPatients>
                     ),
                     text: 'Search Patients',
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.perm_contact_calendar,
-                    ),
-                    text: 'Appointments',
-                  ),
                 ],
               ),
             ),
             body: TabBarView(
               controller: _tabController,
-              children: <Widget>[
+              children: const <Widget>[
                 AllPatientsUnder(),
                 SearchPatientsUnder(),
-                OrganizerPatients()
               ],
             ),
           ),

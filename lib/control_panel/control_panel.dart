@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:after_layout/after_layout.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
 import 'package:proclinic_doctor_windows/Find_Patients_page/find_patients_page.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
@@ -5,18 +8,17 @@ import 'package:proclinic_doctor_windows/Patient_Profile_Page/today_patients_pag
 import 'package:proclinic_doctor_windows/control_panel/popupbutton_logout_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:provider/provider.dart';
 
 class ControlPanelPage extends StatefulWidget {
-  final String? docname;
-
-  const ControlPanelPage({Key? key, this.docname}) : super(key: key);
+  const ControlPanelPage({Key? key}) : super(key: key);
   @override
   _ControlPanelPageState createState() => _ControlPanelPageState();
 }
 
 class _ControlPanelPageState extends State<ControlPanelPage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AfterLayoutMixin {
   late final TabController _tabController;
   final d = DateTime.now();
 
@@ -29,6 +31,14 @@ class _ControlPanelPageState extends State<ControlPanelPage>
     );
 
     super.initState();
+  }
+
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    await context.read<PxVisits>().fetchVisits(
+          docname: context.read<PxSelectedDoctor>().doctor!.docnameEN,
+          type: QueryType.Today,
+        );
   }
 
   void callSettings() {
@@ -93,9 +103,12 @@ class _ControlPanelPageState extends State<ControlPanelPage>
             child: ElevatedButton.icon(
               icon: const Icon(Icons.refresh),
               label: const Text('Refresh'),
-              onPressed: () {
-                //TODO: refetch data??
-                setState(() {});
+              onPressed: () async {
+                await context.read<PxVisits>().fetchVisits(
+                      docname:
+                          context.read<PxSelectedDoctor>().doctor!.docnameEN,
+                      type: QueryType.Today,
+                    );
               },
             ),
           )

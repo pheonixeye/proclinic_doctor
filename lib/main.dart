@@ -1,5 +1,6 @@
 import 'dart:math' show Random;
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
 // import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'ProClinic Doctors',
+          builder: EasyLoading.init(),
           theme: ThemeData(
             useMaterial3: true,
             primaryColor: Colors.blueGrey,

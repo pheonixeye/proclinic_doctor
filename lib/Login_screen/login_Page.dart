@@ -110,9 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  PasswordSettingPage(
-                                                docname: d.doctor!.docnameEN,
-                                              ),
+                                                  const PasswordSettingPage(),
                                             ),
                                           );
                                         } else if (d.doctor?.password ==

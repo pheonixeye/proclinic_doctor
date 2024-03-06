@@ -7,18 +7,16 @@ import 'package:flutter/material.dart';
 
 class PatientProfilePage extends StatefulWidget {
   final bool fromnew;
-  const PatientProfilePage({super.key, required this.fromnew});
+  const PatientProfilePage({super.key, this.fromnew = false});
   @override
   _PatientProfilePageState createState() => _PatientProfilePageState();
 }
 
 class _PatientProfilePageState extends State<PatientProfilePage> {
   int currentindex = 0;
-  late final forwardedData;
 
   @override
   Widget build(BuildContext context) {
-    forwardedData = ModalRoute.of(context)?.settings.arguments;
     final List<BottomNavigationBarItem> _items = (widget.fromnew == true)
         ? [
             BottomNavigationBarItem(
@@ -66,28 +64,28 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
           ];
     final List<Widget> _scaffoldBodyWidgets = (widget.fromnew == true)
         ? [
-            EntryPageByDoctor(),
+            const EntryPageByDoctor(),
             const PreviousVisitsPage(),
             PaperWorkPage(
-              ptname: forwardedData['ptname'],
-              phone: forwardedData['phone'],
-              docname: forwardedData['docname'],
-              day: forwardedData['day'],
-              month: forwardedData['month'],
-              year: forwardedData['year'],
-              id: forwardedData['id'],
+              ptname: 'ptname',
+              phone: 'phone',
+              docname: 'docname',
+              day: 'day',
+              month: 'month',
+              year: 'year',
+              id: 'id',
             ),
           ]
         : [
             const PreviousVisitsPage(),
             PaperWorkPage(
-              ptname: forwardedData['ptname'],
-              phone: forwardedData['phone'],
-              docname: forwardedData['docname'],
-              day: forwardedData['day'],
-              month: forwardedData['month'],
-              year: forwardedData['year'],
-              id: forwardedData['id'],
+              ptname: 'ptname',
+              phone: 'phone',
+              docname: 'docname',
+              day: 'day',
+              month: 'month',
+              year: 'year',
+              id: 'id',
             ),
           ];
     return Builder(

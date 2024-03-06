@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:page_slider/page_slider.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/SRLCP_Page/SRLCP_page.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
 // import 'package:page_slider/page_slider.dart';
 
 List<String> headlines = [
@@ -106,15 +107,6 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                settings: RouteSettings(arguments: {
-                  'ptname': widget.ptname,
-                  'docname': widget.docname,
-                  'phone': widget.phone,
-                  'day': widget.day,
-                  'month': widget.month,
-                  'year': widget.year,
-                  'id': widget.id
-                }),
                 builder: (context) => SRLCP(
                   scrlp: headlines[headlines.indexOf(e)],
                 ),
@@ -130,8 +122,8 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
                 width: 10,
               ),
               Text(
-                '${e.toString().toUpperCase()}',
-                textScaler: TextScaler.linear(2.0),
+                e.toString().toUpperCase(),
+                textScaler: const TextScaler.linear(2.0),
               ),
             ],
           ),
@@ -141,17 +133,18 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
     return StreamBuilder(
       stream: null,
       builder: (context, snapshot) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('PaperWork :',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black)),
-              backgroundColor: Colors.purple[300]?.withOpacity(0.5),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)),
+              title: const Text(
+                'PaperWork :',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
               leading: const SizedBox.shrink(),
             ),
             body: Card(
@@ -165,16 +158,7 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                  offset: Offset(5, 5),
-                                  spreadRadius: 5,
-                                  blurRadius: 5,
-                                )
-                              ]),
+                          decoration: ThemeConstants.cd,
                           child: MaterialButton(
                             shape: const BeveledRectangleBorder(),
                             child: const Row(
@@ -206,19 +190,10 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                offset: Offset(5, 5),
-                                spreadRadius: 5,
-                                blurRadius: 5,
-                              )
-                            ]),
+                        decoration: ThemeConstants.cd,
                         child: PageView(
-                          children: _pages1,
                           key: _sliderKey,
+                          children: _pages1,
                         ),
                       ),
                     ),

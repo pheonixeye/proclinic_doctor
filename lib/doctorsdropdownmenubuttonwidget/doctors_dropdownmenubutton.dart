@@ -6,9 +6,6 @@ import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-// String globallySelectedDoctor = '';
-// String globallySelectedClinic = '';
-
 class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
   const NewlyFormatedDoctorsDropDownButton({super.key});
 
@@ -25,6 +22,9 @@ class _NewlyFormatedDoctorsDropDownButtonState
   Widget build(BuildContext context) {
     return Consumer<PxDoctorListProvider>(
       builder: (context, doctors, c) {
+        while (doctors.doctorList == null) {
+          return const LinearProgressIndicator();
+        }
         List<DropdownMenuItem<Doctor>> _items = [];
         for (int i = 0; i < doctors.doctorList!.length; i++) {
           _items.add(

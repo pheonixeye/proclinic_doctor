@@ -24,6 +24,7 @@ class Doctor {
   final List<String> rads;
   final List<Drug> drugs;
   final bool published;
+  final List<String> clinicDetails;
 
   const Doctor({
     required this.id,
@@ -47,6 +48,7 @@ class Doctor {
     required this.labs,
     required this.rads,
     required this.drugs,
+    required this.clinicDetails,
   });
 
   factory Doctor.fromJson(dynamic json) {
@@ -74,6 +76,7 @@ class Doctor {
       drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
           .map((e) => Drug.fromJson(e))
           .toList(),
+      clinicDetails: _stringifyList(json[SxDoctor.CLINICDETAILS]),
     );
   }
   Map<String, dynamic> toJson() {
@@ -99,6 +102,7 @@ class Doctor {
       SxDoctor.LABS: labs,
       SxDoctor.RADS: rads,
       SxDoctor.DRUGS: drugs.map((e) => e.toJson()).toList(),
+      SxDoctor.CLINICDETAILS: clinicDetails,
     };
   }
 
@@ -128,6 +132,7 @@ class Doctor {
         drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
             .map((e) => Drug.fromJson(e))
             .toList(),
+        clinicDetails: _stringifyList(json[SxDoctor.CLINICDETAILS]),
       );
     }).toList();
     return dl;
@@ -160,4 +165,5 @@ class SxDoctor {
   static const String LABS = 'labs';
   static const String RADS = 'rads';
   static const String DRUGS = 'drugs';
+  static const String CLINICDETAILS = 'clinicdetails';
 }

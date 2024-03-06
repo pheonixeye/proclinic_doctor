@@ -27,7 +27,7 @@ class Database {
     return _m ?? Db('mongodb://127.0.0.1:27017/proclinic');
   }
 
-  static final DbCollection _allPatients = mongo.collection('allpatients');
+  static final DbCollection _allPatients = mongo.collection('patients');
   static final DbCollection _allDoctors = mongo.collection('allDoctors');
   static final DbCollection _appOrganizer = mongo.collection('apporganizer');
 

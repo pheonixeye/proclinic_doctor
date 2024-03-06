@@ -1,24 +1,12 @@
-import 'dart:ffi';
-import 'dart:math';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/get_drug_lab_rad_from_db.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/clinic_details_db.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/doc_titles_db.dart';
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:win32/win32.dart';
 
 Future runprintimg() async {
   // await Process.runSync('powershell.exe',
   //     ['start-process c:\\users\\kelsier_2\\desktop\\pres.png -verb print'],
   //     runInShell: true);
-  await ShellExecute(
-      1,
-      TEXT('print'),
-      TEXT('c:\\users\\kareemzaher\\desktop\\pres.png'),
-      nullptr,
-      nullptr,
-      SW_SHOW);
+  //TODO: find a printing package
 }
 
 class FinalPrescription extends StatefulWidget {
@@ -29,63 +17,8 @@ class FinalPrescription extends StatefulWidget {
 }
 
 class _FinalPrescriptionState extends State<FinalPrescription> {
-  TitlesClass titles = TitlesClass(docname: globallySelectedDoctor);
-  ClinicDetailsClass clinicdetails =
-      ClinicDetailsClass(docname: globallySelectedDoctor);
-
   @override
   Widget build(BuildContext context) {
-    DrugGetterFromDb druggetter = DrugGetterFromDb(
-        id: widget.forwardedData['id'],
-        day: widget.forwardedData['day'],
-        ptname: widget.forwardedData['ptname'],
-        docname: widget.forwardedData['docname'],
-        month: widget.forwardedData['month'],
-        year: widget.forwardedData['year'],
-        phone: widget.forwardedData['phone'],
-        procedure: widget.forwardedData['procedure'],
-        age: widget.forwardedData['age'],
-        amount: widget.forwardedData['amount'],
-        visit: widget.forwardedData['visit'],
-        remaining: widget.forwardedData['remaining'],
-        cashtype: widget.forwardedData['cashtype'],
-        clinic: widget.forwardedData['clinic'],
-        dob: widget.forwardedData['dob'],
-        drl: 'drugs');
-    DrugGetterFromDb labgetter = DrugGetterFromDb(
-        id: widget.forwardedData['id'],
-        day: widget.forwardedData['day'],
-        ptname: widget.forwardedData['ptname'],
-        docname: widget.forwardedData['docname'],
-        month: widget.forwardedData['month'],
-        year: widget.forwardedData['year'],
-        phone: widget.forwardedData['phone'],
-        procedure: widget.forwardedData['procedure'],
-        age: widget.forwardedData['age'],
-        amount: widget.forwardedData['amount'],
-        visit: widget.forwardedData['visit'],
-        remaining: widget.forwardedData['remaining'],
-        cashtype: widget.forwardedData['cashtype'],
-        clinic: widget.forwardedData['clinic'],
-        dob: widget.forwardedData['dob'],
-        drl: 'labs');
-    DrugGetterFromDb radgetter = DrugGetterFromDb(
-        id: widget.forwardedData['id'],
-        day: widget.forwardedData['day'],
-        ptname: widget.forwardedData['ptname'],
-        docname: widget.forwardedData['docname'],
-        month: widget.forwardedData['month'],
-        year: widget.forwardedData['year'],
-        phone: widget.forwardedData['phone'],
-        procedure: widget.forwardedData['procedure'],
-        age: widget.forwardedData['age'],
-        amount: widget.forwardedData['amount'],
-        visit: widget.forwardedData['visit'],
-        remaining: widget.forwardedData['remaining'],
-        cashtype: widget.forwardedData['cashtype'],
-        clinic: widget.forwardedData['clinic'],
-        dob: widget.forwardedData['dob'],
-        drl: 'rads');
     ScreenshotController screenshotController = ScreenshotController();
 
     return Scaffold(
@@ -110,17 +43,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
           child: Container(
             height: MediaQuery.of(context).size.height * 0.99,
             width: MediaQuery.of(context).size.width * 0.4,
-            decoration: BoxDecoration(
-                color: Colors.white.withOpacity(1.0),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
-                      offset: const Offset(5, 5),
-                      blurRadius: 5,
-                      spreadRadius: 5),
-                ]),
+            decoration: ThemeConstants.cd,
             child: Column(
               children: [
                 //patient data, doctor titles ==>> (A)
@@ -130,57 +53,57 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Text(
-                                    'Date: ${widget.forwardedData['day']}-${widget.forwardedData['month']}-${widget.forwardedData['year']}'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Text(
-                                    'Name: ${widget.forwardedData['ptname']}'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Text(
-                                    'Age: ${widget.forwardedData['age']} Years'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Text(
-                                    'Visit: ${widget.forwardedData['visit']}'),
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Text(
+                                  'Date: ${widget.forwardedData['day']}-${widget.forwardedData['month']}-${widget.forwardedData['year']}'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Text(
+                                  'Name: ${widget.forwardedData['ptname']}'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Text(
+                                  'Age: ${widget.forwardedData['age']} Years'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Text(
+                                  'Visit: ${widget.forwardedData['visit']}'),
+                            ),
+                          ],
                         ),
                       ),
                       //doctor titles
                       Expanded(
                         flex: 1,
                         child: StreamBuilder(
-                            stream: titles.doctortitlelist,
-                            builder: (context, docsnap) {
-                              List data = !docsnap.hasData ? [] : docsnap.data;
-                              return ListView.builder(
-                                itemCount: !docsnap.hasData ? 0 : data.length,
-                                itemBuilder: (context, index) {
-                                  return Center(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 4, 7, 4),
-                                      child: Text(
-                                          data[index].toString().toUpperCase()),
-                                    ),
-                                  );
-                                },
-                              );
-                            }),
-                      )
+                          stream: null,
+                          builder: (context, docsnap) {
+                            final data =
+                                !docsnap.hasData ? [] : docsnap.data as List;
+                            return ListView.builder(
+                              itemCount: !docsnap.hasData ? 0 : data.length,
+                              itemBuilder: (context, index) {
+                                return Center(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 4, 7, 4),
+                                    child: Text(
+                                        data[index].toString().toUpperCase()),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -199,9 +122,10 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                       Expanded(
                         flex: 5,
                         child: StreamBuilder(
-                          stream: druggetter.drugforptgetterstream,
+                          stream: null,
                           builder: (context, snapshot) {
-                            List data = !snapshot.hasData ? [] : snapshot.data;
+                            final data =
+                                !snapshot.hasData ? [] : snapshot.data as List;
                             return ListView.builder(
                               itemExtent: 45,
                               itemCount: !snapshot.hasData ? 0 : data.length,
@@ -216,7 +140,8 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                     ),
                                   ),
                                   title: Text(
-                                      data[index].toString().toUpperCase()),
+                                    data[index].toString().toUpperCase(),
+                                  ),
                                 );
                               },
                             );
@@ -232,22 +157,25 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                             Expanded(
                               flex: 1,
                               child: StreamBuilder(
-                                  stream: labgetter.drugforptgetterstream,
+                                  stream: null,
                                   builder: (context, snapshot) {
-                                    List data =
-                                        !snapshot.hasData ? [] : snapshot.data;
+                                    final data = !snapshot.hasData
+                                        ? []
+                                        : snapshot.data as List;
 
                                     return GridView.builder(
                                       gridDelegate:
                                           const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 6),
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 6,
+                                      ),
                                       itemCount:
                                           !snapshot.hasData ? 0 : data.length,
                                       itemBuilder: (context, index) {
                                         return Center(
-                                            child: Text(
-                                                '• ${data[index].toString().toUpperCase()}'));
+                                          child: Text(
+                                              '• ${data[index].toString().toUpperCase()}'),
+                                        );
                                       },
                                     );
                                   }),
@@ -256,25 +184,24 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                             Expanded(
                               flex: 1,
                               child: StreamBuilder(
-                                  stream: radgetter.drugforptgetterstream,
-                                  builder: (context, snapshot) {
-                                    List data =
-                                        !snapshot.hasData ? [] : snapshot.data;
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  final data = !snapshot.hasData
+                                      ? []
+                                      : snapshot.data as List;
 
-                                    return ListView.builder(
-                                      // gridDelegate:
-                                      //     SliverGridDelegateWithFixedCrossAxisCount(
-                                      //         crossAxisCount: 3,
-                                      //         childAspectRatio: 4),
-                                      itemCount:
-                                          !snapshot.hasData ? 0 : data.length,
-                                      itemBuilder: (context, index) {
-                                        return Center(
-                                            child: Text(
-                                                '• ${data[index].toString().toUpperCase()}'));
-                                      },
-                                    );
-                                  }),
+                                  return ListView.builder(
+                                    itemCount:
+                                        !snapshot.hasData ? 0 : data.length,
+                                    itemBuilder: (context, index) {
+                                      return Center(
+                                        child: Text(
+                                            '• ${data[index].toString().toUpperCase()}'),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -291,21 +218,23 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                 Expanded(
                   flex: 1,
                   child: StreamBuilder(
-                      stream: clinicdetails.doctorClinicDetailslist,
-                      builder: (context, clinicsnap) {
-                        List data = !clinicsnap.hasData ? [] : clinicsnap.data;
+                    stream: null,
+                    builder: (context, clinicsnap) {
+                      final data =
+                          !clinicsnap.hasData ? [] : clinicsnap.data as List;
 
-                        return ListView.builder(
-                          itemCount: !clinicsnap.hasData ? 0 : data.length,
-                          itemBuilder: (context, index) {
-                            return Center(
-                                child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(data[index].toString()),
-                            ));
-                          },
-                        );
-                      }),
+                      return ListView.builder(
+                        itemCount: !clinicsnap.hasData ? 0 : data.length,
+                        itemBuilder: (context, index) {
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(data[index].toString()),
+                          ));
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

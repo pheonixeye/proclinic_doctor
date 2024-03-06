@@ -34,9 +34,9 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
     super.dispose();
   }
 
-  final List<DropdownMenuItem<int>> _items = [
-    const DropdownMenuItem<int>(
-      value: 0,
+  final List<DropdownMenuItem<bool>> _items = [
+    const DropdownMenuItem<bool>(
+      value: false,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -48,8 +48,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
         ],
       ),
     ),
-    const DropdownMenuItem<int>(
-      value: 1,
+    const DropdownMenuItem<bool>(
+      value: true,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -163,7 +163,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                         decoration: ThemeConstants.cd,
                                         child: Consumer<PxSelectedDoctor>(
                                           builder: (context, d, c) {
-                                            return DropdownButton<int>(
+                                            return DropdownButton<bool>(
                                               icon: const Icon(
                                                 Icons.arrow_drop_down_circle,
                                                 color: Colors.blue,
@@ -178,8 +178,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                               ),
                                               isExpanded: true,
                                               items: _items,
-                                              value: d.doctor!.grid ? 1 : 0,
-                                              onChanged: (int? value) async {
+                                              value: d.doctor!.grid,
+                                              onChanged: (bool? value) async {
                                                 await d.updateSelectedDoctor(
                                                   docname: d.doctor!.docnameEN,
                                                   attribute: SxDoctor.GRID,
