@@ -13,22 +13,31 @@ class PxVisits extends ChangeNotifier {
   DateTime _secondDate = DateTime.now();
   DateTime get secondDate => _secondDate;
 
-  DateTime get today => DateTime(_date.year, _date.month, _date.day);
+  final DateTime _today = DateTime.now();
+  DateTime get today => DateTime(_today.year, _today.month, _today.day);
+
+  bool _forRange = false;
+  bool get forRange => _forRange;
+
+  void setForRange(bool val) {
+    _forRange = val;
+    notifyListeners();
+  }
 
   void setDate({int? day, int? month, int? year}) {
     _date = DateTime(
       year ?? _date.year,
-      month ?? date.month,
-      day ?? date.day,
+      month ?? _date.month,
+      day ?? _date.day,
     );
     notifyListeners();
   }
 
   void setSecondDate({int? day, int? month, int? year}) {
     _secondDate = DateTime(
-      year ?? _date.year,
-      month ?? date.month,
-      day ?? date.day,
+      year ?? _secondDate.year,
+      month ?? _secondDate.month,
+      day ?? _secondDate.day,
     );
     notifyListeners();
   }
@@ -62,6 +71,7 @@ class PxVisits extends ChangeNotifier {
         notifyListeners();
 
       case QueryType.Range:
+        //TODO: FIX QUERY
         final result = await Database.instance.allPatients
             .find(where
                 .eq(SxVisit.DOCNAME_E, docname)
@@ -82,6 +92,7 @@ class PxVisits extends ChangeNotifier {
             .toList();
         _visits = Visit.visitList(result);
         notifyListeners();
+
       case QueryType.All:
         final result = await Database.instance.allPatients
             .find(where.eq(SxVisit.DOCNAME_E, docname))

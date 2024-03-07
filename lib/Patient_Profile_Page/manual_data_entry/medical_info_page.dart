@@ -4,19 +4,22 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
+import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-class EntrySegment extends StatefulWidget {
-  const EntrySegment({
+class MedicalInfoPage extends StatefulWidget {
+  const MedicalInfoPage({
     super.key,
   });
   @override
-  _EntrySegmentState createState() => _EntrySegmentState();
+  State<MedicalInfoPage> createState() => _MedicalInfoPageState();
 }
 
-class _EntrySegmentState extends State<EntrySegment> with AfterLayoutMixin {
+class _MedicalInfoPageState extends State<MedicalInfoPage>
+    with AfterLayoutMixin {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
 
@@ -115,12 +118,26 @@ class _EntrySegmentState extends State<EntrySegment> with AfterLayoutMixin {
                                     tooltip: 'Save',
                                     heroTag: 'save',
                                     child: const Icon(Icons.save),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       //working
+                                      final _data = {};
                                       if (_formKey.currentState!.validate()) {
                                         _controllers.entries.map((e) {
-                                          print(e.value.text);
+                                          _data[e.key] = e.value.text;
                                         }).toList();
+                                        print(_data);
+                                        //TODO: find why the controller texts are not registered.
+                                        await EasyLoading.show(
+                                            status: "Loading...");
+                                        if (context.mounted) {
+                                          await context
+                                              .read<PxVisitData>()
+                                              .updateVisitData(
+                                                SxVD.DATA,
+                                                _data,
+                                              );
+                                        }
+                                        await EasyLoading.dismiss();
                                       }
                                     },
                                   ),

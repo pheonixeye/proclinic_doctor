@@ -1,6 +1,10 @@
 // ignore_for_file: constant_identifier_names, file_names, avoid_print
 
+import 'package:mongo_dart/mongo_dart.dart';
+
 class Visit {
+  final ObjectId id;
+  final int? docid;
   final String ptName;
   final String docNameEN;
   final String docNameAR;
@@ -17,9 +21,9 @@ class Visit {
   final String affiliationAR;
   final int amount;
   final int remaining;
-  final int docid;
 
-  const Visit({
+  Visit({
+    ObjectId? id,
     required this.docid,
     required this.ptName,
     required this.docNameEN,
@@ -37,10 +41,11 @@ class Visit {
     required this.affiliationAR,
     required this.amount,
     required this.remaining,
-  });
+  }) : id = id ?? ObjectId();
 
   factory Visit.fromJson(dynamic json) {
     return Visit(
+      id: json["_id"],
       ptName: json[SxVisit.PTNAME],
       docNameEN: json[SxVisit.DOCNAME_E],
       docNameAR: json[SxVisit.DOCNAME_A],
@@ -62,6 +67,7 @@ class Visit {
   }
   Map<String, dynamic> toJson() {
     return {
+      "_id": id,
       SxVisit.PTNAME: ptName,
       SxVisit.DOCNAME_E: docNameEN,
       SxVisit.DOCNAME_A: docNameAR,
@@ -83,33 +89,13 @@ class Visit {
   }
 
   static List<Visit> visitList(List<dynamic> json) {
-    List<Visit> vl = json.map((json) {
-      return Visit(
-        ptName: json[SxVisit.PTNAME],
-        docNameEN: json[SxVisit.DOCNAME_E],
-        docNameAR: json[SxVisit.DOCNAME_A],
-        clinicEN: json[SxVisit.CLINIC_E],
-        clinicAR: json[SxVisit.CLINIC_A],
-        phone: json[SxVisit.PHONE],
-        visitType: json[SxVisit.VISITTYPE],
-        procedureEN: json[SxVisit.PROCEDURE_E],
-        procedureAR: json[SxVisit.PROCEDURE_A],
-        visitDate: json[SxVisit.VISITDATE],
-        dob: json[SxVisit.DOB],
-        cashType: json[SxVisit.CASHTYPE],
-        affiliationEN: json[SxVisit.AFFILIATION_E],
-        affiliationAR: json[SxVisit.AFFILIATION_A],
-        amount: json[SxVisit.AMOUNT],
-        remaining: json[SxVisit.REMAINING],
-        docid: json[SxVisit.DOCID],
-      );
-    }).toList();
-    return vl;
+    return json.map((e) => Visit.fromJson(e)).toList();
   }
 
   @override
   String toString() {
-    return toJson().toString();
+    print(toJson().toString());
+    return super.toString();
   }
 }
 

@@ -28,6 +28,7 @@ class Database {
   }
 
   static final DbCollection _allPatients = mongo.collection('patients');
+  static final DbCollection _visitData = mongo.collection('visitdata');
   static final DbCollection _allDoctors = mongo.collection('allDoctors');
   static final DbCollection _appOrganizer = mongo.collection('apporganizer');
 
@@ -49,6 +50,7 @@ class Database {
   }
 
   DbCollection get allPatients => Database._allPatients;
+  DbCollection get visitData => Database._visitData;
   DbCollection get allDoctors => Database._allDoctors;
   DbCollection get appOrganizer => Database._appOrganizer;
 }

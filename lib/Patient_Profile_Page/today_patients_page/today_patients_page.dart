@@ -42,6 +42,7 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
                     return VisitCard(
                       visit: v.visits[index],
                       fromNew: true,
+                      forSearch: false,
                     );
                   },
                   separatorBuilder: (context, index) {
