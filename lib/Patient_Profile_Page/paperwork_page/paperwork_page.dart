@@ -1,20 +1,15 @@
-import 'dart:math';
-
-import 'package:page_slider/page_slider.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/SRLCP_Page/SRLCP_page.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
-// import 'package:page_slider/page_slider.dart';
 
 List<String> headlines = [
-  'sheets',
-  'labs',
-  'rads',
-  'prescriptions',
-  'comments'
+  'Sheets',
+  'Labs',
+  'Rads',
+  'Prescriptions',
+  'Comments',
 ];
 
-List<Icon> _iconlist = [
+List<Icon> iconlist = [
   const Icon(
     Icons.contact_page,
     size: 100,
@@ -36,100 +31,16 @@ List<Icon> _iconlist = [
     size: 100,
   ),
 ];
-List<ShapeBorder> shapelist = [
-  RoundedRectangleBorder(
-      borderRadius:
-          BorderRadiusDirectional.circular(Random().nextDouble() * 35)),
-  const CircleBorder(),
-  const CircleBorder(),
-  ContinuousRectangleBorder(
-      borderRadius:
-          BorderRadiusDirectional.circular(Random().nextDouble() * 77)),
-  BeveledRectangleBorder(
-      borderRadius:
-          BorderRadiusDirectional.circular(Random().nextDouble() * 63))
-];
 
 class PaperWorkPage extends StatefulWidget {
-  final String? ptname;
-  final String? phone;
-  final String? docname;
-  final String? day;
-  final String? month;
-  final String? year;
-  final String? visit;
-  final String? procedure;
-  final String? dob;
-  final String? age;
-  final String? cashtype;
-  final String? id;
-
-  const PaperWorkPage(
-      {Key? key,
-      this.ptname,
-      this.phone,
-      this.docname,
-      this.day,
-      this.month,
-      this.year,
-      this.visit,
-      this.procedure,
-      this.dob,
-      this.age,
-      this.cashtype,
-      this.id})
-      : super(key: key);
+  const PaperWorkPage({Key? key}) : super(key: key);
   @override
   _PaperWorkPageState createState() => _PaperWorkPageState();
 }
 
 class _PaperWorkPageState extends State<PaperWorkPage> {
-  GlobalKey<PageSliderState> _sliderKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> _pages1 = headlines.map((e) {
-      return SizedBox(
-        width: 400,
-        height: 400,
-        child: MaterialButton(
-          elevation: 5,
-          hoverElevation: 30,
-          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          hoverColor:
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          highlightColor:
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          splashColor:
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          shape: shapelist[Random().nextInt(shapelist.length)],
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SRLCP(
-                  scrlp: headlines[headlines.indexOf(e)],
-                ),
-              ),
-            );
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _iconlist[headlines.indexOf(e)],
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                e.toString().toUpperCase(),
-                textScaler: const TextScaler.linear(2.0),
-              ),
-            ],
-          ),
-        ),
-      );
-    }).toList();
     return StreamBuilder(
       stream: null,
       builder: (context, snapshot) {
@@ -148,99 +59,36 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
               leading: const SizedBox.shrink(),
             ),
             body: Card(
-              elevation: 15,
-              color: Colors.grey[100],
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(children: [
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          decoration: ThemeConstants.cd,
-                          child: MaterialButton(
-                            shape: const BeveledRectangleBorder(),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.skip_previous),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text('Previous'),
-                              ],
-                            ),
-                            onPressed: () {
-                              if (_sliderKey.currentState!.hasPrevious) {
-                                _sliderKey.currentState?.previous();
-                              } else {
-                                _sliderKey.currentState!
-                                    .setPage(_pages1.indexOf(_pages1.last));
-                                return;
-                              }
-                              setState(() {});
-                            },
-                          )),
-                    ),
+                padding: const EdgeInsets.all(16.0),
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisExtent: MediaQuery.sizeOf(context).height * 0.25,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                  itemCount: headlines.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {},
                       child: Container(
                         decoration: ThemeConstants.cd,
-                        child: PageView(
-                          key: _sliderKey,
-                          children: _pages1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                offset: Offset(5, 5),
-                                spreadRadius: 5,
-                                blurRadius: 5,
-                              )
-                            ]),
-                        child: MaterialButton(
-                          shape: const BeveledRectangleBorder(),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Next'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.skip_next)
-                            ],
+                        child: GridTile(
+                          footer: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              headlines[index],
+                              textAlign: TextAlign.center,
+                              textScaler: const TextScaler.linear(2),
+                            ),
                           ),
-                          onPressed: () {
-                            if (_sliderKey.currentState!.hasNext) {
-                              _sliderKey.currentState?.next();
-                            } else {
-                              _sliderKey.currentState!
-                                  .setPage(_pages1.indexOf(_pages1.first));
-                              return;
-                            }
-                            setState(() {});
-                          },
+                          child: iconlist[index],
                         ),
                       ),
-                    ),
-                  ),
-                ]),
+                    );
+                  },
+                ),
               ),
             ),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -20,25 +19,30 @@ class YearClinicPickerState extends State<YearClinicPicker> {
     return Container(
       height: 50,
       decoration: ThemeConstants.cd,
-      child: DropdownButton<int>(
-        hint: const Text('Select Year.'),
-        isExpanded: true,
-        alignment: Alignment.center,
-        items: _years.map((e) {
-          return DropdownMenuItem<int>(
+      child: Consumer<PxVisits>(
+        builder: (context, v, _) {
+          return DropdownButton<int>(
+            hint: const Text('Select Year.'),
+            isExpanded: true,
             alignment: Alignment.center,
-            value: e,
-            child: Text('$e'),
+            items: _years.map((e) {
+              return DropdownMenuItem<int>(
+                alignment: Alignment.center,
+                value: e,
+                child: Text('$e'),
+              );
+            }).toList(),
+            value: widget.forRange ? v.secondDate.year : v.date.year,
+            onChanged: (val) {
+              widget.forRange
+                  ? context.read<PxVisits>().setSecondDate(
+                        year: val,
+                      )
+                  : context.read<PxVisits>().setDate(
+                        year: val,
+                      );
+            },
           );
-        }).toList(),
-        onChanged: (val) {
-          widget.forRange
-              ? context.read<PxVisits>().setSecondDate(
-                    year: val,
-                  )
-              : context.read<PxVisits>().setDate(
-                    year: val,
-                  );
         },
       ),
     );
@@ -76,25 +80,30 @@ class MonthClinicPickerState extends State<MonthClinicPicker> {
     return Container(
       height: 50,
       decoration: ThemeConstants.cd,
-      child: DropdownButton<int>(
-        hint: const Text('Select Month.'),
-        isExpanded: true,
-        alignment: Alignment.center,
-        items: _months.map((e) {
-          return DropdownMenuItem<int>(
+      child: Consumer<PxVisits>(
+        builder: (context, v, _) {
+          return DropdownButton<int>(
+            hint: const Text('Select Month.'),
+            isExpanded: true,
             alignment: Alignment.center,
-            value: e,
-            child: Text(months[e - 1]),
+            items: _months.map((e) {
+              return DropdownMenuItem<int>(
+                alignment: Alignment.center,
+                value: e,
+                child: Text(months[e - 1]),
+              );
+            }).toList(),
+            value: widget.forRange ? v.secondDate.month : v.date.month,
+            onChanged: (val) {
+              widget.forRange
+                  ? v.setSecondDate(
+                      month: val,
+                    )
+                  : v.setDate(
+                      month: val,
+                    );
+            },
           );
-        }).toList(),
-        onChanged: (val) {
-          widget.forRange
-              ? context.read<PxVisits>().setSecondDate(
-                    month: val,
-                  )
-              : context.read<PxVisits>().setDate(
-                    month: val,
-                  );
         },
       ),
     );
@@ -151,25 +160,30 @@ class _DayClinicPickerState extends State<DayClinicPicker> {
     return Container(
       height: 50,
       decoration: ThemeConstants.cd,
-      child: DropdownButton<int>(
-        hint: const Text('Select Day.'),
-        isExpanded: true,
-        alignment: Alignment.center,
-        items: _days.map((e) {
-          return DropdownMenuItem<int>(
+      child: Consumer<PxVisits>(
+        builder: (context, v, _) {
+          return DropdownButton<int>(
+            hint: const Text('Select Day.'),
+            isExpanded: true,
             alignment: Alignment.center,
-            value: e,
-            child: Text(days[e - 1]),
+            items: _days.map((e) {
+              return DropdownMenuItem<int>(
+                alignment: Alignment.center,
+                value: e,
+                child: Text(days[e - 1]),
+              );
+            }).toList(),
+            value: widget.forRange ? v.secondDate.day : v.date.day,
+            onChanged: (val) {
+              widget.forRange
+                  ? v.setSecondDate(
+                      day: val,
+                    )
+                  : v.setDate(
+                      day: val,
+                    );
+            },
           );
-        }).toList(),
-        onChanged: (val) {
-          widget.forRange
-              ? context.read<PxVisits>().setSecondDate(
-                    day: val,
-                  )
-              : context.read<PxVisits>().setDate(
-                    day: val,
-                  );
         },
       ),
     );

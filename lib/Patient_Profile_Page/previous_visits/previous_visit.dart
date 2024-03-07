@@ -19,8 +19,6 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
     return StreamBuilder(
         stream: null,
         builder: (context, snapshot) {
-          // print(snapshot.data);
-
           return SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -38,13 +36,11 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
               body: StreamBuilder(
                 stream: null,
                 builder: (context, snapshot) {
-                  final data1 = snapshot.data as List;
+                  // final data1 = snapshot.data as List;
 
                   // print(' returned data ==>> ${data1}');
                   return ListView.separated(
                     itemBuilder: (context, index) {
-                      List? medinfolist = data1[index]['medinfo'];
-
                       return ListTile(
                         leading: CircleAvatar(
                           child: Text('${index + 1}'),
@@ -72,7 +68,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      '${data1[index]['ptname']}',
+                                      '${['ptname']}',
                                       style: const TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold),
@@ -88,7 +84,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      '${data1[index]['day']}-${data1[index]['month']}-${data1[index]['year']}',
+                                      '${['day']}-${['month']}-${['year']}',
                                       style: const TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.normal),
@@ -103,15 +99,11 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
-                              height: medinfolist == null
-                                  ? 0.0
-                                  : medinfolist.length * 150.0.toDouble(),
+                              height: 1 * 150.0.toDouble(),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListView.separated(
-                                  itemCount: medinfolist == null
-                                      ? 0
-                                      : medinfolist.length,
+                                  itemCount: 1,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -123,11 +115,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                         ),
                                         title: FractionallySizedBox(
                                           alignment: Alignment.topLeft,
-                                          widthFactor: medinfolist![index]
-                                                  .keys
-                                                  .toString()
-                                                  .length /
-                                              50.toDouble(),
+                                          widthFactor: 200,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Container(
@@ -142,21 +130,11 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                                       blurRadius: 2)
                                                 ],
                                               ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  medinfolist[index]
-                                                      .keys
-                                                      .toString()
-                                                      .substring(
-                                                          1,
-                                                          medinfolist[index]
-                                                                  .keys
-                                                                  .toString()
-                                                                  .length -
-                                                              1),
-                                                  style: const TextStyle(
+                                                  'info',
+                                                  style: TextStyle(
                                                     fontSize: 24,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -165,23 +143,13 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                             ),
                                           ),
                                         ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        subtitle: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text(
-                                              medinfolist[index]
-                                                  .values
-                                                  .toString()
-                                                  .substring(
-                                                      1,
-                                                      medinfolist[index]
-                                                              .values
-                                                              .toString()
-                                                              .length -
-                                                          1),
-                                              style:
-                                                  const TextStyle(fontSize: 24),
+                                              'info',
+                                              style: TextStyle(fontSize: 24),
                                             ),
                                           ),
                                         ),
@@ -218,7 +186,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                         ),
                       );
                     },
-                    itemCount: !snapshot.hasData ? 0 : data1.length,
+                    itemCount: 1,
                     separatorBuilder: (context, index) {
                       return const Divider(
                         color: Colors.blueGrey,

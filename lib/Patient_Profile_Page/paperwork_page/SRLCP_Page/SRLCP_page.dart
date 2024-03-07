@@ -53,56 +53,56 @@ class _SRLCPState extends State<SRLCP> {
                     builder: (context, snapshot) {
                       final data = snapshot.data! as List<Map<String, dynamic>>;
                       return ListView.separated(
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    child: Text('${index + 1}'),
-                                  ),
-                                  title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(data[index]['clinic']),
-                                      ]),
-                                  subtitle: Text(
-                                      '${data[index]['day']}-${data[index]['month']}-${data[index]['year']}'),
-                                  trailing: ElevatedButton.icon(
-                                    icon: const Icon(Icons.poll),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ScannedImagesWidget(
-                                            phone: data[index]['phone'],
-                                            docname: data[index]['docname'],
-                                            visitdate:
-                                                '${data[index]['day']}${data[index]['month']}${data[index]['year']}',
-                                            srlcp: widget.scrlp.toLowerCase(),
-                                            dbNamebyId: data[index]['id'],
-                                            ptname: data[index]['ptname'],
-                                          ),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  child: Text('${index + 1}'),
+                                ),
+                                title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(data[index]['clinic']),
+                                    ]),
+                                subtitle: Text(
+                                    '${data[index]['day']}-${data[index]['month']}-${data[index]['year']}'),
+                                trailing: ElevatedButton.icon(
+                                  icon: const Icon(Icons.poll),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ScannedImagesWidget(
+                                          phone: data[index]['phone'],
+                                          docname: data[index]['docname'],
+                                          visitdate:
+                                              '${data[index]['day']}${data[index]['month']}${data[index]['year']}',
+                                          srlcp: widget.scrlp.toLowerCase(),
+                                          dbNamebyId: data[index]['id'],
+                                          ptname: data[index]['ptname'],
                                         ),
-                                      );
-                                    },
-                                    label: Text(
-                                        'SHOW ${widget.scrlp}'.toUpperCase()),
-                                  ),
+                                      ),
+                                    );
+                                  },
+                                  label: Text(
+                                      'SHOW ${widget.scrlp}'.toUpperCase()),
                                 ),
                               ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider(
-                              color: Colors.blueGrey,
-                              thickness: 5,
-                              height: 5,
-                            );
-                          },
-                          itemCount: !snapshot.hasData ? 0 : data.length);
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            color: Colors.blueGrey,
+                            thickness: 5,
+                            height: 5,
+                          );
+                        },
+                        itemCount: !snapshot.hasData ? 0 : data.length,
+                      );
                     },
                   ),
                 ),

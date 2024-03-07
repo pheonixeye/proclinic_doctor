@@ -1,6 +1,6 @@
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/drug_src_segment.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/entrt_segment.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/entry_segment.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/lab_rad_segment.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/pres_segments/pres_drugs_segment.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/segmental_widgets/pres_segments/pres_labs_segment.dart';
@@ -50,8 +50,6 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
 
   @override
   Widget build(BuildContext context) {
-    forwardedData = ModalRoute.of(context)?.settings.arguments as Map;
-
     return Scaffold(
       appBar: TabBar(
         controller: _tabcontroller,

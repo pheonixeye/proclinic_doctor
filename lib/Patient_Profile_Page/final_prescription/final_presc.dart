@@ -22,6 +22,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
     ScreenshotController screenshotController = ScreenshotController();
 
     return Scaffold(
+      appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.print),
         onPressed: () async {

@@ -77,9 +77,16 @@ class PxVisits extends ChangeNotifier {
       case QueryType.Search:
         final result = await Database.instance.allPatients
             .find(where.eq(SxVisit.DOCNAME_E, docname).and(where
-                .eq(SxVisit.PTNAME, query)
-                .or(where.eq(SxVisit.PHONE, query))))
+                .match(SxVisit.PTNAME, query!)
+                .or(where.match(SxVisit.PHONE, query))))
             .toList();
+        _visits = Visit.visitList(result);
+        notifyListeners();
+      case QueryType.All:
+        final result = await Database.instance.allPatients
+            .find(where.eq(SxVisit.DOCNAME_E, docname))
+            .toList();
+
         _visits = Visit.visitList(result);
         notifyListeners();
     }
@@ -91,4 +98,5 @@ enum QueryType {
   Date,
   Range,
   Search,
+  All,
 }

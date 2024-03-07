@@ -25,57 +25,50 @@ class _BookKeepingPageState extends State<BookKeepingPage> {
                 //date selection card
                 Expanded(
                   flex: 2,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Card(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 100,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 50,
-                                    decoration: ThemeConstants.cd,
-                                    child: const Text('Select Date : '),
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                const SizedBox(
-                                  width: 150,
-                                  child: YearClinicPicker(),
-                                ),
-                                const SizedBox(width: 20),
-                                const SizedBox(
-                                  width: 150,
-                                  child: MonthClinicPicker(),
-                                ),
-                                const SizedBox(width: 20),
-                                const SizedBox(
-                                  width: 150,
-                                  child: DayClinicPicker(),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton.icon(
-                                    icon: const Icon(Icons.search),
-                                    label: const Text('Search'),
-                                    onPressed: () async {
-                                      //TODO: perform Query
-                                    },
-                                  ),
-                                )
-                              ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Card(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              decoration: ThemeConstants.cd,
+                              child: const Text('Select Date : '),
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 20),
+                          const SizedBox(
+                            width: 150,
+                            child: YearClinicPicker(),
+                          ),
+                          const SizedBox(width: 20),
+                          const SizedBox(
+                            width: 150,
+                            child: MonthClinicPicker(),
+                          ),
+                          const SizedBox(width: 20),
+                          const SizedBox(
+                            width: 150,
+                            child: DayClinicPicker(),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.search),
+                              label: const Text('Search'),
+                              onPressed: () async {
+                                //TODO: perform Query
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),

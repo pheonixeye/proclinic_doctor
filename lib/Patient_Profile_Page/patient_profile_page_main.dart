@@ -66,27 +66,11 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
         ? [
             const EntryPageByDoctor(),
             const PreviousVisitsPage(),
-            PaperWorkPage(
-              ptname: 'ptname',
-              phone: 'phone',
-              docname: 'docname',
-              day: 'day',
-              month: 'month',
-              year: 'year',
-              id: 'id',
-            ),
+            const PaperWorkPage(),
           ]
         : [
             const PreviousVisitsPage(),
-            PaperWorkPage(
-              ptname: 'ptname',
-              phone: 'phone',
-              docname: 'docname',
-              day: 'day',
-              month: 'month',
-              year: 'year',
-              id: 'id',
-            ),
+            const PaperWorkPage(),
           ];
     return Builder(
       builder: (context) {
