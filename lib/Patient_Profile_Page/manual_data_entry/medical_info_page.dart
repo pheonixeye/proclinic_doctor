@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
@@ -18,23 +15,32 @@ class MedicalInfoPage extends StatefulWidget {
   State<MedicalInfoPage> createState() => _MedicalInfoPageState();
 }
 
-class _MedicalInfoPageState extends State<MedicalInfoPage>
-    with AfterLayoutMixin {
+class _MedicalInfoPageState extends State<MedicalInfoPage> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
 
+  // @override
+  // FutureOr<void> afterFirstLayout(BuildContext context) async {}
+
   @override
-  FutureOr<void> afterFirstLayout(BuildContext context) async {
-    context.read<PxSelectedDoctor>().doctor!.fields.map((e) {
+  void initState() {
+    context.read<PxSelectedDoctor>().doctor?.fields.map((e) {
       _controllers[e] = TextEditingController();
     }).toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controllers.entries.map((e) => e.value.dispose()).toList();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<PxSelectedDoctor>(
-        builder: (context, d, _) {
+      body: Consumer2<PxSelectedDoctor, PxVisitData>(
+        builder: (context, d, v, _) {
           return Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
@@ -61,22 +67,48 @@ class _MedicalInfoPageState extends State<MedicalInfoPage>
                                   color: Colors.white,
                                 ),
                               ),
-                              title: Text(d.doctor!.fields[index]),
-                              subtitle: Card(
-                                color: Colors.white,
-                                child: TextFormField(
-                                  maxLines: null,
-                                  controller:
-                                      _controllers[d.doctor!.fields[index]],
-                                ),
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(d.doctor!.fields[index]),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: TextFormField(
+                                      maxLines: null,
+                                      controller:
+                                          _controllers[d.doctor!.fields[index]],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.close),
+                                    tooltip: 'Clear Field',
+                                    onPressed: () {
+                                      _controllers[d.doctor!.fields[index]]
+                                          ?.clear();
+                                    },
+                                  ),
+                                ],
                               ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.close),
-                                tooltip: 'Clear Field',
-                                onPressed: () {
-                                  _controllers[d.doctor!.fields[index]]
-                                      ?.clear();
-                                },
+                              subtitle: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Builder(
+                                  builder: (context) {
+                                    final isEmpty = (v.data == null ||
+                                        v.data!.data.isEmpty);
+                                    return SelectableText(
+                                      isEmpty
+                                          ? ""
+                                          : v.data
+                                              ?.data[d.doctor!.fields[index]],
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    );
+                                  },
+                                ),
                               ),
                             );
                           },
@@ -120,13 +152,15 @@ class _MedicalInfoPageState extends State<MedicalInfoPage>
                                     child: const Icon(Icons.save),
                                     onPressed: () async {
                                       //working
-                                      final _data = {};
+                                      final _data = <String, String>{};
                                       if (_formKey.currentState!.validate()) {
                                         _controllers.entries.map((e) {
-                                          _data[e.key] = e.value.text;
+                                          e.value.text.isEmpty
+                                              ? _data[e.key] =
+                                                  v.data?.data[e.key]
+                                              : _data[e.key] = e.value.text;
                                         }).toList();
-                                        print(_data);
-                                        //TODO: find why the controller texts are not registered.
+
                                         await EasyLoading.show(
                                             status: "Loading...");
                                         if (context.mounted) {
@@ -138,6 +172,13 @@ class _MedicalInfoPageState extends State<MedicalInfoPage>
                                               );
                                         }
                                         await EasyLoading.dismiss();
+
+                                        await EasyLoading.showSuccess(
+                                            "Sheet Saved.");
+
+                                        _controllers.entries
+                                            .map((e) => e.value.clear())
+                                            .toList();
                                       }
                                     },
                                   ),

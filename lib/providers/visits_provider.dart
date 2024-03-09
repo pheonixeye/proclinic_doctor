@@ -73,13 +73,12 @@ class PxVisits extends ChangeNotifier {
       case QueryType.Range:
         //TODO: FIX QUERY
         final result = await Database.instance.allPatients
-            .find(where
-                .eq(SxVisit.DOCNAME_E, docname)
-                .gte(
-                  SxVisit.VISITDATE,
-                  date.toIso8601String(),
-                )
-                .lte(SxVisit.VISITDATE, secondDate))
+            .find(
+              where
+                  .eq(SxVisit.DOCNAME_E, docname)
+                  .gte(SxVisit.VISITDATE, date.toIso8601String())
+                  .lte(SxVisit.VISITDATE, secondDate.toIso8601String()),
+            )
             .toList();
         _visits = Visit.visitList(result);
         notifyListeners();

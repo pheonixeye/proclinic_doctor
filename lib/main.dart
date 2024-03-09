@@ -57,6 +57,11 @@ class MyApp extends StatelessWidget {
               ),
               centerTitle: true,
             ),
+            inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
           ),
           darkTheme: ThemeData.dark(),
           home: const LoadingScreen(),

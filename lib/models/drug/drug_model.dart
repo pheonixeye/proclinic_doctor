@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-class Drug {
+import 'package:equatable/equatable.dart';
+
+class Drug extends Equatable {
   const Drug({
     required this.name,
     required this.dosage,
@@ -23,4 +25,7 @@ class Drug {
       'dosage': dosage,
     };
   }
+
+  @override
+  List<Object?> get props => [name];
 }
