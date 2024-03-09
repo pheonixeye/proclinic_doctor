@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
+import 'package:proclinic_doctor_windows/functions/first_where_or_null.dart';
+import 'package:proclinic_doctor_windows/models/dosage_forms.dart';
+import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
@@ -12,7 +17,19 @@ class PrescriptionPage extends StatefulWidget {
   State<PrescriptionPage> createState() => _PrescriptionPageState();
 }
 
-class _PrescriptionPageState extends State<PrescriptionPage> {
+class _PrescriptionPageState extends State<PrescriptionPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,28 +82,98 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                               itemCount: d.doctor!.drugs.length,
                               itemBuilder: (context, index) {
                                 final drug = d.doctor!.drugs[index];
-                                return ListTile(
-                                  leading: const CircleAvatar(),
-                                  trailing: Checkbox(
-                                    value: vd.data!.drugs.contains(drug),
+                                final _value =
+                                    vd.drugs.any((d) => d.name == drug);
+                                return ExpansionTile(
+                                  leading: Checkbox(
+                                    value: _value,
                                     onChanged: (value) {
-                                      //TODO: select drug
+                                      vd.setDrugs(Drug(
+                                        name: drug,
+                                        dose: Dose.Initial(),
+                                      ));
                                     },
                                   ),
-                                  title: Text(drug.name),
-                                  subtitle: Wrap(
-                                    children: [
-                                      ...drug.dosage.map((e) {
-                                        return RadioListTile<String>(
-                                          value: e,
-                                          groupValue: null,
-                                          onChanged: (val) {
-                                            //TODO: add dose to drug
-                                          },
-                                        );
-                                      }).toList(),
-                                    ],
-                                  ),
+                                  title: Text(drug),
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 100),
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          const Text('Unit :'),
+                                          ...<double>[0.25, 0.5, 1, 2, 3, 4, 5]
+                                              .map((e) {
+                                            final isPresent = vd.drugs
+                                                .firstWhereOrNull(
+                                                    (x) => x.name == drug);
+                                            final gp = (isPresent != null &&
+                                                    isPresent.dose.unit == e)
+                                                ? e
+                                                : null;
+                                            return ConstrainedBox(
+                                              constraints: const BoxConstraints(
+                                                  maxWidth: 200),
+                                              child: RadioListTile<double>(
+                                                title: Text(e.toString()),
+                                                groupValue: gp,
+                                                value: e,
+                                                onChanged: (value) {
+                                                  vd.setDose(drug, unit: value);
+                                                },
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ],
+                                      ),
+                                    ),
+                                    ConstrainedBox(
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 100),
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          const Text('Form :'),
+                                          ...DosageForms.list.map((e) {
+                                            final isPresent = vd.drugs
+                                                .firstWhereOrNull(
+                                                    (x) => x.name == drug);
+                                            final gp = (isPresent != null &&
+                                                    isPresent.dose.form == e)
+                                                ? e
+                                                : null;
+                                            return ConstrainedBox(
+                                              constraints: const BoxConstraints(
+                                                  maxWidth: 200),
+                                              child: RadioListTile<String>(
+                                                title: Text(e),
+                                                groupValue: gp,
+                                                value: e,
+                                                onChanged: (value) {
+                                                  vd.setDose(drug, form: value);
+                                                },
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ],
+                                      ),
+                                    ),
+                                    // Row(
+                                    //   children: [
+                                    //     ListView(
+                                    //       scrollDirection: Axis.horizontal,
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     ListView(
+                                    //       scrollDirection: Axis.horizontal,
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                  ],
                                 );
                               },
                               separatorBuilder: (context, index) {
@@ -123,7 +210,9 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                               decoration: const InputDecoration(
                                 hintText: "Search Labs..",
                               ),
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                //TODO: filter labs
+                              },
                             ),
                           ),
                           Expanded(
@@ -134,9 +223,9 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                                 return ListTile(
                                   leading: const CircleAvatar(),
                                   trailing: Checkbox(
-                                    value: vd.data!.labs.contains(lab),
+                                    value: vd.labs.contains(lab),
                                     onChanged: (value) {
-                                      //TODO: select lab
+                                      vd.setLabs(lab);
                                     },
                                   ),
                                   title: Text(lab),
@@ -176,7 +265,9 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                               decoration: const InputDecoration(
                                 hintText: "Search Rads..",
                               ),
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                //TODO: filter rads
+                              },
                             ),
                           ),
                           Expanded(
@@ -187,9 +278,9 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                                 return ListTile(
                                   leading: const CircleAvatar(),
                                   trailing: Checkbox(
-                                    value: vd.data!.rads.contains(rad),
+                                    value: vd.rads.contains(rad),
                                     onChanged: (value) {
-                                      //TODO: select lab
+                                      vd.setRads(rad);
                                     },
                                   ),
                                   title: Text(rad),

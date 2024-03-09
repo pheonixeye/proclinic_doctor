@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names, file_names
 
-import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
-
 class Doctor {
   final int id;
   final String docnameEN;
@@ -22,7 +20,7 @@ class Doctor {
   final List<String> fields;
   final List<String> labs;
   final List<String> rads;
-  final List<Drug> drugs;
+  final List<String> drugs;
   final bool published;
   final List<String> clinicDetails;
 
@@ -73,9 +71,7 @@ class Doctor {
       published: json[SxDoctor.PUBLISHED],
       labs: _stringifyList(json[SxDoctor.LABS]),
       rads: _stringifyList(json[SxDoctor.RADS]),
-      drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
-          .map((e) => Drug.fromJson(e))
-          .toList(),
+      drugs: _stringifyList(json[SxDoctor.DRUGS]),
       clinicDetails: _stringifyList(json[SxDoctor.CLINICDETAILS]),
     );
   }
@@ -101,39 +97,14 @@ class Doctor {
       SxDoctor.PUBLISHED: published,
       SxDoctor.LABS: labs,
       SxDoctor.RADS: rads,
-      SxDoctor.DRUGS: drugs.map((e) => e.toJson()).toList(),
+      SxDoctor.DRUGS: drugs,
       SxDoctor.CLINICDETAILS: clinicDetails,
     };
   }
 
   static List<Doctor> doctorList(List<dynamic> dynlist) {
     List<Doctor> dl = dynlist.map((json) {
-      return Doctor(
-        id: json[SxDoctor.ID],
-        docnameEN: json[SxDoctor.DOCNAME_E],
-        docnameAR: json[SxDoctor.DOCNAME_A],
-        clinicEN: json[SxDoctor.CLINIC_E],
-        clinicAR: json[SxDoctor.CLINIC_A],
-        phonePER: json[SxDoctor.PHONEPERSONAL],
-        phoneASS: json[SxDoctor.PHONEASSISTANT],
-        password: json[SxDoctor.PASSWORD],
-        avatar: json[SxDoctor.AVATAR],
-        grid: json[SxDoctor.GRID],
-        proceduersAR: _stringifyList(json[SxDoctor.PROCEDURES_A]),
-        proceduersEN: _stringifyList(json[SxDoctor.PROCEDURES_E]),
-        titlesAR: _stringifyList(json[SxDoctor.TITLES_A]),
-        titlesEN: _stringifyList(json[SxDoctor.TITLES_E]),
-        affiliatesAR: _stringifyList(json[SxDoctor.AFFILIATES_A]),
-        affiliatesEN: _stringifyList(json[SxDoctor.AFFILIATES_E]),
-        fields: _stringifyList(json[SxDoctor.FIELDS]),
-        published: json[SxDoctor.PUBLISHED],
-        labs: _stringifyList(json[SxDoctor.LABS]),
-        rads: _stringifyList(json[SxDoctor.RADS]),
-        drugs: (json[SxDoctor.DRUGS] as List<dynamic>)
-            .map((e) => Drug.fromJson(e))
-            .toList(),
-        clinicDetails: _stringifyList(json[SxDoctor.CLINICDETAILS]),
-      );
+      return Doctor.fromJson(json);
     }).toList();
     return dl;
   }

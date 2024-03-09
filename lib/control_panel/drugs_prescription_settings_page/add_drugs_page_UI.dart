@@ -3,7 +3,6 @@ import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
-import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -123,13 +122,8 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                       docname: d.doctor!.docnameEN,
                                       attribute: SxDoctor.DRUGS,
                                       value: [
-                                        ...d.doctor!.drugs
-                                            .map((e) => e.toJson())
-                                            .toList(),
-                                        Drug(
-                                          name: drugController.text,
-                                          dosage: [],
-                                        ).toJson(),
+                                        ...d.doctor!.drugs,
+                                        drugController.text,
                                       ],
                                     );
 
@@ -165,7 +159,7 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                   ),
                                   title: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(d.doctor!.drugs[index].name),
+                                    child: Text(d.doctor!.drugs[index]),
                                   ),
                                   trailing: IconButton(
                                     icon: const Icon(
@@ -180,11 +174,8 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                                         attribute: SxDoctor.DRUGS,
                                         value: [
                                           ...d.doctor!.drugs
-                                              .map((e) => e.toJson())
-                                              .toList()
                                             ..removeWhere((drug) =>
-                                                drug['name'] ==
-                                                d.doctor!.drugs[index].name)
+                                                drug == d.doctor!.drugs[index])
                                         ],
                                       );
                                       await EasyLoading.dismiss();
