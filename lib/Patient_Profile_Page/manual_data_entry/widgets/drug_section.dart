@@ -53,7 +53,8 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                             ),
                             onChanged: (value) {
                               //todo: filter drugs
-                              vd.filterDrugs(value);
+                              // vd.filterDrugs(value);
+                              d.filterList('drugs', value);
                             },
                           ),
                         ),
@@ -66,10 +67,10 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                   ),
                   Expanded(
                     child: ListView.separated(
-                      itemCount: d.doctor!.drugs.length,
+                      itemCount: d.drugs.length,
                       primary: true,
                       itemBuilder: (context, index) {
-                        final drug = d.doctor!.drugs[index];
+                        final drug = d.drugs[index];
                         final _value = vd.drugs.any(
                             (d) => d.name.toLowerCase() == drug.toLowerCase());
                         final isPresent = vd.drugs.firstWhereOrNull(

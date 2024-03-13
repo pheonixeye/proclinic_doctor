@@ -26,9 +26,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const FinalPrescription(
-                forwardedData: {},
-              ),
+              builder: (context) => const FinalPrescription(),
             ),
           );
         },

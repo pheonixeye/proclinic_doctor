@@ -156,6 +156,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
         ),
       ),
       body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: const <Widget>[
           TodayPatients(),

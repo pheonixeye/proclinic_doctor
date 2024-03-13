@@ -20,7 +20,6 @@ class _LabRadPrescriptionSectionState extends State<LabRadPrescriptionSection> {
   @override
   void initState() {
     _controller = TextEditingController();
-
     super.initState();
   }
 
@@ -52,9 +51,9 @@ class _LabRadPrescriptionSectionState extends State<LabRadPrescriptionSection> {
                             onChanged: (value) {
                               switch (widget.labOrRad) {
                                 case LabOrRad.lab:
-                                  vd.filterLabs(value);
+                                  d.filterList("labs", value);
                                 case LabOrRad.rad:
-                                  vd.filterRads(value);
+                                  d.filterList("rads", value);
                               }
                             },
                           ),
@@ -73,8 +72,8 @@ class _LabRadPrescriptionSectionState extends State<LabRadPrescriptionSection> {
                     child: Builder(
                       builder: (context) {
                         final list = switch (widget.labOrRad) {
-                          LabOrRad.lab => d.doctor!.labs,
-                          LabOrRad.rad => d.doctor!.rads,
+                          LabOrRad.lab => d.labs,
+                          LabOrRad.rad => d.rads,
                         };
                         return ListView.separated(
                           itemCount: list.length,

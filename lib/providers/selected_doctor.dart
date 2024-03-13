@@ -11,10 +11,53 @@ class PxSelectedDoctor extends ChangeNotifier {
   void selectDoctor(Doctor? value) {
     _doctor = value;
     notifyListeners();
+    _labs = _doctor!.labs;
+    _rads = _doctor!.rads;
+    _drugs = _doctor!.drugs;
+    notifyListeners();
   }
 
+  List<String> _drugs = [];
+  List<String> get drugs => _drugs;
+
+  List<String> _labs = [];
+  List<String> get labs => _labs;
+
+  List<String> _rads = [];
+  List<String> get rads => _rads;
+
   void filterList(String attribute, String filter) {
-    //TODO:
+    switch (attribute) {
+      case 'labs':
+        filter.isEmpty
+            ? _labs = _doctor!.labs
+            : _labs = _labs
+                .where((element) =>
+                    element.toLowerCase().startsWith(filter.toLowerCase()))
+                .toList();
+        notifyListeners();
+        break;
+      case 'rads':
+        filter.isEmpty
+            ? _rads = _doctor!.rads
+            : _rads = _rads
+                .where((element) =>
+                    element.toLowerCase().startsWith(filter.toLowerCase()))
+                .toList();
+        notifyListeners();
+        break;
+      case 'drugs':
+        filter.isEmpty
+            ? _drugs = _doctor!.drugs
+            : _drugs = _drugs
+                .where((element) =>
+                    element.toLowerCase().startsWith(filter.toLowerCase()))
+                .toList();
+        notifyListeners();
+        break;
+      default:
+        throw UnimplementedError();
+    }
   }
 
   Future<void> fetchDoctorByDocName(String docname) async {

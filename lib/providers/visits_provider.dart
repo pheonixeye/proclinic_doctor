@@ -77,7 +77,11 @@ class PxVisits extends ChangeNotifier {
               where
                   .eq(SxVisit.DOCNAME_E, docname)
                   .gte(SxVisit.VISITDATE, date.toIso8601String())
-                  .lte(SxVisit.VISITDATE, secondDate.toIso8601String()),
+                  .lte(SxVisit.VISITDATE, secondDate.toIso8601String())
+                  .sortBy(
+                    SxVisit.VISITDATE,
+                    descending: true,
+                  ),
             )
             .toList();
         _visits = Visit.visitList(result);
@@ -87,14 +91,21 @@ class PxVisits extends ChangeNotifier {
         final result = await Database.instance.allPatients
             .find(where.eq(SxVisit.DOCNAME_E, docname).and(where
                 .match(SxVisit.PTNAME, query!)
-                .or(where.match(SxVisit.PHONE, query))))
+                .or(where.match(SxVisit.PHONE, query))
+                .sortBy(
+                  SxVisit.VISITDATE,
+                  descending: true,
+                )))
             .toList();
         _visits = Visit.visitList(result);
         notifyListeners();
 
       case QueryType.All:
         final result = await Database.instance.allPatients
-            .find(where.eq(SxVisit.DOCNAME_E, docname))
+            .find(where.eq(SxVisit.DOCNAME_E, docname).sortBy(
+                  SxVisit.VISITDATE,
+                  descending: true,
+                ))
             .toList();
 
         _visits = Visit.visitList(result);
