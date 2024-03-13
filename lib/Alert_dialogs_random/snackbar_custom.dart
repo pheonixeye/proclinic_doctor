@@ -55,3 +55,33 @@ SnackBar docInfoSnackBar(Doctor doctor) {
     ),
   );
 }
+
+void showSelectDrugFirstSnackbar(BuildContext context, {bool isDose = false}) {
+  SnackBar snackbar = SnackBar(
+    duration: const Duration(milliseconds: 3000),
+    elevation: 10,
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          isDose
+              ? "Dose Adjustment Missing."
+              : 'Select a Drug Before Adjusting The Dose.',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(
+          width: 50,
+        ),
+        const Icon(
+          Icons.info,
+          color: Colors.yellow,
+        )
+      ],
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}

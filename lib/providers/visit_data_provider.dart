@@ -26,6 +26,10 @@ class PxVisitData extends ChangeNotifier {
         .findOne(where.eq(SxVD.VISITID, visit!.id));
     _data = VisitData.fromJson(result);
     notifyListeners();
+    _drugs = _data!.drugs;
+    _labs = _data!.labs;
+    _rads = _data!.rads;
+    notifyListeners();
   }
 
   List<String> _labs = [];
@@ -52,20 +56,71 @@ class PxVisitData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void filterLabs(String value) {
+    value.isEmpty
+        ? _labs = _data!.labs
+        : _labs = _labs
+            .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
+            .toList();
+    notifyListeners();
+  }
+
+  void filterRads(String value) {
+    value.isEmpty
+        ? _rads = _data!.rads
+        : _rads = _rads
+            .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
+            .toList();
+    notifyListeners();
+  }
+
+  void filterDrugs(String value) {
+    value.isEmpty
+        ? _drugs = _data!.drugs
+        : _drugs = _drugs
+            .where((e) => e.name.toLowerCase().startsWith(value.toLowerCase()))
+            .toList();
+    notifyListeners();
+  }
+
   void setDose(
     String drug, {
     double? unit,
     int? frequency,
     int? duration,
     String? form,
+    String? frequecyUnit,
+    String? durationUnit,
   }) {
-    _drugs.firstWhere((element) => element.name == drug).dose.copyWith(
-          unit: unit,
-          frequency: frequency,
-          duration: duration,
-          form: form,
-        );
+    var d = _drugs.firstWhere((element) => element.name == drug);
+    var i = _drugs.indexOf(d);
+    _drugs[i] = d.updateDose(
+      unit: unit,
+      frequency: frequency,
+      duration: duration,
+      form: form,
+      frequencyUnit: frequecyUnit,
+      durationUnit: durationUnit,
+    );
     notifyListeners();
+  }
+
+  bool validateDrugPrescription() {
+    bool isValid = false;
+    _drugs.map((e) {
+      final d = e.dose;
+      if (d.duration == 0 ||
+          d.unit == 0 ||
+          d.durationUnit == '' ||
+          d.form == '' ||
+          d.frequency == 0 ||
+          d.frequencyUnit == '') {
+        isValid = false;
+      } else {
+        isValid = true;
+      }
+    }).toList();
+    return isValid;
   }
 
   Future<void> updateVisitData(String attribute, dynamic value) async {

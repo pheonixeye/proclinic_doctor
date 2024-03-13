@@ -10,6 +10,7 @@ import 'package:proclinic_doctor_windows/control_panel/settings_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/_main.dart';
+import 'package:proclinic_doctor_windows/scroll/scroll_behaviour.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: providers,
       builder: (context, child) {
         return MaterialApp(
+          scrollBehavior: MyCustomScrollBehavior(),
           debugShowCheckedModeBanner: false,
           title: 'ProClinic Doctors',
           builder: EasyLoading.init(),

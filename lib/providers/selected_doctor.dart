@@ -13,6 +13,10 @@ class PxSelectedDoctor extends ChangeNotifier {
     notifyListeners();
   }
 
+  void filterList(String attribute, String filter) {
+    //TODO:
+  }
+
   Future<void> fetchDoctorByDocName(String docname) async {
     try {
       final result = await Database.instance.allDoctors
