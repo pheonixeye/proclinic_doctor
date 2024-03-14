@@ -61,7 +61,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
             decoration: ThemeConstants.cd,
             child: Consumer2<PxSelectedDoctor, PxVisitData>(
               builder: (context, d, vd, _) {
-                final _d = DateTime.parse(vd.visit!.visitDate);
+                final d_ = DateTime.parse(vd.visit!.visitDate);
                 return Column(
                   children: [
                     //patient data, doctor titles ==>> (A)
@@ -71,60 +71,64 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                         children: [
                           Expanded(
                             flex: 1,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text(
-                                      'Date: ${_d.day}-${_d.month}-${_d.year}'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text('Name: ${vd.visit!.ptName}'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Builder(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Wrap(
+                                spacing: 10,
+                                direction: Axis.vertical,
+                                crossAxisAlignment: WrapCrossAlignment.start,
+                                children: [
+                                  Text(
+                                      'Date: ${d_.day}-${d_.month}-${d_.year}'),
+                                  Text('Name: ${vd.visit!.ptName}'),
+                                  Builder(
                                     builder: (context) {
-                                      final _d = DateTime.parse(vd.visit!.dob);
-                                      final _t = DateTime.now();
-                                      final _age = _t.year - _d.year;
-                                      return Text('Age: $_age Years');
+                                      final d = DateTime.parse(vd.visit!.dob);
+                                      final t = DateTime.now();
+                                      final age = t.year - d.year;
+                                      return Text('Age: $age Years');
                                     },
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text('Visit: ${vd.visit!.visitType}'),
-                                ),
-                              ],
+                                  Text('Type: ${vd.visit!.visitType}'),
+                                ],
+                              ),
                             ),
                           ),
                           //doctor titles
                           Expanded(
-                            flex: 1,
-                            child: ListView(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    'دكتور',
-                                    textAlign: TextAlign.center,
+                            flex: 2,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ListView(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0),
+                                        child: Text(
+                                          d.doctor!.docnameAR,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        'دكتور',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  d.doctor!.docnameAR,
-                                  textAlign: TextAlign.center,
-                                ),
-                                ...d.doctor!.titlesAR.map((e) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(e),
-                                  );
-                                }).toList(),
-                              ],
+                                  ...d.doctor!.titlesAR.map((e) {
+                                    return Text(e, textAlign: TextAlign.center);
+                                  }).toList(),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -139,96 +143,94 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                     //drugs - labs - rads
                     Expanded(
                       flex: 7,
-                      child: Column(
-                        children: [
-                          //drugs
-                          Expanded(
-                            flex: 5,
-                            child: StreamBuilder(
-                              stream: null,
-                              builder: (context, snapshot) {
-                                final data = !snapshot.hasData
-                                    ? []
-                                    : snapshot.data as List;
-                                return ListView.builder(
-                                  itemExtent: 45,
-                                  itemCount:
-                                      !snapshot.hasData ? 0 : data.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: const CircleAvatar(
-                                        child: Text(
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverList(
+                            delegate: SliverChildListDelegate(
+                              [
+                                const ListTile(
+                                  leading: CircleAvatar(),
+                                  title: Text('Drugs'),
+                                  subtitle: Divider(),
+                                ),
+                                ...vd.data!.drugs.map((e) {
+                                  return ListTile(
+                                    title: Row(
+                                      children: [
+                                        const Text(
                                           '℞',
                                           style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold),
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      title: Text(
-                                        data[index].toString().toUpperCase(),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(e.name),
+                                      ],
+                                    ),
+                                    subtitle: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Text('Formatted arabic dose'),
+                                    ),
+                                  );
+                                }).toList(),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const ListTile(
+                                  leading: CircleAvatar(),
+                                  title: Text('Labs'),
+                                  subtitle: Divider(),
+                                ),
+                              ],
                             ),
                           ),
-                          //labs and rads
-                          Expanded(
-                            flex: 2,
-                            child: Row(
-                              children: [
-                                //labs
-                                Expanded(
-                                  flex: 1,
-                                  child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) {
-                                        final data = !snapshot.hasData
-                                            ? []
-                                            : snapshot.data as List;
-
-                                        return GridView.builder(
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 6,
-                                          ),
-                                          itemCount: !snapshot.hasData
-                                              ? 0
-                                              : data.length,
-                                          itemBuilder: (context, index) {
-                                            return Center(
-                                              child: Text(
-                                                  '• ${data[index].toString().toUpperCase()}'),
-                                            );
-                                          },
-                                        );
-                                      }),
+                          SliverGrid(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 5,
+                            ),
+                            delegate: SliverChildListDelegate(
+                              [
+                                ...vd.data!.labs.map((e) {
+                                  return ListTile(
+                                    leading: const Text(
+                                      '℞',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    title: Text(e),
+                                  );
+                                }).toList(),
+                              ],
+                            ),
+                          ),
+                          SliverList(
+                            delegate: SliverChildListDelegate(
+                              [
+                                const ListTile(
+                                  leading: CircleAvatar(),
+                                  title: Text('Rads'),
+                                  subtitle: Divider(),
                                 ),
-                                //rads
-                                Expanded(
-                                  flex: 1,
-                                  child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) {
-                                      final data = !snapshot.hasData
-                                          ? []
-                                          : snapshot.data as List;
-
-                                      return ListView.builder(
-                                        itemCount:
-                                            !snapshot.hasData ? 0 : data.length,
-                                        itemBuilder: (context, index) {
-                                          return Center(
-                                            child: Text(
-                                                '• ${data[index].toString().toUpperCase()}'),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
+                                ...vd.data!.rads.map((e) {
+                                  return ListTile(
+                                    leading: const Text(
+                                      '℞',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    title: Text(e),
+                                  );
+                                }).toList(),
                               ],
                             ),
                           ),
@@ -243,21 +245,18 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                     //clinic details
                     Expanded(
                       flex: 1,
-                      child: StreamBuilder(
-                        stream: null,
-                        builder: (context, clinicsnap) {
-                          final data = !clinicsnap.hasData
-                              ? []
-                              : clinicsnap.data as List;
-
+                      child: Builder(
+                        builder: (context) {
                           return ListView.builder(
-                            itemCount: !clinicsnap.hasData ? 0 : data.length,
+                            itemCount: d.doctor!.clinicDetails.length,
                             itemBuilder: (context, index) {
                               return Center(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(data[index].toString()),
-                              ));
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(d.doctor!.clinicDetails[index]
+                                      .toString()),
+                                ),
+                              );
                             },
                           );
                         },

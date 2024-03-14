@@ -8,7 +8,7 @@ class PopUpButtonLogOutSettings extends StatefulWidget {
       {super.key, required this.callSettings, required this.callLogout});
 
   @override
-  _PopUpButtonLogOutSettingsState createState() =>
+  State<PopUpButtonLogOutSettings> createState() =>
       _PopUpButtonLogOutSettingsState();
 }
 

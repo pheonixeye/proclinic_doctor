@@ -11,7 +11,7 @@ class AddDrugsPage extends StatefulWidget {
   const AddDrugsPage({super.key});
 
   @override
-  _AddDrugsPageState createState() => _AddDrugsPageState();
+  State<AddDrugsPage> createState() => _AddDrugsPageState();
 }
 
 class _AddDrugsPageState extends State<AddDrugsPage> {
@@ -189,121 +189,6 @@ class _AddDrugsPageState extends State<AddDrugsPage> {
                         ),
                       ),
                       //end of drug list + field + button
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Divider(
-                          color: Colors.blueGrey,
-                          thickness: 5,
-                          height: 10,
-                        ),
-                      ),
-
-                      //clinic details
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CircleAvatar(),
-                            const SizedBox(width: 20),
-                            const SizedBox(
-                              width: 150,
-                              child: Text('Clinic Details :'),
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            SizedBox(
-                              width: 350,
-                              child: Card(
-                                child: TextField(
-                                  enableInteractiveSelection: true,
-                                  enabled: true,
-                                  decoration: const InputDecoration(
-                                    isDense: true,
-                                    icon: Icon(Icons.add_to_queue),
-                                    hintText: '...',
-                                    labelText: 'Add Clinic Details',
-                                    alignLabelWithHint: true,
-                                    fillColor: Colors.white,
-                                  ),
-                                  maxLines: null,
-                                  controller: clinicdetailController,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            Consumer<PxSelectedDoctor>(
-                              builder: (context, d, c) {
-                                return ElevatedButton.icon(
-                                  icon: const Icon(Icons.add),
-                                  label: const Text('Add Clinic Detail'),
-                                  onPressed: () async {
-                                    await EasyLoading.show(
-                                        status: "Loading...");
-
-                                    await d.updateSelectedDoctor(
-                                      docname: d.doctor!.docnameEN,
-                                      attribute: SxDoctor.CLINICDETAILS,
-                                      value: [
-                                        ...d.doctor!.clinicDetails,
-                                        clinicdetailController.text
-                                      ],
-                                    );
-
-                                    await EasyLoading.dismiss();
-
-                                    await Future.delayed(
-                                        const Duration(milliseconds: 50));
-                                    clinicdetailController.clear();
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      // container to show clinic details
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: ThemeConstants.cd,
-                        child: Consumer<PxSelectedDoctor>(
-                            builder: (context, d, c) {
-                          return Center(
-                            child: ListView.builder(
-                              itemCount: d.doctor!.clinicDetails.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  leading: CircleAvatar(
-                                    child: Text('${index + 1}'),
-                                  ),
-                                  title: Text(d.doctor!.clinicDetails[index]),
-                                  trailing: IconButton(
-                                    icon: const Icon(
-                                      Icons.delete_forever,
-                                      color: Colors.red,
-                                    ),
-                                    onPressed: () async {
-                                      await EasyLoading.show(
-                                          status: 'Loading...');
-                                      await d.updateSelectedDoctor(
-                                        docname: d.doctor!.docnameEN,
-                                        attribute: SxDoctor.CLINICDETAILS,
-                                        value: [...d.doctor!.clinicDetails]
-                                          ..removeAt(index),
-                                      );
-                                      await EasyLoading.dismiss();
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
-                      ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Divider(

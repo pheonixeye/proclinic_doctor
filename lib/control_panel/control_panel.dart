@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 class ControlPanelPage extends StatefulWidget {
   const ControlPanelPage({Key? key}) : super(key: key);
   @override
-  _ControlPanelPageState createState() => _ControlPanelPageState();
+  State<ControlPanelPage> createState() => _ControlPanelPageState();
 }
 
 class _ControlPanelPageState extends State<ControlPanelPage>

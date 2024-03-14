@@ -2,6 +2,7 @@ import 'dart:math' show Random;
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
+import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clinic_details_page.dart';
 // import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/add_drugs_page_UI.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
             '/drugs': (context) => const AddDrugsPage(),
             '/controlpanel': (context) => const ControlPanelPage(),
             '/labsrads': (context) => const LabsAndRadsSettingsPage(),
+            '/clinicdetails': (context) => const ClinicDetailsPage(),
           },
         );
       },

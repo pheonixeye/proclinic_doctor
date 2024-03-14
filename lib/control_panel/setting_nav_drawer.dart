@@ -7,7 +7,7 @@ class CustomSettingsNavDrawer extends StatefulWidget {
   const CustomSettingsNavDrawer({super.key});
 
   @override
-  _CustomSettingsNavDrawerState createState() =>
+  State<CustomSettingsNavDrawer> createState() =>
       _CustomSettingsNavDrawerState();
 }
 
@@ -18,7 +18,7 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
       elevation: 20,
       child: Container(
         decoration: ThemeConstants.cd,
-        child: Column(
+        child: ListView(
           children: [
             //avatar
             const Padding(
@@ -132,6 +132,37 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
                 label: const Text('Labs & Rads'),
                 onPressed: () {
                   const newRouteName = "/labsrads";
+                  bool isNewRouteSameAsCurrent = false;
+
+                  Navigator.popUntil(context, (route) {
+                    if (route.settings.name == newRouteName) {
+                      isNewRouteSameAsCurrent = true;
+                    }
+                    Navigator.pop(context);
+                    return true;
+                  });
+
+                  if (!isNewRouteSameAsCurrent) {
+                    Navigator.popAndPushNamed(context, newRouteName);
+                  }
+                },
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(
+                color: Colors.blueGrey,
+                thickness: 5,
+                height: 10,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.details),
+                label: const Text('Clinic Details'),
+                onPressed: () {
+                  const newRouteName = "/clinicdetails";
                   bool isNewRouteSameAsCurrent = false;
 
                   Navigator.popUntil(context, (route) {

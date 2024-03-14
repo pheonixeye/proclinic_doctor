@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,7 @@ class LabsAndRadsSettingsPage extends StatefulWidget {
   const LabsAndRadsSettingsPage({super.key});
 
   @override
-  _LabsAndRadsSettingsPageState createState() =>
+  State<LabsAndRadsSettingsPage> createState() =>
       _LabsAndRadsSettingsPageState();
 }
 
@@ -108,6 +109,8 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                   icon: const Icon(Icons.add),
                                   label: const Text('Add to Lab List'),
                                   onPressed: () async {
+                                    await EasyLoading.show(
+                                        status: "Loading...");
                                     await d.updateSelectedDoctor(
                                       docname: d.doctor!.docnameEN,
                                       attribute: 'labs',
@@ -125,6 +128,7 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                     await Future.delayed(
                                         const Duration(milliseconds: 50));
                                     labController.clear();
+                                    await EasyLoading.showSuccess('Updated.');
                                   },
                                 );
                               },
@@ -161,13 +165,15 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                     ),
                                     onPressed: () async {
                                       final newLabs = [...d.doctor!.labs]
-                                        ..remove(index);
-
+                                        ..removeAt(index);
+                                      await EasyLoading.show(
+                                          status: "Loading...");
                                       await d.updateSelectedDoctor(
                                         docname: d.doctor!.docnameEN,
                                         attribute: SxDoctor.LABS,
                                         value: newLabs,
                                       );
+                                      await EasyLoading.showSuccess("Updated.");
                                     },
                                   ),
                                 );
@@ -233,6 +239,8 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                   icon: const Icon(Icons.add),
                                   label: const Text('Add to Rad List'),
                                   onPressed: () async {
+                                    await EasyLoading.show(
+                                        status: "Loading...");
                                     await d.updateSelectedDoctor(
                                       docname: d.doctor!.docnameEN,
                                       attribute: SxDoctor.RADS,
@@ -250,6 +258,7 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                     await Future.delayed(
                                         const Duration(milliseconds: 50));
                                     radController.clear();
+                                    await EasyLoading.showSuccess('Updated.');
                                   },
                                 );
                               },
@@ -286,13 +295,15 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                     ),
                                     onPressed: () async {
                                       final newRads = [...d.doctor!.rads]
-                                        ..remove(index);
-
+                                        ..removeAt(index);
+                                      await EasyLoading.show(
+                                          status: "Loading...");
                                       await d.updateSelectedDoctor(
                                         docname: d.doctor!.docnameEN,
                                         attribute: SxDoctor.RADS,
                                         value: newRads,
                                       );
+                                      await EasyLoading.showSuccess('Updated.');
                                     },
                                   ),
                                 );
