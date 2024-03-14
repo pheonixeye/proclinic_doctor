@@ -1,24 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:proclinic_doctor_windows/models/visitModel.dart';
+import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
-Future runprintimg() async {
-  // await Process.runSync('powershell.exe',
-  //     ['start-process c:\\users\\kelsier_2\\desktop\\pres.png -verb print'],
-  //     runInShell: true);
-  //TODO: find a printing package
-}
+class SheetPrescription extends StatefulWidget {
+  const SheetPrescription({
+    super.key,
+    required this.visit,
+    required this.data,
+  });
+  final Visit visit;
+  final VisitData data;
 
-class FinalPrescription extends StatefulWidget {
-  const FinalPrescription({super.key});
   @override
-  State<FinalPrescription> createState() => _FinalPrescriptionState();
+  State<SheetPrescription> createState() => _SheetPrescriptionState();
 }
 
-class _FinalPrescriptionState extends State<FinalPrescription> {
+class _SheetPrescriptionState extends State<SheetPrescription> {
   @override
   Widget build(BuildContext context) {
     ScreenshotController screenshotController = ScreenshotController();
@@ -46,7 +49,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                 await screenshotController
                     .captureAndSave('c:/users/kareemzaher/desktop/pres.png');
                 await Future.delayed(const Duration(seconds: 1));
-                await runprintimg();
+                // await runprintimg();
               },
             ),
           ],
@@ -59,9 +62,9 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
             height: MediaQuery.of(context).size.height * 0.99,
             width: MediaQuery.of(context).size.width * 0.4,
             decoration: ThemeConstants.cd,
-            child: Consumer2<PxSelectedDoctor, PxVisitData>(
-              builder: (context, d, vd, _) {
-                final d_ = DateTime.parse(vd.visit!.visitDate);
+            child: Consumer<PxSelectedDoctor>(
+              builder: (context, d, _) {
+                final d_ = DateTime.parse(widget.visit.visitDate);
                 return Column(
                   children: [
                     //patient data, doctor titles ==>> (A)
@@ -80,16 +83,17 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                 children: [
                                   Text(
                                       'Date: ${d_.day}-${d_.month}-${d_.year}'),
-                                  Text('Name: ${vd.visit!.ptName}'),
+                                  Text('Name: ${widget.visit.ptName}'),
                                   Builder(
                                     builder: (context) {
-                                      final d = DateTime.parse(vd.visit!.dob);
+                                      final d =
+                                          DateTime.parse(widget.visit.dob);
                                       final t = DateTime.now();
                                       final age = t.year - d.year;
                                       return Text('Age: $age Years');
                                     },
                                   ),
-                                  Text('Type: ${vd.visit!.visitType}'),
+                                  Text('Type: ${widget.visit.visitType}'),
                                 ],
                               ),
                             ),
@@ -145,15 +149,22 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                       flex: 7,
                       child: CustomScrollView(
                         slivers: [
-                          SliverList(
+                          const SliverToBoxAdapter(
+                            child: ListTile(
+                              leading: CircleAvatar(),
+                              title: Text('Sheet'),
+                              subtitle: Divider(),
+                            ),
+                          ),
+                          SliverGrid(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3,
+                            ),
                             delegate: SliverChildListDelegate(
                               [
-                                const ListTile(
-                                  leading: CircleAvatar(),
-                                  title: Text('Drugs'),
-                                  subtitle: Divider(),
-                                ),
-                                ...vd.data!.drugs.map((e) {
+                                ...widget.data.data.entries.map((e) {
                                   return ListTile(
                                     title: Row(
                                       children: [
@@ -167,26 +178,24 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                         const SizedBox(
                                           width: 20,
                                         ),
-                                        Text(e.name),
+                                        Text(e.key),
                                       ],
                                     ),
-                                    subtitle: const Padding(
-                                      padding: EdgeInsets.symmetric(
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 20.0),
-                                      //TODO:
-                                      child: Text('Formatted arabic dose'),
+                                      child: Text(e.value),
                                     ),
                                   );
                                 }).toList(),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const ListTile(
-                                  leading: CircleAvatar(),
-                                  title: Text('Labs'),
-                                  subtitle: Divider(),
-                                ),
                               ],
+                            ),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: ListTile(
+                              leading: CircleAvatar(),
+                              title: Text('Labs'),
+                              subtitle: Divider(),
                             ),
                           ),
                           SliverGrid(
@@ -197,7 +206,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                             ),
                             delegate: SliverChildListDelegate(
                               [
-                                ...vd.data!.labs.map((e) {
+                                ...widget.data.labs.map((e) {
                                   return ListTile(
                                     leading: const Text(
                                       '℞',
@@ -212,15 +221,22 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                               ],
                             ),
                           ),
-                          SliverList(
+                          const SliverToBoxAdapter(
+                            child: ListTile(
+                              leading: CircleAvatar(),
+                              title: Text('Rads'),
+                              subtitle: Divider(),
+                            ),
+                          ),
+                          SliverGrid(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 5,
+                            ),
                             delegate: SliverChildListDelegate(
                               [
-                                const ListTile(
-                                  leading: CircleAvatar(),
-                                  title: Text('Rads'),
-                                  subtitle: Divider(),
-                                ),
-                                ...vd.data!.rads.map((e) {
+                                ...widget.data.rads.map((e) {
                                   return ListTile(
                                     leading: const Text(
                                       '℞',
@@ -233,6 +249,11 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                   );
                                 }).toList(),
                               ],
+                            ),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 30,
                             ),
                           ),
                         ],

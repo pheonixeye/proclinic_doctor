@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:proclinic_doctor_windows/control_panel/zTEST_TXT_open_dialog_ffi.dart';
@@ -174,16 +175,15 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           items: _items,
                                           value: d.doctor!.grid,
                                           onChanged: (bool? value) async {
+                                            await EasyLoading.show(
+                                                status: 'Loading...');
                                             await d.updateSelectedDoctor(
                                               docname: d.doctor!.docnameEN,
                                               attribute: SxDoctor.GRID,
                                               value: value,
                                             );
-                                            if (context.mounted) {
-                                              showCustomSnackbar(
-                                                  context: context,
-                                                  message: 'Updated');
-                                            }
+                                            await EasyLoading.showSuccess(
+                                                'Updated.');
                                           },
                                         );
                                       },
@@ -243,21 +243,19 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           ...fields,
                                           _medfieldController.text
                                         ];
+                                        await EasyLoading.show(
+                                            status: "Loading...");
                                         await d.updateSelectedDoctor(
                                           docname: d.doctor!.docnameEN,
                                           attribute: SxDoctor.FIELDS,
                                           value: newFields,
                                         );
-                                        if (context.mounted) {
-                                          showCustomSnackbar(
-                                            context: context,
-                                            message:
-                                                'Field ${_medfieldController.text} Added.',
-                                          );
-                                        }
+
                                         await Future.delayed(
                                             const Duration(milliseconds: 50));
                                         _medfieldController.clear();
+                                        await EasyLoading.showSuccess(
+                                            "Field ${_medfieldController.text} Added.");
                                       },
                                     );
                                   },
@@ -289,18 +287,14 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                   final fields = d.doctor!.fields;
                                   final newFields =
                                       fields.remove(fields[index]);
+                                  await EasyLoading.show(status: "Loading...");
                                   await d.updateSelectedDoctor(
                                     docname: d.doctor!.docnameEN,
                                     attribute: SxDoctor.FIELDS,
                                     value: newFields,
                                   );
-                                  if (context.mounted) {
-                                    showCustomSnackbar(
-                                      context: context,
-                                      message:
-                                          'Field ${d.doctor!.fields[index]} Deleted.',
-                                    );
-                                  }
+                                  await EasyLoading.showSuccess(
+                                      'Field ${d.doctor!.fields[index]} Deleted.');
                                 },
                               ),
                             );

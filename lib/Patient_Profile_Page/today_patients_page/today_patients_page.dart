@@ -12,7 +12,7 @@ class TodayPatients extends StatefulWidget {
   const TodayPatients({super.key});
 
   @override
-  _TodayPatientsState createState() => _TodayPatientsState();
+  State<TodayPatients> createState() => _TodayPatientsState();
 }
 
 class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {

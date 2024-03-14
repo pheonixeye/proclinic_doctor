@@ -115,3 +115,30 @@ showAlertDialogpasswordupdatecomplete(BuildContext context) {
     },
   );
 }
+
+final _dialog = AlertDialog(
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  title: const Text('Delete Entry ??'),
+  content: const SingleChildScrollView(
+    child: Text(
+        'Deleting this entry makes this data no longer available. \n Are You Sure ?'),
+  ),
+  actions: [
+    ElevatedButton.icon(
+      icon: const Icon(
+        Icons.check,
+        color: Colors.green,
+      ),
+      label: const Text('Confirm'),
+      onPressed: () async {},
+    ),
+    ElevatedButton.icon(
+      icon: const Icon(
+        Icons.cancel,
+        color: Colors.red,
+      ),
+      label: const Text('Cancel'),
+      onPressed: () {},
+    ),
+  ],
+);

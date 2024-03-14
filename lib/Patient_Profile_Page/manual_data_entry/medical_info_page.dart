@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/sheet_prescription.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -40,7 +41,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer2<PxSelectedDoctor, PxVisitData>(
-        builder: (context, d, v, _) {
+        builder: (context, d, vd, _) {
           return Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
@@ -94,12 +95,12 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Builder(
                                   builder: (context) {
-                                    final isEmpty = (v.data == null ||
-                                        v.data!.data.isEmpty);
+                                    final isEmpty = (vd.data == null ||
+                                        vd.data!.data.isEmpty);
                                     return SelectableText(
                                       isEmpty
                                           ? ""
-                                          : v.data
+                                          : vd.data
                                               ?.data[d.doctor!.fields[index]],
                                       style: const TextStyle(
                                         fontSize: 18,
@@ -129,6 +130,26 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: FloatingActionButton(
+                                    heroTag: 'print-sheet',
+                                    tooltip: "Print Sheet",
+                                    child: const Icon(Icons.print),
+                                    onPressed: () async {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SheetPrescription(
+                                            visit: vd.visit!,
+                                            data: vd.data!,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FloatingActionButton(
                                     heroTag: 'grid',
                                     tooltip: "Grid",
                                     child: const Icon(Icons.grid_3x3),
@@ -152,13 +173,13 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                                     child: const Icon(Icons.save),
                                     onPressed: () async {
                                       //working
-                                      final _data = <String, String>{};
+                                      final data = <String, String>{};
                                       if (_formKey.currentState!.validate()) {
                                         _controllers.entries.map((e) {
                                           e.value.text.isEmpty
-                                              ? _data[e.key] =
-                                                  v.data?.data[e.key]
-                                              : _data[e.key] = e.value.text;
+                                              ? data[e.key] =
+                                                  vd.data?.data[e.key]
+                                              : data[e.key] = e.value.text;
                                         }).toList();
 
                                         await EasyLoading.show(
@@ -168,7 +189,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                                               .read<PxVisitData>()
                                               .updateVisitData(
                                                 SxVD.DATA,
-                                                _data,
+                                                data,
                                               );
                                         }
                                         await EasyLoading.dismiss();

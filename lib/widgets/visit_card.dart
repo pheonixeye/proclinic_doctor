@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_page_main.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
+import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,17 +25,25 @@ class VisitCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            onTap: () {
-              // print(visit.toString());
+            onTap: () async {
               context.read<PxVisitData>().selectVisit(visit);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PatientProfilePage(
-                    fromnew: fromNew,
+              await EasyLoading.show(status: "Loading...");
+              if (context.mounted) {
+                await context
+                    .read<PxOnePatientVisits>()
+                    .fetchOnePatientVisits(visit: visit);
+              }
+              await EasyLoading.dismiss();
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PatientProfilePage(
+                      fromnew: fromNew,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
             leading: CircleAvatar(
               backgroundColor: Colors.amber.shade200,

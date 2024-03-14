@@ -71,7 +71,7 @@ class PxVisits extends ChangeNotifier {
         notifyListeners();
 
       case QueryType.Range:
-        //TODO: FIX QUERY
+        //todo: FIX QUERY
         final result = await Database.instance.allPatients
             .find(
               where
@@ -102,10 +102,13 @@ class PxVisits extends ChangeNotifier {
 
       case QueryType.All:
         final result = await Database.instance.allPatients
-            .find(where.eq(SxVisit.DOCNAME_E, docname).sortBy(
+            .find(where
+                .eq(SxVisit.DOCNAME_E, docname)
+                .sortBy(
                   SxVisit.VISITDATE,
                   descending: true,
-                ))
+                )
+                .limit(25))
             .toList();
 
         _visits = Visit.visitList(result);

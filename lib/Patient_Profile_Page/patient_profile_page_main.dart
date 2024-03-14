@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 
 class PatientProfilePage extends StatefulWidget {
   final bool fromnew;
-  const PatientProfilePage({super.key, this.fromnew = false});
+  const PatientProfilePage({
+    super.key,
+    this.fromnew = false,
+  });
   @override
-  _PatientProfilePageState createState() => _PatientProfilePageState();
+  State<PatientProfilePage> createState() => _PatientProfilePageState();
 }
 
 class _PatientProfilePageState extends State<PatientProfilePage> {
