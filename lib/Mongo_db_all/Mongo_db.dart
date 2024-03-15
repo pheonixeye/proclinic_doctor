@@ -1,5 +1,6 @@
 library mymongo;
 
+import 'package:flutter/foundation.dart';
 import 'package:proclinic_doctor_windows/errors/db_connection.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -13,18 +14,19 @@ class Database {
   static Db get mongo => _mongo;
 
   static Db _checkforkeys() {
-    Db? _m;
-    NetworkSettings.storage.ready.then((value) {
-      if (NetworkSettings.storage.getItem('ip') == null ||
-          NetworkSettings.storage.getItem('ip') == 'localhost') {
-        _m = Db('mongodb://127.0.0.1:27017/proclinic');
-      } else if (NetworkSettings.storage.getItem('ip') != null) {
-        _m = Db(
-            'mongodb://${NetworkSettings.storage.getItem('ip')}:${NetworkSettings.storage.getItem('port')}/proclinic');
-      }
-      print('keys checked');
-    });
-    return _m ?? Db('mongodb://127.0.0.1:27017/proclinic');
+    Db? m;
+    if (NetworkSettings.storage == null) {
+      NetworkSettings.init().whenComplete(() {
+        if (NetworkSettings.storage?.get('ip') == null ||
+            NetworkSettings.storage?.get('ip') == 'localhost') {
+          m = Db('mongodb://127.0.0.1:27017/proclinic');
+        } else if (NetworkSettings.storage?.get('ip') != null) {
+          m = Db(
+              'mongodb://${NetworkSettings.storage?.get('ip')}:${NetworkSettings.storage?.get('port')}/proclinic');
+        }
+      });
+    }
+    return m ?? Db('mongodb://127.0.0.1:27017/proclinic');
   }
 
   static final DbCollection _allPatients = mongo.collection('patients');
@@ -41,7 +43,9 @@ class Database {
       if (!mongo.masterConnection.connected) {
         await mongo.masterConnection.connect();
       }
-      print('shobeek lobeek El mongo been eidek, totlob eih??');
+      if (kDebugMode) {
+        print('shobeek lobeek El mongo been eidek, totlob eih??');
+      }
     } catch (e) {
       throw MongoDbConnectionException(message: e.toString());
       // return false;

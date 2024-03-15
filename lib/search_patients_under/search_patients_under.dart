@@ -10,7 +10,7 @@ class SearchPatientsUnder extends StatefulWidget {
   const SearchPatientsUnder({super.key});
 
   @override
-  _SearchPatientsUnderState createState() => _SearchPatientsUnderState();
+  State<SearchPatientsUnder> createState() => _SearchPatientsUnderState();
 }
 
 class _SearchPatientsUnderState extends State<SearchPatientsUnder> {

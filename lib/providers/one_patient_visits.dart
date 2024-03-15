@@ -14,7 +14,7 @@ class PxOnePatientVisits extends ChangeNotifier {
   static final _t = DateTime.now();
   final _cutoffDate = DateTime(_t.year, _t.month, _t.day).toIso8601String();
 
-  Map<ObjectId, Map<String, dynamic>> _database = {};
+  final Map<ObjectId, Map<String, dynamic>> _database = {};
   Map<ObjectId, Map<String, dynamic>> get database => _database;
 
   Future<void> fetchOnePatientVisits({required Visit visit}) async {

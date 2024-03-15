@@ -11,7 +11,7 @@ class PasswordChangePage extends StatefulWidget {
 
   const PasswordChangePage({Key? key, required this.docname}) : super(key: key);
   @override
-  _PasswordChangePageState createState() => _PasswordChangePageState();
+  State<PasswordChangePage> createState() => _PasswordChangePageState();
 }
 
 class _PasswordChangePageState extends State<PasswordChangePage> {
@@ -29,7 +29,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
   Widget build(BuildContext context) {
     double horSize = MediaQuery.of(context).size.width / 5;
     double verSize = MediaQuery.of(context).size.height / 5;
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -49,7 +49,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                 margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
                 child: Center(
                   child: Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +130,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                           icon: const Icon(Icons.save),
                           label: const Text('Save'),
                           onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               if (passwordoldController.text ==
                                   d.doctor!.password) {
                                 await d.updateSelectedDoctor(
@@ -150,7 +150,9 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
 
                                 await Future.delayed(
                                     const Duration(seconds: 1));
-                                Navigator.pop(context);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
                               }
                             }
                           },

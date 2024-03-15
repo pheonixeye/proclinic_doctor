@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
 import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -42,14 +42,28 @@ class _SheetPrescriptionState extends State<SheetPrescription> {
               },
             ),
             const Spacer(),
-            FloatingActionButton(
-              heroTag: 'print-prescription',
-              child: const Icon(Icons.print),
-              onPressed: () async {
-                await screenshotController
-                    .captureAndSave('c:/users/kareemzaher/desktop/pres.png');
-                await Future.delayed(const Duration(seconds: 1));
-                // await runprintimg();
+            Consumer<PdfPrinter>(
+              builder: (context, p, c) {
+                return FloatingActionButton(
+                  heroTag: 'print-prescription',
+                  child: const Icon(Icons.print),
+                  onPressed: () async {
+                    await EasyLoading.show(status: "Loading...");
+                    final image = await screenshotController.captureAndSave(
+                      '${p.path}',
+                      fileName: "${widget.data.visitid.oid}.png",
+                    );
+                    if (image != null) {
+                      await p.generatePdfFile(image);
+                      await EasyLoading.showInfo("Pdf File Generated.");
+                      if (context.mounted) {
+                        // await p.printPdfFile(context);
+                      }
+                    } else {
+                      await EasyLoading.showError('Image Generation Failed.');
+                    }
+                  },
+                );
               },
             ),
           ],

@@ -10,7 +10,7 @@ class NetworkSettingsPage extends StatefulWidget {
   const NetworkSettingsPage({super.key});
 
   @override
-  _NetworkSettingsPageState createState() => _NetworkSettingsPageState();
+  State<NetworkSettingsPage> createState() => _NetworkSettingsPageState();
 }
 
 class _NetworkSettingsPageState extends State<NetworkSettingsPage> {

@@ -1,6 +1,6 @@
 import 'dart:math' show Random;
 
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/Manual_Data_Entry_Page.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/manual_entry_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/previous_visit.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<BottomNavigationBarItem> _items = (widget.fromnew == true)
+    final List<BottomNavigationBarItem> items = (widget.fromnew == true)
         ? [
             BottomNavigationBarItem(
               backgroundColor: Colors.grey[Random.secure().nextInt(700)],
@@ -65,7 +65,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
               ),
             ),
           ];
-    final List<Widget> _scaffoldBodyWidgets = (widget.fromnew == true)
+    final List<Widget> scaffoldBodyWidgets = (widget.fromnew == true)
         ? [
             const EntryPageByDoctor(),
             const PreviousVisitsPage(),
@@ -85,7 +85,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          body: _scaffoldBodyWidgets[currentindex],
+          body: scaffoldBodyWidgets[currentindex],
           bottomNavigationBar: BottomNavigationBar(
             mouseCursor: MouseCursor.uncontrolled,
             showUnselectedLabels: true,
@@ -99,7 +99,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
             iconSize: 30,
             elevation: 10,
             type: BottomNavigationBarType.shifting,
-            items: _items,
+            items: items,
             currentIndex: currentindex,
             onTap: (int index) {
               setState(() {

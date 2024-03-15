@@ -3,6 +3,7 @@ import 'dart:async' show Timer;
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/Not_Connected_To_Db/not_connected_db.dart';
+import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/get_mac_adress_fns/get_mac_adress.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
@@ -18,6 +19,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     runshellmac(context);
     super.initState();
+    PdfPrinter.init();
     Database.openYaMongo().then((value) {
       Timer(
         const Duration(seconds: 5),
@@ -52,8 +54,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
           children: [
             Image(
               image: AssetImage('assets/color.png'),
-              width: 500,
-              height: 500,
+              width: 400,
+              height: 400,
             ),
             SizedBox(
               height: 20.0,

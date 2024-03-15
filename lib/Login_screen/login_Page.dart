@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 'docname': d.doctor!.docnameEN
                                               });
 
-                                          print('successful login');
+                                          // print('successful login');
                                         } else if (d.doctor?.password !=
                                             passwordController.text) {
                                           showAlertDialogWrongPassword(context);

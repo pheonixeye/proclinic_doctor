@@ -8,7 +8,7 @@ class NoDBConnectionPage extends StatefulWidget {
 
   const NoDBConnectionPage({Key? key, this.error}) : super(key: key);
   @override
-  _NoDBConnectionPageState createState() => _NoDBConnectionPageState();
+  State<NoDBConnectionPage> createState() => _NoDBConnectionPageState();
 }
 
 class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
@@ -56,12 +56,14 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
               onPressed: () async {
                 await netset.resetnetwork();
                 await Future.delayed(const Duration(milliseconds: 50));
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoadingScreen(),
-                  ),
-                );
+                if (context.mounted) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoadingScreen(),
+                    ),
+                  );
+                }
               },
             ),
             const SizedBox(

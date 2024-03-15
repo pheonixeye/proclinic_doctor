@@ -5,9 +5,6 @@ import 'dart:typed_data';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/SRLCP_Page/image_stream.dart';
 import 'package:flutter/material.dart';
 
-//TODO: next and prev image mekanizm through steps widget
-//TODO: refactor image show mechanizm
-
 class ScannedImagesWidget extends StatefulWidget {
   final String dbNamebyId;
   final String visitdate;
@@ -26,7 +23,7 @@ class ScannedImagesWidget extends StatefulWidget {
     required this.docname,
   }) : super(key: key);
   @override
-  _ScannedImagesWidgetState createState() => _ScannedImagesWidgetState();
+  State<ScannedImagesWidget> createState() => _ScannedImagesWidgetState();
 }
 
 class _ScannedImagesWidgetState extends State<ScannedImagesWidget> {
@@ -172,14 +169,11 @@ class _ScannedImagesWidgetState extends State<ScannedImagesWidget> {
                                                                 itemBuilder:
                                                                     (context,
                                                                         index) {
-                                                                  return Container(
-                                                                    child:
-                                                                        Image(
-                                                                      image:
-                                                                          provider,
-                                                                      fit: BoxFit
-                                                                          .contain,
-                                                                    ),
+                                                                  return Image(
+                                                                    image:
+                                                                        provider,
+                                                                    fit: BoxFit
+                                                                        .contain,
                                                                   );
                                                                 },
                                                                 separatorBuilder:

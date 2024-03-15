@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
@@ -71,13 +70,13 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                       primary: true,
                       itemBuilder: (context, index) {
                         final drug = d.drugs[index];
-                        final _value = vd.drugs.any(
+                        final value_ = vd.drugs.any(
                             (d) => d.name.toLowerCase() == drug.toLowerCase());
                         final isPresent = vd.drugs.firstWhereOrNull(
                             (x) => x.name.toLowerCase() == drug.toLowerCase());
                         return ExpansionTile(
                           leading: Checkbox(
-                            value: _value,
+                            value: value_,
                             onChanged: (value) {
                               vd.setDrugs(Drug(
                                 name: drug,

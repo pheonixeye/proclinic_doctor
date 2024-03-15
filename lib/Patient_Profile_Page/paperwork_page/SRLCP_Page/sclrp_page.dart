@@ -6,7 +6,7 @@ class SRLCP extends StatefulWidget {
 
   const SRLCP({Key? key, required this.scrlp}) : super(key: key);
   @override
-  _SRLCPState createState() => _SRLCPState();
+  State<SRLCP> createState() => _SRLCPState();
 }
 
 class _SRLCPState extends State<SRLCP> {
@@ -31,7 +31,7 @@ class _SRLCPState extends State<SRLCP> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(),
-                      Text('ptname'),
+                      const Text('ptname'),
                       IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () {

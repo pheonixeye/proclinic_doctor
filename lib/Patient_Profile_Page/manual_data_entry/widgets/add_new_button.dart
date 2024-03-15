@@ -21,7 +21,7 @@ class AddNewDrugLabRadButton extends StatelessWidget {
             heroTag: 'AddNew$drugLabOrRad',
             onPressed: () async {
               await EasyLoading.show(status: "Loading...");
-              final List<String> _data = switch (drugLabOrRad) {
+              final List<String> data_ = switch (drugLabOrRad) {
                 'drugs' => d.doctor!.drugs,
                 'labs' => d.doctor!.labs,
                 'rads' => d.doctor!.rads,
@@ -30,7 +30,7 @@ class AddNewDrugLabRadButton extends StatelessWidget {
               await d.updateSelectedDoctor(
                 docname: d.doctor!.docnameEN,
                 attribute: drugLabOrRad,
-                value: [..._data, value],
+                value: [...data_, value],
               );
               await EasyLoading.showSuccess('$drugLabOrRad Updated...');
             },

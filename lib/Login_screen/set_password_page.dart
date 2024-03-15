@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class PasswordSettingPage extends StatefulWidget {
   const PasswordSettingPage({Key? key}) : super(key: key);
   @override
-  _PasswordSettingPageState createState() => _PasswordSettingPageState();
+  State<PasswordSettingPage> createState() => _PasswordSettingPageState();
 }
 
 class _PasswordSettingPageState extends State<PasswordSettingPage> {

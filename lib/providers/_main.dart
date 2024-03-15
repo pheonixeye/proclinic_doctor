@@ -1,3 +1,4 @@
+import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -12,4 +13,5 @@ final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => PxVisits()),
   ChangeNotifierProvider(create: (context) => PxVisitData()),
   ChangeNotifierProvider(create: (context) => PxOnePatientVisits()),
+  ChangeNotifierProvider(create: (context) => PdfPrinter()),
 ];

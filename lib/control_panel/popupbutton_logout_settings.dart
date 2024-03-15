@@ -32,10 +32,10 @@ class _PopUpButtonLogOutSettingsState extends State<PopUpButtonLogOutSettings> {
       onSelected: (String value) async {
         setState(() {
           if (value == 'settings') {
-            print('settings');
+            // print('settings');
             widget.callSettings();
           } else if (value == 'logout') {
-            print('logout');
+            // print('logout');
             widget.callLogout();
           }
         });

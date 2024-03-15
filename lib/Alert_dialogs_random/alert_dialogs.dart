@@ -116,6 +116,7 @@ showAlertDialogpasswordupdatecomplete(BuildContext context) {
   );
 }
 
+// ignore: unused_element
 final _dialog = AlertDialog(
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
   title: const Text('Delete Entry ??'),

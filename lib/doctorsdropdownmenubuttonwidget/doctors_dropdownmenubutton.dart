@@ -10,7 +10,7 @@ class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
   const NewlyFormatedDoctorsDropDownButton({super.key});
 
   @override
-  _NewlyFormatedDoctorsDropDownButtonState createState() =>
+  State<NewlyFormatedDoctorsDropDownButton> createState() =>
       _NewlyFormatedDoctorsDropDownButtonState();
 }
 
@@ -25,9 +25,9 @@ class _NewlyFormatedDoctorsDropDownButtonState
         while (doctors.doctorList == null) {
           return const LinearProgressIndicator();
         }
-        List<DropdownMenuItem<Doctor>> _items = [];
+        List<DropdownMenuItem<Doctor>> items = [];
         for (int i = 0; i < doctors.doctorList!.length; i++) {
-          _items.add(
+          items.add(
             DropdownMenuItem<Doctor>(
               value: doctors.doctorList![i],
               child: Row(
@@ -64,7 +64,7 @@ class _NewlyFormatedDoctorsDropDownButtonState
                 ],
               ),
               value: _doctor,
-              items: _items,
+              items: items,
               onChanged: (value) async {
                 ScaffoldMessenger.of(context)
                     .showSnackBar(docInfoSnackBar(value!));

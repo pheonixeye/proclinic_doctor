@@ -150,7 +150,7 @@ class DayClinicPicker extends StatefulWidget {
   const DayClinicPicker({super.key, this.forRange = false});
   final bool forRange;
   @override
-  _DayClinicPickerState createState() => _DayClinicPickerState();
+  State<DayClinicPicker> createState() => _DayClinicPickerState();
 }
 
 class _DayClinicPickerState extends State<DayClinicPicker> {

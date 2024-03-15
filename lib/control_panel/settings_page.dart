@@ -1,7 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/control_panel/zTEST_TXT_open_dialog_ffi.dart';
+import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
@@ -19,6 +18,7 @@ class FieldCreationPage extends StatefulWidget {
 class _FieldCreationPageState extends State<FieldCreationPage> {
   late final TextEditingController _medfieldController;
   late final ScrollController _controller;
+
   // int? selectedvalue;
 
   @override
@@ -65,7 +65,6 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    LocalStorageTextPath localtxtpath = LocalStorageTextPath();
     return Builder(
       builder: (context) {
         return Scaffold(
@@ -95,37 +94,40 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      //TODO:print file selection method
-                      StreamBuilder<Object>(
-                          stream: localtxtpath.textPath,
-                          builder: (context, textsnap) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.15,
-                              width: MediaQuery.of(context).size.width * 0.92,
-                              decoration: ThemeConstants.cd,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    8.0, 16.0, 8.0, 8.0),
-                                child: ListTile(
-                                  leading: const CircleAvatar(),
-                                  title: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Select Print File Path'),
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('${textsnap.data}'),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.search),
-                                    onPressed: () {
-                                      opendialogTXT();
-                                    },
-                                  ),
-                                ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.92,
+                        decoration: ThemeConstants.cd,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+                          child: ListTile(
+                            leading: const CircleAvatar(),
+                            title: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Select Pdf Documents Path'),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Consumer<PdfPrinter>(
+                                builder: (context, p, _) {
+                                  return Text(p.path ?? "Unselected.");
+                                },
                               ),
-                            );
-                          }),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.search),
+                              onPressed: () async {
+                                if (context.mounted) {
+                                  await context
+                                      .read<PdfPrinter>()
+                                      .setStoragePath();
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -275,7 +277,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                         builder: (context, d, c) {
                           // 0 = false = single column = listview.builder
                           //1 = true = double column = gridview.builder
-                          Widget _deleteBtn(int index) {
+                          Widget deleteBtn(int index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: IconButton(
@@ -300,7 +302,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                             );
                           }
 
-                          Widget _item(int index) {
+                          Widget item(int index) {
                             return ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: Colors.black,
@@ -316,7 +318,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                   ),
                                 ),
                               ),
-                              trailing: _deleteBtn(index),
+                              trailing: deleteBtn(index),
                             );
                           }
 
@@ -328,7 +330,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                 ? ListView.separated(
                                     itemCount: d.doctor!.fields.length,
                                     itemBuilder: (context, index) {
-                                      return _item(index);
+                                      return item(index);
                                     },
                                     separatorBuilder: (context, index) {
                                       return const Divider(
@@ -341,7 +343,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                 : GridView.builder(
                                     itemCount: d.doctor!.fields.length,
                                     itemBuilder: (context, index) {
-                                      return _item(index);
+                                      return item(index);
                                     },
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(

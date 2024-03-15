@@ -1,21 +1,25 @@
 import 'dart:core';
 
-import 'package:localstorage/localstorage.dart';
+import 'package:hive/hive.dart';
 
 class NetworkSettings {
-  NetworkSettings();
-  static LocalStorage storage = LocalStorage('network.json');
-  static String? ip;
-  static String? port;
-  Future adddatatonetwork({required String ip, required String port}) async {
-    await storage.ready;
-    await storage.setItem('ip', ip);
-    await storage.setItem('port', port);
+  const NetworkSettings();
+
+  static Box? storage;
+
+  static Future<void> init() async {
+    Hive.init('assets\\network.hive');
+    storage = await Hive.openBox('network');
   }
 
-  Future resetnetwork() async {
-    await storage.ready;
-    await storage.setItem('ip', 'localhost');
-    await storage.deleteItem('port');
+  Future<void> adddatatonetwork(
+      {required String ip, required String port}) async {
+    await storage?.put('ip', ip);
+    await storage?.put('port', port);
+  }
+
+  Future<void> resetnetwork() async {
+    await storage?.put('ip', 'localhost');
+    await storage?.delete('port');
   }
 }
