@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:equatable/equatable.dart';
+import 'package:proclinic_doctor_windows/models/dosage_forms.dart';
+import 'package:proclinic_doctor_windows/models/frequencies_model.dart';
 
 class Drug extends Equatable {
   const Drug({
@@ -106,6 +108,16 @@ class Dose extends Equatable {
       'frequencyunit': frequencyUnit,
       'durationunit': durationUnit,
     };
+  }
+
+  String formatArabic() {
+    final i = DosageForms.list.indexWhere((e) => form == e);
+    final aForm = DosageForms.list_[i];
+    final j = Frequency.list.indexWhere((e) => frequencyUnit == e);
+    // final k = Frequency.list.indexWhere((e) => durationUnit == e);
+    final aFreq = Frequency.list_[j];
+    // final aDur = Frequency.list_[k];
+    return 'عدد $unit $aForm - ${Frequency.times(frequency)} كل $aFreq - لمدة ${Frequency.durations(durationUnit, duration)}';
   }
 
   Dose copyWith({

@@ -21,7 +21,7 @@ class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
   Widget build(BuildContext context) {
     double horSize = MediaQuery.of(context).size.width / 5;
     double verSize = MediaQuery.of(context).size.height / 5;
-    final netset = NetworkSettings();
+    const netset = NetworkSettings();
     const duration = Duration(seconds: 5);
     final formKey = GlobalKey<FormState>();
 

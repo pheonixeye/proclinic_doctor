@@ -57,7 +57,9 @@ class _SheetPrescriptionState extends State<SheetPrescription> {
                       await p.generatePdfFile(image);
                       await EasyLoading.showInfo("Pdf File Generated.");
                       if (context.mounted) {
-                        // await p.printPdfFile(context);
+                        await p.printPdfFile(context).whenComplete(() async {
+                          await EasyLoading.showToast('Printing Complete.');
+                        });
                       }
                     } else {
                       await EasyLoading.showError('Image Generation Failed.');

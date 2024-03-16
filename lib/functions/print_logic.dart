@@ -46,7 +46,7 @@ class PdfPrinter extends ChangeNotifier {
 
     pdf.addPage(
       pw.Page(
-        pageFormat: PdfPageFormat.a5,
+        pageFormat: PdfPageFormat.undefined,
         build: (pw.Context context) {
           return pw.Image(
             image,
@@ -66,15 +66,23 @@ class PdfPrinter extends ChangeNotifier {
   File? _pdfFile;
   File? get pdfFile => _pdfFile;
 
-  Future<void> printPdfFile(BuildContext context) async {
+  Future<bool> printPdfFile(BuildContext context) async {
     final path = _pdfFile?.absolute.path;
     if (_pdfFile != null && path != null) {
       final printer = await Printing.pickPrinter(context: context);
-      await Printing.directPrintPdf(
-          printer: printer!,
-          onLayout: (format) async {
-            return _pdfFile!.readAsBytes();
-          });
+      if (printer != null) {
+        return await Printing.directPrintPdf(
+            format: PdfPageFormat.undefined,
+            printer: printer,
+            name: _pdfFile!.absolute.path,
+            onLayout: (format) async {
+              return _pdfFile!.readAsBytes();
+            });
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

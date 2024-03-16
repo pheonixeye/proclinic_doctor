@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
 import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -40,14 +42,30 @@ class _PreviousPrescriptionState extends State<PreviousPrescription> {
               },
             ),
             const Spacer(),
-            FloatingActionButton(
-              heroTag: 'print-prescription',
-              child: const Icon(Icons.print),
-              onPressed: () async {
-                await screenshotController
-                    .captureAndSave('c:/users/kareemzaher/desktop/pres.png');
-                await Future.delayed(const Duration(seconds: 1));
-                // await runprintimg();
+            Consumer<PdfPrinter>(
+              builder: (context, p, _) {
+                return FloatingActionButton(
+                  heroTag: 'print-prescription',
+                  child: const Icon(Icons.print),
+                  onPressed: () async {
+                    await EasyLoading.show(status: "Loading...");
+                    final image = await screenshotController.captureAndSave(
+                      '${p.path}',
+                      fileName: "${widget.data.visitid.oid}.png",
+                    );
+                    if (image != null) {
+                      await p.generatePdfFile(image);
+                      await EasyLoading.showInfo("Pdf File Generated.");
+                      if (context.mounted) {
+                        await p.printPdfFile(context).whenComplete(() async {
+                          await EasyLoading.showSuccess('Printing Complete.');
+                        });
+                      }
+                    } else {
+                      await EasyLoading.showError('Image Generation Failed.');
+                    }
+                  },
+                );
               },
             ),
           ],
@@ -172,11 +190,11 @@ class _PreviousPrescriptionState extends State<PreviousPrescription> {
                                         Text(e.name),
                                       ],
                                     ),
-                                    subtitle: const Padding(
-                                      padding: EdgeInsets.symmetric(
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 20.0),
-                                      //TODO:
-                                      child: Text('Formatted arabic dose'),
+                                      //todo:
+                                      child: Text(e.dose.formatArabic()),
                                     ),
                                   );
                                 }).toList(),
