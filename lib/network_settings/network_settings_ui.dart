@@ -33,124 +33,119 @@ class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: StreamBuilder<Object>(
-        stream: null,
-        builder: (context, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-              decoration: ThemeConstants.cd,
-              child: Card(
-                margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
-                child: Center(
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Container(
+          decoration: ThemeConstants.cd,
+          child: Card(
+            margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
+            child: Center(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 150.0,
-                              child: Text('IP Address'),
-                            ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
-                            SizedBox(
-                              width: 350.0,
-                              child: TextFormField(
-                                controller: ipController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter IP Address',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Invalid Ip Address.";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                        const SizedBox(
+                          width: 150.0,
+                          child: Text('IP Address'),
                         ),
                         const SizedBox(
-                          height: 40.0,
+                          width: 20.0,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 150.0,
-                              child: Text('Port Number'),
+                        SizedBox(
+                          width: 350.0,
+                          child: TextFormField(
+                            controller: ipController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Enter IP Address',
                             ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
-                            SizedBox(
-                              width: 350.0,
-                              child: TextFormField(
-                                controller: portController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter Port Number',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Invalid Port Number.";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 40.0,
-                        ),
-                        ElevatedButton.icon(
-                          icon: const Icon(Icons.save),
-                          label: const Text('Save'),
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              await netset.adddatatonetwork(
-                                  ip: ipController.text.toString(),
-                                  port: portController.text.toString());
-
-                              if (context.mounted) {
-                                showCustomSnackbar(
-                                  context: context,
-                                  message: 'Network Settings Updated.',
-                                );
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Invalid Ip Address.";
                               }
-
-                              await EasyLoading.showProgress(
-                                duration.inSeconds / 10,
-                                status: 'Exiting in 5 Seconds.',
-                              );
-
-                              Timer.periodic(
-                                duration,
-                                (timer) {
-                                  setState(() {});
-                                },
-                              );
-
-                              exit(0);
-                            }
-                          },
+                              return null;
+                            },
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(
+                      height: 40.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 150.0,
+                          child: Text('Port Number'),
+                        ),
+                        const SizedBox(
+                          width: 20.0,
+                        ),
+                        SizedBox(
+                          width: 350.0,
+                          child: TextFormField(
+                            controller: portController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Enter Port Number',
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Invalid Port Number.";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 40.0,
+                    ),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.save),
+                      label: const Text('Save'),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await netset.adddatatonetwork(
+                              ip: ipController.text.toString(),
+                              port: portController.text.toString());
+
+                          if (context.mounted) {
+                            showCustomSnackbar(
+                              context: context,
+                              message: 'Network Settings Updated.',
+                            );
+                          }
+
+                          await EasyLoading.showProgress(
+                            duration.inSeconds / 10,
+                            status: 'Exiting in 5 Seconds.',
+                          );
+
+                          Timer.periodic(
+                            duration,
+                            (timer) {
+                              setState(() {});
+                            },
+                          );
+
+                          exit(0);
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

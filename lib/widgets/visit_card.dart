@@ -26,6 +26,8 @@ class VisitCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             onTap: () async {
+              //TODO: add qr code with mongodb object id to scan in both reception & doctor apps.
+              //TODO: fetch visitData associated with scanned visit in mobile scanner.
               context.read<PxVisitData>().selectVisit(visit);
               await EasyLoading.show(status: "Loading...");
               if (context.mounted) {

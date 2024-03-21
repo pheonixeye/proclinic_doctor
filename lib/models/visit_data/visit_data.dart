@@ -46,7 +46,7 @@ class VisitData {
       ptname: json[SxVD.PTNAME],
       phone: json[SxVD.PHONE],
       visittype: json[SxVD.VISITTYPE],
-      visitdate: json[SxVD.VISITTYPE],
+      visitdate: json[SxVD.VISITDATE],
       data: json[SxVD.DATA],
       labs: stringifyList(json[SxVD.LABS]),
       rads: stringifyList(json[SxVD.RADS]),
