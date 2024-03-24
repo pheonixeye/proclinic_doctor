@@ -33,6 +33,7 @@ class Database {
   static final DbCollection _visitData = mongo.collection('visitdata');
   static final DbCollection _allDoctors = mongo.collection('allDoctors');
   static final DbCollection _appOrganizer = mongo.collection('apporganizer');
+  static final GridFS _grid = GridFS(mongo);
 
   static Future<void> openYaMongo() async {
     if (mongo.state == State.opening) {
@@ -57,4 +58,5 @@ class Database {
   DbCollection get visitData => Database._visitData;
   DbCollection get allDoctors => Database._allDoctors;
   DbCollection get appOrganizer => Database._appOrganizer;
+  GridFS get gird => Database._grid;
 }

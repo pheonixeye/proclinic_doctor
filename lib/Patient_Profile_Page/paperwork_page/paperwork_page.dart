@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/scanned_documents/scanned_documents_page.dart';
+import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
+import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
-
-List<String> headlines = [
-  'Sheets',
-  'Labs',
-  'Rads',
-  'Prescriptions',
-  'Comments',
-];
+import 'package:provider/provider.dart';
 
 List<Icon> iconlist = [
   const Icon(
@@ -41,59 +38,66 @@ class PaperWorkPage extends StatefulWidget {
 class _PaperWorkPageState extends State<PaperWorkPage> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: null,
-      builder: (context, snapshot) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                'PaperWork :',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              leading: const SizedBox.shrink(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Scanned Documents',
+          textScaler: TextScaler.linear(1.4),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
             ),
-            body: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisExtent: MediaQuery.sizeOf(context).height * 0.25,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemCount: headlines.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: ThemeConstants.cd,
-                        child: GridTile(
-                          footer: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              headlines[index],
-                              textAlign: TextAlign.center,
-                              textScaler: const TextScaler.linear(2),
-                            ),
+            itemCount: VisitData.paperData.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () async {
+                  await EasyLoading.show(status: "Loading...");
+                  if (context.mounted) {
+                    await context
+                        .read<PxScannedDocuments>()
+                        .fetchDocumentsOfType(VisitAttribute.fromString(
+                            VisitData.paperData.values.toList()[index]))
+                        .whenComplete(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ScannedDocumentsPage(
+                            data: VisitData.paperData.entries.toList()[index],
                           ),
-                          child: iconlist[index],
                         ),
+                      );
+                    });
+                  }
+                  await EasyLoading.dismiss();
+                },
+                child: Container(
+                  decoration: ThemeConstants.cd,
+                  child: GridTile(
+                    footer: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        VisitData.paperData.keys.toList()[index],
+                        textAlign: TextAlign.center,
+                        textScaler: const TextScaler.linear(2),
                       ),
-                    );
-                  },
+                    ),
+                    child: iconlist[index],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

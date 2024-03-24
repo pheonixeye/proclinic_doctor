@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class CustomPOPUPBUTTON extends StatefulWidget {
   final Function callPrint;
   final Function callPresc;
+  final Function callDocs;
 
   const CustomPOPUPBUTTON({
     super.key,
     required this.callPrint,
     required this.callPresc,
+    required this.callDocs,
   });
 
   @override
@@ -29,6 +31,8 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
             widget.callPrint();
           } else if (value == 'presc') {
             widget.callPresc();
+          } else if (value == 'docs') {
+            widget.callDocs();
           }
         });
       },
@@ -42,16 +46,18 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
         return <PopupMenuItem<String>>[
           const PopupMenuItem(
             value: 'print',
-            child: Row(children: [
-              Icon(
-                Icons.print,
-                color: Colors.blue,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Print Sheet'),
-            ]),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.print,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('Print Sheet'),
+              ],
+            ),
           ),
           const PopupMenuItem(
             value: 'presc',
@@ -65,6 +71,21 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
                   width: 10,
                 ),
                 Text('Prescription'),
+              ],
+            ),
+          ),
+          const PopupMenuItem(
+            value: 'docs',
+            child: Row(
+              children: [
+                Icon(
+                  Icons.document_scanner,
+                  color: Colors.red,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('Documents'),
               ],
             ),
           ),

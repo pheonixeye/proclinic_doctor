@@ -1,7 +1,6 @@
 import 'dart:math' show Random;
 
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/manual_entry_page.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/previous_visit.dart';
 import 'package:flutter/material.dart';
 
@@ -38,14 +37,14 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
                 Icons.photo_size_select_large,
               ),
             ),
-            BottomNavigationBarItem(
-              backgroundColor: Colors.grey[Random.secure().nextInt(700)],
-              activeIcon: const Icon(Icons.data_usage),
-              label: "Paper Work",
-              icon: const Icon(
-                Icons.scanner_rounded,
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   backgroundColor: Colors.grey[Random.secure().nextInt(700)],
+            //   activeIcon: const Icon(Icons.data_usage),
+            //   label: "Visit Documents",
+            //   icon: const Icon(
+            //     Icons.scanner_rounded,
+            //   ),
+            // ),
           ]
         : [
             BottomNavigationBarItem(
@@ -69,11 +68,11 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
         ? [
             const EntryPageByDoctor(),
             const PreviousVisitsPage(),
-            const PaperWorkPage(),
+            // const PaperWorkPage(),
           ]
         : [
             const PreviousVisitsPage(),
-            const PaperWorkPage(),
+            const SizedBox(),
           ];
     return Builder(
       builder: (context) {
@@ -81,7 +80,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
           appBar: AppBar(
             title: const Text(
               'Patient Profile Page',
-              textScaler: TextScaler.linear(2.0),
+              textScaler: TextScaler.linear(1.4),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

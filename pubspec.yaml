@@ -55,6 +55,7 @@ dependencies:
   font_awesome_flutter: 
   printing: ^5.12.0
   pdf: ^3.10.8
+  pdfx: ^2.6.0
 
 
 

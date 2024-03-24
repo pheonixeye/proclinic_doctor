@@ -15,11 +15,11 @@ class VisitData {
   final List<String> labs;
   final List<String> rads;
   final List<Drug> drugs;
-  final List<String> sheetpapers;
-  final List<String> labpapers;
-  final List<String> radpapers;
-  final List<String> drugpapers;
-  final List<String> commentspapers;
+  final List<dynamic> sheetpapers;
+  final List<dynamic> labpapers;
+  final List<dynamic> radpapers;
+  final List<dynamic> drugpapers;
+  final List<dynamic> commentspapers;
 
   VisitData({
     required this.docid,
@@ -53,11 +53,11 @@ class VisitData {
       drugs: (json[SxVD.DRUGS] as List<dynamic>)
           .map((e) => Drug.fromJson(e))
           .toList(),
-      sheetpapers: stringifyList(json[SxVD.SHEETSPAPERS]),
-      labpapers: stringifyList(json[SxVD.LABSPAPERS]),
-      radpapers: stringifyList(json[SxVD.RADSPAPERS]),
-      drugpapers: stringifyList(json[SxVD.DRUGPAPERS]),
-      commentspapers: stringifyList(json[SxVD.COMMENTSPAPERS]),
+      sheetpapers: (json[SxVD.SHEETSPAPERS]),
+      labpapers: (json[SxVD.LABSPAPERS]),
+      radpapers: (json[SxVD.RADSPAPERS]),
+      drugpapers: (json[SxVD.DRUGPAPERS]),
+      commentspapers: (json[SxVD.COMMENTSPAPERS]),
     );
   }
 
@@ -85,6 +85,14 @@ class VisitData {
   String toString() {
     return toJson().toString();
   }
+
+  static const Map<String, String> paperData = {
+    "Sheet Documents": SxVD.SHEETSPAPERS,
+    "Lab Results": SxVD.LABSPAPERS,
+    "Radiology Results": SxVD.RADSPAPERS,
+    "Perscriptions": SxVD.DRUGPAPERS,
+    "Miscellaneous": SxVD.COMMENTSPAPERS,
+  };
 }
 
 class SxVD {
