@@ -64,10 +64,9 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                 color: Colors.green,
               ),
               label: const Text('Confirm'),
-              onPressed: () async {
-                context.read<PxSelectedDoctor>().selectDoctor(null);
+              onPressed: () {
                 Navigator.pop(context);
-                await Navigator.pushReplacement(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const LoginPage(),
@@ -101,6 +100,11 @@ class _ControlPanelPageState extends State<ControlPanelPage>
         ),
         title: Consumer<PxSelectedDoctor>(
           builder: (context, d, c) {
+            while (d.doctor == null) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
             return Text(
               'Dr. ${d.doctor!.docnameEN.toUpperCase()} Clinic',
               textScaler: const TextScaler.linear(2.0),

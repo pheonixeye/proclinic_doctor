@@ -19,6 +19,9 @@ class AddNewDrugLabRadButton extends StatelessWidget {
         builder: (context, d, _) {
           return FloatingActionButton(
             heroTag: 'AddNew$drugLabOrRad',
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
             onPressed: () async {
               await EasyLoading.show(status: "Loading...");
               final List<String> data_ = switch (drugLabOrRad) {
@@ -27,12 +30,16 @@ class AddNewDrugLabRadButton extends StatelessWidget {
                 'rads' => d.doctor!.rads,
                 _ => throw UnimplementedError(),
               };
-              await d.updateSelectedDoctor(
-                docname: d.doctor!.docnameEN,
-                attribute: drugLabOrRad,
-                value: [...data_, value],
-              );
-              await EasyLoading.showSuccess('$drugLabOrRad Updated...');
+              if (value.isNotEmpty) {
+                await d.updateSelectedDoctor(
+                  docname: d.doctor!.docnameEN,
+                  attribute: drugLabOrRad,
+                  value: [...data_, value],
+                );
+                await EasyLoading.showSuccess('$drugLabOrRad Updated...');
+              } else {
+                await EasyLoading.showInfo('Cannot Add Empty $drugLabOrRad...');
+              }
             },
             child: const Icon(Icons.add),
           );

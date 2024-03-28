@@ -20,6 +20,13 @@ class PxScannedDocuments extends ChangeNotifier {
   List<File> _docs = [];
   List<File> get docs => _docs;
 
+  Future<void> fetchVisitData(ObjectId visitId) async {
+    final result =
+        await Database.instance.visitData.findOne(where.eq("visitid", visitId));
+    _data = VisitData.fromJson(result);
+    notifyListeners();
+  }
+
   Future<void> fetchDocumentsOfType(VisitAttribute attr) async {
     _docs.clear();
     for (final id in _data!.getIds(attr)) {

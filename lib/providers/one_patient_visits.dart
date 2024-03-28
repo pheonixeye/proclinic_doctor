@@ -19,7 +19,7 @@ class PxOnePatientVisits extends ChangeNotifier {
 
   Future<void> fetchOnePatientVisits({required Visit visit}) async {
     _database.clear();
-    final result = await Database.instance.allPatients
+    final result = await Database.instance.visits
         .find(where
             .eq(SxVisit.DOCID, visit.docid)
             .eq(SxVisit.PTNAME, visit.ptName)

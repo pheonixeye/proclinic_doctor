@@ -5,6 +5,8 @@ import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/
 
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/prescription_page.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/supplies_page.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +31,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
     _tabcontroller = TabController(
       vsync: this,
       initialIndex: 0,
-      length: 2,
+      length: 4,
     );
     super.initState();
   }
@@ -54,7 +56,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
             leading: const SizedBox.shrink(),
             centerTitle: true,
             title: const Text(
-              'Info Entry Page "Sheet"',
+              'Sheet',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -69,7 +71,37 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
             ),
             leading: const SizedBox.shrink(),
             title: const Text(
-              'Prescriptions Page',
+              'Prescription',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            leading: const SizedBox.shrink(),
+            title: const Text(
+              'Supplies',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            leading: const SizedBox.shrink(),
+            title: const Text(
+              'Visit Documents',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -83,6 +115,8 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
         children: const [
           MedicalInfoPage(),
           PrescriptionPage(),
+          SuppliesPage(),
+          PaperWorkPage(),
         ],
       ),
     );

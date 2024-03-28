@@ -44,6 +44,17 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
             padding: const EdgeInsets.all(8.0),
             child: Consumer<PxOnePatientVisits>(
               builder: (context, o, _) {
+                if (o.database.isEmpty) {
+                  return const Center(
+                    child: Card(
+                      elevation: 10,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text("No Previous Visits Found."),
+                      ),
+                    ),
+                  );
+                }
                 return ListView.separated(
                   itemCount: o.database.length,
                   itemBuilder: (context, index) {
@@ -131,8 +142,9 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PaperWorkPage(),
+                                      builder: (context) => const PaperWorkPage(
+                                        subPage: false,
+                                      ),
                                     ),
                                   );
                                 },

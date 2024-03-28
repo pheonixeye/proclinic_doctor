@@ -51,7 +51,7 @@ class PxVisits extends ChangeNotifier {
   }) async {
     switch (type) {
       case QueryType.Today:
-        final result = await Database.instance.allPatients
+        final result = await Database.instance.visits
             .find(where.eq(SxVisit.DOCNAME_E, docname).eq(
                   SxVisit.VISITDATE,
                   today.toIso8601String(),
@@ -62,7 +62,7 @@ class PxVisits extends ChangeNotifier {
         notifyListeners();
 
       case QueryType.Date:
-        final result = await Database.instance.allPatients
+        final result = await Database.instance.visits
             .find(where.eq(SxVisit.DOCNAME_E, docname).eq(
                   SxVisit.VISITDATE,
                   date.toIso8601String(),
@@ -74,7 +74,7 @@ class PxVisits extends ChangeNotifier {
 
       case QueryType.Range:
         //todo: FIX QUERY
-        final result = await Database.instance.allPatients
+        final result = await Database.instance.visits
             .find(
               where
                   .eq(SxVisit.DOCNAME_E, docname)
@@ -90,7 +90,7 @@ class PxVisits extends ChangeNotifier {
         notifyListeners();
 
       case QueryType.Search:
-        final result = await Database.instance.allPatients
+        final result = await Database.instance.visits
             .find(where.eq(SxVisit.DOCNAME_E, docname).and(where
                 .match(SxVisit.PTNAME, query!)
                 .or(where.match(SxVisit.PHONE, query))
@@ -103,7 +103,7 @@ class PxVisits extends ChangeNotifier {
         notifyListeners();
 
       case QueryType.All:
-        final result = await Database.instance.allPatients
+        final result = await Database.instance.visits
             .find(where
                 .eq(SxVisit.DOCNAME_E, docname)
                 .sortBy(

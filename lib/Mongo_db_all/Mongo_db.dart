@@ -29,11 +29,19 @@ class Database {
     return m ?? Db('mongodb://127.0.0.1:27017/proclinic');
   }
 
-  static final DbCollection _allPatients = mongo.collection('patients');
+  static final DbCollection _visits = mongo.collection('visits');
+  static final DbCollection _patients = mongo.collection('patients');
   static final DbCollection _visitData = mongo.collection('visitdata');
-  static final DbCollection _allDoctors = mongo.collection('allDoctors');
+  static final DbCollection _allDoctors = mongo.collection('doctors');
   static final DbCollection _appOrganizer = mongo.collection('apporganizer');
+  static final DbCollection _supplies = mongo.collection('supplies');
   static final GridFS _grid = GridFS(mongo);
+
+  // static DbCollection patients = mongo.collection('patients');
+  // static DbCollection visits = mongo.collection('visits');
+  // static DbCollection visitData = mongo.collection('visitdata');
+  // static DbCollection allDoctors = mongo.collection('doctors');
+  // static DbCollection appOrganizer = mongo.collection('apporganizer');
 
   static Future<void> openYaMongo() async {
     if (mongo.state == State.opening) {
@@ -54,9 +62,11 @@ class Database {
     // await _checkforkeys();
   }
 
-  DbCollection get allPatients => Database._allPatients;
+  DbCollection get visits => Database._visits;
   DbCollection get visitData => Database._visitData;
-  DbCollection get allDoctors => Database._allDoctors;
+  DbCollection get doctors => Database._allDoctors;
+  DbCollection get patients => Database._patients;
+  DbCollection get supplies => Database._supplies;
   DbCollection get appOrganizer => Database._appOrganizer;
   GridFS get gird => Database._grid;
 }

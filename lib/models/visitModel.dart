@@ -1,9 +1,11 @@
 // ignore_for_file: constant_identifier_names, file_names, avoid_print
 
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:proclinic_doctor_windows/models/visit_supply_item/visit_supply_item.dart';
 
 class Visit {
   final ObjectId id;
+  final ObjectId ptId;
   final int? docid;
   final String ptName;
   final String docNameEN;
@@ -21,10 +23,12 @@ class Visit {
   final String affiliationAR;
   final int amount;
   final int remaining;
+  final List<VisitSupplyItem> supplies;
 
   Visit({
     ObjectId? id,
     required this.docid,
+    required this.ptId,
     required this.ptName,
     required this.docNameEN,
     required this.docNameAR,
@@ -41,11 +45,13 @@ class Visit {
     required this.affiliationAR,
     required this.amount,
     required this.remaining,
+    required this.supplies,
   }) : id = id ?? ObjectId();
 
   factory Visit.fromJson(dynamic json) {
     return Visit(
       id: json["_id"],
+      ptId: json["ptid"],
       ptName: json[SxVisit.PTNAME],
       docNameEN: json[SxVisit.DOCNAME_E],
       docNameAR: json[SxVisit.DOCNAME_A],
@@ -63,11 +69,15 @@ class Visit {
       amount: json[SxVisit.AMOUNT],
       remaining: json[SxVisit.REMAINING],
       docid: json[SxVisit.DOCID],
+      supplies: (json[SxVisit.SUPPLIES] as List<dynamic>)
+          .map((e) => VisitSupplyItem.fromMap(e))
+          .toList(),
     );
   }
   Map<String, dynamic> toJson() {
     return {
       "_id": id,
+      SxVisit.PTID: ptId,
       SxVisit.PTNAME: ptName,
       SxVisit.DOCNAME_E: docNameEN,
       SxVisit.DOCNAME_A: docNameAR,
@@ -85,6 +95,7 @@ class Visit {
       SxVisit.AMOUNT: amount,
       SxVisit.REMAINING: remaining,
       SxVisit.DOCID: docid,
+      SxVisit.SUPPLIES: supplies.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -101,6 +112,7 @@ class Visit {
 
 class SxVisit {
   static const String DOCID = "docid";
+  static const String PTID = "ptid";
   static const String PTNAME = 'ptname';
   static const String DOCNAME_E = "docname";
   static const String DOCNAME_A = "docname_a";
@@ -117,4 +129,5 @@ class SxVisit {
   static const String CASHTYPE = "cashtype";
   static const String AFFILIATION_E = "affiliation";
   static const String AFFILIATION_A = "affiliation_a";
+  static const String SUPPLIES = "supplies";
 }

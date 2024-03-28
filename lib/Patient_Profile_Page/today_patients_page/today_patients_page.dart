@@ -36,20 +36,35 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
               height: MediaQuery.of(context).size.height * 0.80,
               child: Container(
                 decoration: ThemeConstants.cd,
-                child: ListView.separated(
-                  itemCount: v.visits.length,
-                  itemBuilder: (context, index) {
-                    return VisitCard(
-                      visit: v.visits[index],
-                      fromNew: true,
-                      forSearch: false,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      thickness: 5,
-                      height: 15,
-                      color: Colors.blueGrey,
+                child: Builder(
+                  builder: (context) {
+                    if (v.visits.isEmpty) {
+                      return const Center(
+                        child: Card.outlined(
+                          elevation: 10,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('No Visits Found for Today.'),
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      itemCount: v.visits.length,
+                      itemBuilder: (context, index) {
+                        return VisitCard(
+                          visit: v.visits[index],
+                          fromNew: true,
+                          forSearch: false,
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          thickness: 5,
+                          height: 15,
+                          color: Colors.blueGrey,
+                        );
+                      },
                     );
                   },
                 ),

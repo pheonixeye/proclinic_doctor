@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_page_main.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
+import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,10 @@ class VisitCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             onTap: () async {
-              //TODO: add qr code with mongodb object id to scan in both reception & doctor apps.
-              //TODO: fetch visitData associated with scanned visit in mobile scanner.
+              //todo: add qr code with mongodb object id to scan in both reception & doctor apps.
+              //todo: fetch visitData associated with scanned visit in mobile scanner.
               context.read<PxVisitData>().selectVisit(visit);
+              await context.read<PxScannedDocuments>().fetchVisitData(visit.id);
               await EasyLoading.show(status: "Loading...");
               if (context.mounted) {
                 await context

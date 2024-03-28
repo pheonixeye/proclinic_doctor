@@ -30,7 +30,8 @@ List<Icon> iconlist = [
 ];
 
 class PaperWorkPage extends StatefulWidget {
-  const PaperWorkPage({Key? key}) : super(key: key);
+  const PaperWorkPage({Key? key, this.subPage = true}) : super(key: key);
+  final bool subPage;
   @override
   State<PaperWorkPage> createState() => _PaperWorkPageState();
 }
@@ -39,13 +40,15 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Scanned Documents',
-          textScaler: TextScaler.linear(1.4),
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: widget.subPage
+          ? null
+          : AppBar(
+              title: const Text(
+                'Scanned Documents',
+                textScaler: TextScaler.linear(1.4),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
       body: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

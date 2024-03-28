@@ -9,12 +9,17 @@ class PxSelectedDoctor extends ChangeNotifier {
   Doctor? get doctor => _doctor;
 
   void selectDoctor(Doctor? value) {
-    _doctor = value;
-    notifyListeners();
-    _labs = _doctor!.labs;
-    _rads = _doctor!.rads;
-    _drugs = _doctor!.drugs;
-    notifyListeners();
+    if (value == null) {
+      _doctor = value;
+      notifyListeners();
+    } else {
+      _doctor = value;
+      notifyListeners();
+      _labs = _doctor!.labs;
+      _rads = _doctor!.rads;
+      _drugs = _doctor!.drugs;
+      notifyListeners();
+    }
   }
 
   List<String> _drugs = [];
@@ -62,8 +67,8 @@ class PxSelectedDoctor extends ChangeNotifier {
 
   Future<void> fetchDoctorByDocName(String docname) async {
     try {
-      final result = await Database.instance.allDoctors
-          .findOne(where.eq('docname', docname));
+      final result =
+          await Database.instance.doctors.findOne(where.eq('docname', docname));
       _doctor = Doctor.fromJson(result);
       notifyListeners();
     } catch (e) {
@@ -76,7 +81,7 @@ class PxSelectedDoctor extends ChangeNotifier {
     required String attribute,
     required dynamic value,
   }) async {
-    await Database.instance.allDoctors.updateOne(
+    await Database.instance.doctors.updateOne(
       where.eq('docname', docname),
       {
         r'$set': {

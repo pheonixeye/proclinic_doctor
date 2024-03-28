@@ -1,3 +1,5 @@
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/network_settings/change_password_page.dart';
 import 'package:proclinic_doctor_windows/Login_screen/set_password_page.dart';
 import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
@@ -5,6 +7,7 @@ import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.da
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/alert_dialogs.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +18,12 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
   TextEditingController passwordController = TextEditingController();
+  @override
+  void afterFirstLayout(BuildContext context) {
+    context.read<PxSelectedDoctor>().selectDoctor(null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +122,23 @@ class _LoginPageState extends State<LoginPage> {
                                           );
                                         } else if (d.doctor?.password ==
                                             passwordController.text) {
-                                          Navigator.pushReplacementNamed(
-                                              context, '/controlpanel',
-                                              arguments: {
-                                                'docname': d.doctor!.docnameEN
-                                              });
+                                          await EasyLoading.show(
+                                              status: "Loading...");
+                                          if (context.mounted) {
+                                            await context
+                                                .read<PxSupplies>()
+                                                .fetchAllDoctorSupplies(
+                                                    d.doctor!.id)
+                                                .whenComplete(() async {
+                                              await EasyLoading.dismiss();
+                                            });
+                                          }
+                                          if (context.mounted) {
+                                            Navigator.pushReplacementNamed(
+                                              context,
+                                              '/controlpanel',
+                                            );
+                                          }
 
                                           // print('successful login');
                                         } else if (d.doctor?.password !=
