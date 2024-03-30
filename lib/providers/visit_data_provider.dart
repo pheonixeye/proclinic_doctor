@@ -5,14 +5,81 @@ import 'package:proclinic_doctor_windows/errors/no_visit_selected.dart';
 import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
 import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
+import 'package:proclinic_doctor_windows/models/visit_supply_item/visit_supply_item.dart';
 
 class PxVisitData extends ChangeNotifier {
   Visit? _visit;
   Visit? get visit => _visit;
 
+  List<VisitSupplyItem>? _supplies;
+  List<VisitSupplyItem>? get supplies => _supplies;
+
   void selectVisit(Visit? value) {
     _visit = value;
+    //TODO: redact midway state
+    //TODO: apply amount transformation
+    _supplies = value?.supplies;
     notifyListeners();
+  }
+
+  void addSupplies(VisitSupplyItem item) {
+    if (_supplies != null && _supplies!.any((i) => i.nameEn == item.nameEn)) {
+      final oldItem = _supplies?.firstWhere((x) => x.nameEn == item.nameEn);
+      final index = _supplies?.indexOf(oldItem!);
+      final amount = (oldItem!.amount + 1.0);
+      final price = (amount * item.price);
+      final newItem = VisitSupplyItem(
+        id: item.id,
+        nameEn: item.nameEn,
+        nameAr: item.nameAr,
+        amount: amount,
+        price: price,
+      );
+      _supplies?[index!] = newItem;
+    } else {
+      _supplies?.add(item);
+    }
+    notifyListeners();
+  }
+
+  void removeSupplies(VisitSupplyItem item) {
+    if (_supplies != null && _supplies!.any((i) => i.nameEn == item.nameEn)) {
+      final oldItem = _supplies?.firstWhere((x) => x.nameEn == item.nameEn);
+      final index = _supplies?.toList().indexOf(oldItem!);
+      final amount = (item.amount - 1.0);
+      final price = ((oldItem!.price ~/ oldItem.amount) * amount);
+      if (amount == 0) {
+        _supplies?.remove(item);
+      } else {
+        final newItem = VisitSupplyItem(
+          id: item.id,
+          nameEn: item.nameEn,
+          nameAr: item.nameAr,
+          amount: amount,
+          price: price,
+        );
+        _supplies?[index!] = newItem;
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateSelectedVisit(String attribute, dynamic value) async {
+    if (_visit != null) {
+      await Database.instance.visits.updateOne(
+        where.eq("_id", _visit!.id),
+        {
+          r"$set": {
+            attribute: value,
+          },
+        },
+      );
+      final result =
+          await Database.instance.visits.findOne(where.eq("_id", _visit!.id));
+      selectVisit(Visit.fromJson(result));
+    } else {
+      throw Exception("No Selected Visit.");
+    }
   }
 
   VisitData? _data;

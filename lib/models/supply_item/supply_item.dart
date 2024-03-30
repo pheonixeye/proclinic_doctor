@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:mongo_dart/mongo_dart.dart' show ObjectId;
+import 'package:proclinic_doctor_windows/models/visit_supply_item/visit_supply_item.dart';
 
 class SupplyItem extends Equatable {
   final ObjectId id;
@@ -152,6 +153,16 @@ class SupplyItem extends Equatable {
       descriptionEn: null,
       notifyAmount: 0,
       docid: 0,
+    );
+  }
+
+  VisitSupplyItem toVisitSupplyItem() {
+    return VisitSupplyItem(
+      id: id,
+      nameEn: nameEn,
+      nameAr: nameAr,
+      amount: 1.0,
+      price: price,
     );
   }
 }

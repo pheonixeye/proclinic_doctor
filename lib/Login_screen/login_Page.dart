@@ -127,8 +127,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                           if (context.mounted) {
                                             await context
                                                 .read<PxSupplies>()
-                                                .fetchAllDoctorSupplies(
-                                                    d.doctor!.id)
+                                                .fetchAllDoctorSupplies()
                                                 .whenComplete(() async {
                                               await EasyLoading.dismiss();
                                             });
