@@ -11,22 +11,21 @@ class PxVisitData extends ChangeNotifier {
   Visit? _visit;
   Visit? get visit => _visit;
 
-  List<VisitSupplyItem>? _supplies;
-  List<VisitSupplyItem>? get supplies => _supplies;
+  // List<VisitSupplyItem>? _supplies;
+  // List<VisitSupplyItem>? get supplies => _supplies;
 
   void selectVisit(Visit? value) {
     _visit = value;
-    //TODO: redact midway state
-    //TODO: apply amount transformation
-    _supplies = value?.supplies;
     notifyListeners();
   }
 
-  void addSupplies(VisitSupplyItem item) {
-    if (_supplies != null && _supplies!.any((i) => i.nameEn == item.nameEn)) {
-      final oldItem = _supplies?.firstWhere((x) => x.nameEn == item.nameEn);
-      final index = _supplies?.indexOf(oldItem!);
-      final amount = (oldItem!.amount + 1.0);
+  Future<void> addSuppliesToVisit(VisitSupplyItem item) async {
+    if (_visit != null &&
+        _visit!.supplies.any((i) => i.nameEn == item.nameEn)) {
+      final oldItem =
+          _visit!.supplies.firstWhere((x) => x.nameEn == item.nameEn);
+      final index = _visit!.supplies.indexOf(oldItem);
+      final amount = (oldItem.amount + 1.0);
       final price = (amount * item.price);
       final newItem = VisitSupplyItem(
         id: item.id,
@@ -35,21 +34,27 @@ class PxVisitData extends ChangeNotifier {
         amount: amount,
         price: price,
       );
-      _supplies?[index!] = newItem;
+      _visit!.supplies[index] = newItem;
     } else {
-      _supplies?.add(item);
+      _visit!.supplies.add(item);
     }
     notifyListeners();
+    await Future.wait([
+      updateVisitSupplies(_visit!.supplies),
+      _deductSuppliesFromStore(item),
+    ]);
   }
 
-  void removeSupplies(VisitSupplyItem item) {
-    if (_supplies != null && _supplies!.any((i) => i.nameEn == item.nameEn)) {
-      final oldItem = _supplies?.firstWhere((x) => x.nameEn == item.nameEn);
-      final index = _supplies?.toList().indexOf(oldItem!);
+  Future<void> removeSuppliesFromVisit(VisitSupplyItem item) async {
+    if (_visit != null &&
+        _visit!.supplies.any((i) => i.nameEn == item.nameEn)) {
+      final oldItem =
+          _visit!.supplies.firstWhere((x) => x.nameEn == item.nameEn);
+      final index = _visit!.supplies.toList().indexOf(oldItem);
       final amount = (item.amount - 1.0);
-      final price = ((oldItem!.price ~/ oldItem.amount) * amount);
+      final price = ((oldItem.price ~/ oldItem.amount) * amount);
       if (amount == 0) {
-        _supplies?.remove(item);
+        _visit!.supplies.remove(item);
       } else {
         final newItem = VisitSupplyItem(
           id: item.id,
@@ -58,19 +63,23 @@ class PxVisitData extends ChangeNotifier {
           amount: amount,
           price: price,
         );
-        _supplies?[index!] = newItem;
+        _visit!.supplies[index] = newItem;
       }
     }
     notifyListeners();
+    await Future.wait([
+      updateVisitSupplies(_visit!.supplies),
+      _returnSuppliesToStore(item),
+    ]);
   }
 
-  Future<void> updateSelectedVisit(String attribute, dynamic value) async {
+  Future<void> updateVisitSupplies(List<VisitSupplyItem> supplies) async {
     if (_visit != null) {
       await Database.instance.visits.updateOne(
         where.eq("_id", _visit!.id),
         {
           r"$set": {
-            attribute: value,
+            "supplies": supplies.map((e) => e.toMap()).toList(),
           },
         },
       );
@@ -81,6 +90,30 @@ class PxVisitData extends ChangeNotifier {
       throw Exception("No Selected Visit.");
     }
   }
+
+  Future<void> _deductSuppliesFromStore(VisitSupplyItem item) async {
+    await Database.instance.supplies.updateOne(
+      where.eq('_id', item.id),
+      {
+        r'$inc': {
+          'amount': -1.0,
+        },
+      },
+    );
+  }
+
+  Future<void> _returnSuppliesToStore(VisitSupplyItem item) async {
+    await Database.instance.supplies.updateOne(
+      where.eq('_id', item.id),
+      {
+        r'$inc': {
+          'amount': 1.0,
+        },
+      },
+    );
+  }
+
+  //------------------------------------//
 
   VisitData? _data;
   VisitData? get data => _data;

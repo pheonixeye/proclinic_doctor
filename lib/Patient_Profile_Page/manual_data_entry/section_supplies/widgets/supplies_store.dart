@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
@@ -68,9 +69,25 @@ class SuppliesStore extends StatelessWidget {
                                 child: const Icon(Icons.add),
                                 onPressed: () async {
                                   //todo: add to visit supplies list
-                                  context
-                                      .read<PxVisitData>()
-                                      .addSupplies(item.toVisitSupplyItem());
+                                  await EasyLoading.show(status: "Loading...");
+                                  if (context.mounted) {
+                                    await context
+                                        .read<PxVisitData>()
+                                        .addSuppliesToVisit(
+                                            item.toVisitSupplyItem());
+                                  }
+                                  await EasyLoading.dismiss();
+
+                                  if (context.mounted) {
+                                    await context
+                                        .read<PxSupplies>()
+                                        .fetchAllDoctorSupplies()
+                                        .whenComplete(() {
+                                      context
+                                          .read<PxSupplies>()
+                                          .filterSupplies('');
+                                    });
+                                  }
                                 },
                               ),
                             ),

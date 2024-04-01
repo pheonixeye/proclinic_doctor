@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/widgets/add_new_button.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/add_new_button.dart';
 import 'package:proclinic_doctor_windows/functions/first_where_or_null.dart';
 import 'package:proclinic_doctor_windows/models/dosage_forms.dart';
 import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';

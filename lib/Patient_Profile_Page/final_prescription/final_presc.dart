@@ -14,6 +14,8 @@ class FinalPrescription extends StatefulWidget {
 }
 
 class _FinalPrescriptionState extends State<FinalPrescription> {
+  //TODO: NOT-DRY - find what to print - no need to rewrite page
+  //TODO: need to refactor this page to accept enum value and fetch the result automatically
   @override
   Widget build(BuildContext context) {
     ScreenshotController screenshotController = ScreenshotController();

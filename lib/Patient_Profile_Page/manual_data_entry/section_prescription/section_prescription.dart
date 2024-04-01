@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/widgets/drug_section.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/widgets/lab_rad_section.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/drug_section.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/lab_rad_section.dart';
 import 'package:proclinic_doctor_windows/theme/theme.dart';
 
-class PrescriptionPage extends StatefulWidget {
-  const PrescriptionPage({super.key});
+class SectionPrescription extends StatefulWidget {
+  const SectionPrescription({super.key});
 
   @override
-  State<PrescriptionPage> createState() => _PrescriptionPageState();
+  State<SectionPrescription> createState() => _SectionPrescriptionState();
 }
 
-class _PrescriptionPageState extends State<PrescriptionPage> {
+class _SectionPrescriptionState extends State<SectionPrescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
