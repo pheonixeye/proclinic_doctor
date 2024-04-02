@@ -17,7 +17,7 @@ class PxScannedDocuments extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<File> _docs = [];
+  final List<File> _docs = [];
   List<File> get docs => _docs;
 
   Future<void> fetchVisitData(ObjectId visitId) async {
@@ -31,15 +31,15 @@ class PxScannedDocuments extends ChangeNotifier {
     _docs.clear();
     for (final id in _data!.getIds(attr)) {
       final result = await Database.instance.gird.findOne(where.eq("_id", id));
-      final _temp = File("${pdfPath.path}\\${result!.filename}");
-      if (!await _temp.exists()) {
-        await _temp.create();
-        final file = await result.toFile(_temp,
+      final temp = File("${pdfPath.path}\\${result!.filename}");
+      if (!await temp.exists()) {
+        await temp.create();
+        final file = await result.toFile(temp,
             overwriteExistingFile: true, mode: FileMode.write);
         _docs.add(file);
         notifyListeners();
       } else {
-        _docs.add(_temp);
+        _docs.add(temp);
         notifyListeners();
       }
     }

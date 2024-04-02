@@ -58,11 +58,9 @@ class _ScannedDocumentsPageState extends State<ScannedDocumentsPage> {
                             child: FloatingActionButton(
                               heroTag: index,
                               onPressed: () {
-                                //TODO:
-                                Process.run(
-                                    "cmd.exe " +
-                                        'start "${d.docs[index].path}"',
-                                    []);
+                                //TODO: open file
+                                Process.run("cmd.exe ",
+                                    ['start "${d.docs[index].path}"']);
                               },
                               child: const Icon(Icons.print),
                             ),
