@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/scanned_documents/scanned_documents_page.dart';
 import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 List<Icon> iconlist = [
@@ -82,8 +81,7 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
                   }
                   await EasyLoading.dismiss();
                 },
-                child: Container(
-                  decoration: ThemeConstants.cd,
+                child: Card.outlined(
                   child: GridTile(
                     footer: Padding(
                       padding: const EdgeInsets.all(8.0),

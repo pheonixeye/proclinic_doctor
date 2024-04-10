@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/add_new_button.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class LabRadPrescriptionSection extends StatefulWidget {
@@ -29,8 +29,7 @@ class _LabRadPrescriptionSectionState extends State<LabRadPrescriptionSection> {
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: ThemeConstants.cd,
+        child: Card.outlined(
           child: Consumer2<PxSelectedDoctor, PxVisitData>(
             builder: (context, d, vd, _) {
               return Column(
@@ -43,7 +42,10 @@ class _LabRadPrescriptionSectionState extends State<LabRadPrescriptionSection> {
                           child: TextField(
                             controller: _controller,
                             decoration: InputDecoration(
-                              hintText: switch (widget.labOrRad) {
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              labelText: switch (widget.labOrRad) {
                                 LabOrRad.lab => "Seach Labs..",
                                 LabOrRad.rad => "Search Rads..",
                               },

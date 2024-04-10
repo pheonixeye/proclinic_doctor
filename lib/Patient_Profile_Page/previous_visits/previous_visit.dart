@@ -32,7 +32,6 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                 'Previous Visits\nBefore ${d.day}-${d.month}-${d.year}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               );
             },
@@ -58,7 +57,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                 return ListView.separated(
                   itemCount: o.database.length,
                   itemBuilder: (context, index) {
-                    return Card(
+                    return Card.outlined(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ExpansionTile(

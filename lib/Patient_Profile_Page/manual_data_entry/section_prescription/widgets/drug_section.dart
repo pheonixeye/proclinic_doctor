@@ -8,7 +8,7 @@ import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
 import 'package:proclinic_doctor_windows/models/frequencies_model.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class DrugPrescriptionSection extends StatefulWidget {
@@ -34,11 +34,10 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
       flex: 3,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: ThemeConstants.cd,
-          child: Consumer2<PxSelectedDoctor, PxVisitData>(
-            builder: (context, d, vd, _) {
-              return Column(
+        child: Consumer2<PxSelectedDoctor, PxVisitData>(
+          builder: (context, d, vd, _) {
+            return Card.outlined(
+              child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -47,8 +46,11 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                         Expanded(
                           child: TextField(
                             controller: _controller,
-                            decoration: const InputDecoration(
-                              hintText: "Search Drugs..",
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              labelText: "Search Drugs..",
                             ),
                             onChanged: (value) {
                               //todo: filter drugs
@@ -325,9 +327,9 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

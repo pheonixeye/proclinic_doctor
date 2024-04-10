@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Date_Cupertino_selectors/date_cupertino_selectors.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class BookKeepingSelector extends StatelessWidget {
@@ -59,7 +59,7 @@ class BookKeepingSelector extends StatelessWidget {
                             child: Container(
                               alignment: Alignment.center,
                               height: 50,
-                              decoration: ThemeConstants.cd,
+                              // decoration: ThemeConstants.cd,
                               child: Text(v.forRange
                                   ? "Select Start Date"
                                   : 'Select Date : '),
@@ -94,7 +94,7 @@ class BookKeepingSelector extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.center,
                                 height: 50,
-                                decoration: ThemeConstants.cd,
+                                // decoration: ThemeConstants.cd,
                                 child: const Text('Select End Date : '),
                               ),
                             ),

@@ -17,7 +17,7 @@ class AddNewDrugLabRadButton extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Consumer<PxSelectedDoctor>(
         builder: (context, d, _) {
-          return FloatingActionButton(
+          return FloatingActionButton.small(
             heroTag: 'AddNew$drugLabOrRad',
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),

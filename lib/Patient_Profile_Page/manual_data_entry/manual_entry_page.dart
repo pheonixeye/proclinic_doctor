@@ -49,7 +49,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
         controller: _tabcontroller,
         tabs: [
           AppBar(
-            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -59,13 +59,13 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
               'Sheet',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                // color: Colors.black,
               ),
             ),
           ),
           AppBar(
             centerTitle: true,
-            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -74,13 +74,13 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
               'Prescription',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                // color: Colors.black,
               ),
             ),
           ),
           AppBar(
             centerTitle: true,
-            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -89,13 +89,13 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
               'Supplies',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                // color: Colors.black,
               ),
             ),
           ),
           AppBar(
             centerTitle: true,
-            backgroundColor: Colors.purple[300]?.withOpacity(0.5),
+            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -104,7 +104,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
               'Visit Documents',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                // color: Colors.black,
               ),
             ),
           ),

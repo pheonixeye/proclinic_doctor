@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:proclinic_doctor_windows/widgets/visit_card.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
@@ -34,8 +34,8 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.80,
-              child: Container(
-                decoration: ThemeConstants.cd,
+              child: Card(
+                elevation: 6,
                 child: Builder(
                   builder: (context) {
                     if (v.visits.isEmpty) {

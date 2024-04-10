@@ -46,14 +46,8 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
         mouseCursor: MouseCursor.uncontrolled,
         showUnselectedLabels: true,
         showSelectedLabels: true,
-        selectedIconTheme:
-            Theme.of(context).iconTheme.copyWith(size: 50, color: Colors.blue),
-        unselectedItemColor: Colors.grey[900],
-        selectedItemColor: Colors.blue,
-        selectedFontSize: 24,
-        iconSize: 30,
-        elevation: 10,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.orange,
         items: _items(widget.fromnew),
         currentIndex: currentindex,
         onTap: (int index) {

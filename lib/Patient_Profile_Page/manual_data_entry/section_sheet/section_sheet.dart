@@ -8,6 +8,10 @@ import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
+class _sheetState {
+  //TODO: extract state into a private object
+}
+
 class SectionSheet extends StatefulWidget {
   const SectionSheet({super.key});
   @override
@@ -48,10 +52,9 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                   children: [
                     GridView.builder(
                       itemBuilder: (context, index) {
-                        return Card(
+                        return Card.outlined(
                           elevation: 8,
                           child: ListTile(
-                            tileColor: Colors.grey[200],
                             contentPadding: const EdgeInsets.all(8.0),
                             title: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,8 +78,10 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                       return TextFormField(
                                         maxLines: null,
                                         decoration: InputDecoration(
-                                          hintText:
-                                              "Enter ${d.doctor?.fields[index]}",
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
                                           labelText: d.doctor?.fields[index],
                                         ),
                                         controller: controller
@@ -98,7 +103,8 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                 const SizedBox(width: 20),
                               ],
                             ),
-                            //todo:
+                            //TODO:
+
                             // subtitle: Padding(
                             //   padding: const EdgeInsets.all(8.0),
                             //   child: Builder(

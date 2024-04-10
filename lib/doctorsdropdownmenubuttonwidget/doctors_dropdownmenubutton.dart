@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
+// import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
@@ -52,10 +52,10 @@ class _NewlyFormatedDoctorsDropDownButtonState
             ),
           );
         }
-        return SizedBox(
-          height: 50.0,
-          child: Container(
-            decoration: ThemeConstants.cd,
+        return Card(
+          elevation: 6,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: DropdownButton<Doctor>(
               hint: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,8 +66,8 @@ class _NewlyFormatedDoctorsDropDownButtonState
               value: _doctor,
               items: items,
               onChanged: (value) async {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(docInfoSnackBar(value!));
+                // ScaffoldMessenger.of(context)
+                //     .showSnackBar(docInfoSnackBar(value!));
                 setState(() {
                   _doctor = value;
                 });

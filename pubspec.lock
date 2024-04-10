@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  cron:
+    dependency: "direct main"
+    description:
+      name: cron
+      sha256: "06e8d65e25bb040a10d8f6086df9a88ab9db57fda19a458c4f85fa5fdc80ac3f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   crypto:
     dependency: transitive
     description:
@@ -440,6 +448,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.7"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   io:
     dependency: transitive
     description:
@@ -464,6 +480,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  json_class:
+    dependency: transitive
+    description:
+      name: json_class
+      sha256: "65f5a57595beade1fdda6458c2eb89738b2651b3a476e52c8fcdefd37c646043"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0+13"
+  json_schema:
+    dependency: transitive
+    description:
+      name: json_schema
+      sha256: f1bcf81647c347f53281dca9c8ea3e2b7b4d0eee5b4d1e4cee3173a5c162f358
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.7"
+  json_theme:
+    dependency: "direct main"
+    description:
+      name: json_theme
+      sha256: "6dc0b739476c9b91ed623ce995be0bd72d12ac0326699a3b91248a212622ec0b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.4.1+2"
+  json_theme_annotation:
+    dependency: transitive
+    description:
+      name: json_theme_annotation
+      sha256: d0d7c6cc36fe95e914922f29677865730b4470c4b9704442003d94cfd685f601
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3+4"
   leak_tracker:
     dependency: transitive
     description:
@@ -536,6 +584,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  minisound:
+    dependency: "direct main"
+    description:
+      name: minisound
+      sha256: d9fc3c02025d72275e69dd3681b5dd82f8d1accdd9fbf942b706ae24153bcafa
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.8"
+  minisound_ffi:
+    dependency: transitive
+    description:
+      name: minisound_ffi
+      sha256: "09c83237a231a0150f2dc986d8386c41636944dc1cbcd5e4775e281cc3817c11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.8"
+  minisound_platform_interface:
+    dependency: transitive
+    description:
+      name: minisound_platform_interface
+      sha256: "8f0d6615d302b5a7d90d0f01e94b01ecf2ed2d543c26b8e315b8e620a5889f92"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.4"
+  minisound_web:
+    dependency: transitive
+    description:
+      name: minisound_web
+      sha256: "0cd1492088ff75fdb321703bad96211822322ec4f7ae3e01edc69764831eacf4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.8"
   mongo_dart:
     dependency: "direct main"
     description:
@@ -768,6 +848,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   rational:
     dependency: transitive
     description:
@@ -776,6 +864,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  rfc_6901:
+    dependency: transitive
+    description:
+      name: rfc_6901
+      sha256: df1bbfa3d023009598f19636d6114c6ac1e0b7bb7bf6a260f0e6e6ce91416820
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   sasl_scram:
     dependency: transitive
     description:
@@ -925,8 +1021,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
-  uuid:
+  uri:
     dependency: transitive
+    description:
+      name: uri
+      sha256: "889eea21e953187c6099802b7b4cf5219ba8f3518f604a1033064d45b1b8268a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  uuid:
+    dependency: "direct main"
     description:
       name: uuid
       sha256: cd210a09f7c18cbe5a02511718e0334de6559871052c90a90c0cca46a4aa81c8

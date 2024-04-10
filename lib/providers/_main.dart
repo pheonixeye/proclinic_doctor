@@ -4,6 +4,7 @@ import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
+import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:provider/provider.dart'
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart'
 import 'package:provider/single_child_widget.dart';
 
 final List<SingleChildWidget> providers = [
+  ChangeNotifierProvider(create: (context) => ThemeChanger()),
   ChangeNotifierProvider(create: (context) => PxDoctorListProvider()),
   ChangeNotifierProvider(create: (context) => PxSelectedDoctor()),
   ChangeNotifierProvider(create: (context) => PxVisits()),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class PasswordChangePage extends StatefulWidget {
@@ -43,9 +43,9 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
         builder: (context, d, c) {
           return Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Container(
-              decoration: ThemeConstants.cd,
+            child: Card(
               child: Card(
+                elevation: 6,
                 margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
                 child: Center(
                   child: Form(

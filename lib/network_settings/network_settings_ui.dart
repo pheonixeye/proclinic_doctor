@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor_windows/theme/theme.dart';
 
 class NetworkSettingsPage extends StatefulWidget {
   const NetworkSettingsPage({super.key});
@@ -35,9 +35,9 @@ class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Container(
-          decoration: ThemeConstants.cd,
+        child: Card(
           child: Card(
+            elevation: 6,
             margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
             child: Center(
               child: Form(

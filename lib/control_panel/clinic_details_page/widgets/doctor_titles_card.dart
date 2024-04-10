@@ -15,6 +15,9 @@ class DoctorTitlesCard extends StatefulWidget {
 class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
   late final TextEditingController _controller;
 
+  final _formKeyEn = GlobalKey<FormState>();
+  final _formKeyAr = GlobalKey<FormState>();
+
   @override
   void initState() {
     _controller = TextEditingController();
@@ -32,66 +35,86 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
     return Consumer<PxSelectedDoctor>(
       builder: (context, d, _) {
         return ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(),
-              const Spacer(),
-              Text(switch (widget.al) {
-                AttributeLanguage.en => 'English Doctor Titles',
-                AttributeLanguage.ar => 'Arabic Doctor Titles',
-              }),
-              const Spacer(),
-              Expanded(
-                flex: 2,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+          title: Form(
+            key: switch (widget.al) {
+              AttributeLanguage.en => _formKeyEn,
+              AttributeLanguage.ar => _formKeyAr,
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(),
+                const Spacer(),
+                Text(switch (widget.al) {
+                  AttributeLanguage.en => 'English Doctor Titles',
+                  AttributeLanguage.ar => 'Arabic Doctor Titles',
+                }),
+                const Spacer(),
+                Expanded(
+                  flex: 2,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          labelText: switch (widget.al) {
+                            AttributeLanguage.en => 'English Titles',
+                            AttributeLanguage.ar => 'Arabic Titles',
+                          },
                         ),
-                        labelText: switch (widget.al) {
-                          AttributeLanguage.en => 'English Titles',
-                          AttributeLanguage.ar => 'Arabic Titles',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Empty Inputs Are Not Allowed";
+                          }
+                          return null;
                         },
                       ),
                     ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.add),
-                label: const Text('Save'),
-                onPressed: () async {
-                  await EasyLoading.show(status: "Loading...");
-                  //todo: request change
-                  switch (widget.al) {
-                    case AttributeLanguage.en:
-                      await d.updateSelectedDoctor(
-                        docname: d.doctor!.docnameEN,
-                        attribute: SxDoctor.TITLES_E,
-                        value: [...d.doctor!.titlesEN, _controller.text],
-                      );
-                      break;
-                    case AttributeLanguage.ar:
-                      await d.updateSelectedDoctor(
-                        docname: d.doctor!.docnameEN,
-                        attribute: SxDoctor.TITLES_A,
-                        value: [...d.doctor!.titlesAR, _controller.text],
-                      );
-                      break;
-                  }
+                const Spacer(),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.add),
+                  label: const Text('Save'),
+                  onPressed: () async {
+                    //todo: request change
+                    switch (widget.al) {
+                      case AttributeLanguage.en:
+                        if (_formKeyEn.currentState!.validate()) {
+                          await EasyLoading.show(status: "Loading...");
+                          await d.updateSelectedDoctor(
+                            docname: d.doctor!.docnameEN,
+                            attribute: SxDoctor.TITLES_E,
+                            value: [...d.doctor!.titlesEN, _controller.text],
+                          );
+                          _controller.clear();
+                          await EasyLoading.showSuccess('Updated.');
 
-                  _controller.clear();
-                  await EasyLoading.showSuccess('Updated.');
-                },
-              ),
-              const Spacer(),
-            ],
+                          break;
+                        }
+                      case AttributeLanguage.ar:
+                        if (_formKeyAr.currentState!.validate()) {
+                          await EasyLoading.show(status: "Loading...");
+                          await d.updateSelectedDoctor(
+                            docname: d.doctor!.docnameEN,
+                            attribute: SxDoctor.TITLES_A,
+                            value: [...d.doctor!.titlesAR, _controller.text],
+                          );
+                          _controller.clear();
+                          await EasyLoading.showSuccess('Updated.');
+
+                          break;
+                        }
+                    }
+                  },
+                ),
+                const Spacer(),
+              ],
+            ),
           ),
           subtitle: ConstrainedBox(
             constraints: const BoxConstraints.tightForFinite(
@@ -100,61 +123,56 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                child: GridView.builder(
+                child: ListView.builder(
                   itemCount: switch (widget.al) {
                     AttributeLanguage.en => d.doctor!.titlesEN.length,
                     AttributeLanguage.ar => d.doctor!.titlesAR.length,
                   },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 5,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                  ),
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        child: GridTileBar(
-                          title: SelectableText(
-                            switch (widget.al) {
-                              AttributeLanguage.en => d.doctor!.titlesEN[index],
-                              AttributeLanguage.ar => d.doctor!.titlesAR[index],
-                            },
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          leading: const CircleAvatar(),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              await EasyLoading.show(status: "Loading...");
-                              //todo: delete item
-
+                        elevation: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GridTileBar(
+                            title: SelectableText(
                               switch (widget.al) {
-                                case AttributeLanguage.en:
-                                  await d.updateSelectedDoctor(
-                                    docname: d.doctor!.docnameEN,
-                                    attribute: SxDoctor.TITLES_E,
-                                    value: [...d.doctor!.titlesEN]
-                                      ..removeAt(index),
-                                  );
-                                  break;
-                                case AttributeLanguage.ar:
-                                  await d.updateSelectedDoctor(
-                                    docname: d.doctor!.docnameEN,
-                                    attribute: SxDoctor.TITLES_A,
-                                    value: [...d.doctor!.titlesAR]
-                                      ..removeAt(index),
-                                  );
-                                  break;
-                              }
+                                AttributeLanguage.en =>
+                                  d.doctor!.titlesEN[index],
+                                AttributeLanguage.ar =>
+                                  d.doctor!.titlesAR[index],
+                              },
+                            ),
+                            leading: const CircleAvatar(),
+                            trailing: IconButton.filled(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                await EasyLoading.show(status: "Loading...");
+                                //todo: delete item
 
-                              await EasyLoading.showSuccess('Updated.');
-                            },
+                                switch (widget.al) {
+                                  case AttributeLanguage.en:
+                                    await d.updateSelectedDoctor(
+                                      docname: d.doctor!.docnameEN,
+                                      attribute: SxDoctor.TITLES_E,
+                                      value: [...d.doctor!.titlesEN]
+                                        ..removeAt(index),
+                                    );
+                                    break;
+                                  case AttributeLanguage.ar:
+                                    await d.updateSelectedDoctor(
+                                      docname: d.doctor!.docnameEN,
+                                      attribute: SxDoctor.TITLES_A,
+                                      value: [...d.doctor!.titlesAR]
+                                        ..removeAt(index),
+                                    );
+                                    break;
+                                }
+
+                                await EasyLoading.showSuccess('Updated.');
+                              },
+                            ),
                           ),
                         ),
                       ),
