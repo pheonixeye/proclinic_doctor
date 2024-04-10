@@ -1,6 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 // import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:proclinic_doctor_windows/widgets/Visit_card.dart';
@@ -79,10 +78,6 @@ class _SearchPatientsUnderState extends State<SearchPatientsUnder> {
                                 await EasyLoading.show(status: "Loading...");
                                 if (context.mounted) {
                                   await v.fetchVisits(
-                                    docname: context
-                                        .read<PxSelectedDoctor>()
-                                        .doctor!
-                                        .docnameEN,
                                     type: QueryType.Search,
                                     query: _controller.text,
                                   );

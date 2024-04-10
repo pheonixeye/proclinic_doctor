@@ -15,13 +15,18 @@ final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => ThemeChanger()),
   ChangeNotifierProvider(create: (context) => PxDoctorListProvider()),
   ChangeNotifierProvider(create: (context) => PxSelectedDoctor()),
-  ChangeNotifierProvider(create: (context) => PxVisits()),
+  ChangeNotifierProvider(
+    create: (context) => PxVisits(
+      docid: context.read<PxSelectedDoctor>().doctor!.id,
+    ),
+  ),
   ChangeNotifierProvider(create: (context) => PxVisitData()),
   ChangeNotifierProvider(create: (context) => PxOnePatientVisits()),
   ChangeNotifierProvider(create: (context) => PdfPrinter()),
   ChangeNotifierProvider(create: (context) => PxScannedDocuments()),
   ChangeNotifierProvider(
-      create: (context) => PxSupplies(
-            docid: context.read<PxSelectedDoctor>().doctor?.id,
-          )),
+    create: (context) => PxSupplies(
+      docid: context.read<PxSelectedDoctor>().doctor!.id,
+    ),
+  ),
 ];

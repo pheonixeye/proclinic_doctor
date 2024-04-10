@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 // import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:proclinic_doctor_windows/widgets/visit_card.dart';
@@ -19,7 +18,6 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     await context.read<PxVisits>().fetchVisits(
-          docname: context.read<PxSelectedDoctor>().doctor!.docnameEN,
           type: QueryType.Today,
         );
   }

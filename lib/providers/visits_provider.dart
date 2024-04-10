@@ -6,7 +6,11 @@ import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/models/visitModel.dart';
 
 class PxVisits extends ChangeNotifier {
+  PxVisits({required this.docid});
+  final int docid;
+
   List<Visit> _visits = [];
+
   List<Visit> get visits => _visits;
 
   DateTime _date = DateTime.now();
@@ -45,14 +49,13 @@ class PxVisits extends ChangeNotifier {
   }
 
   Future<void> fetchVisits({
-    required String docname,
     required QueryType type,
     String? query,
   }) async {
     switch (type) {
       case QueryType.Today:
         final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCNAME_E, docname).eq(
+            .find(where.eq(SxVisit.DOCID, docid).eq(
                   SxVisit.VISITDATE,
                   today.toIso8601String(),
                 ))
@@ -63,7 +66,7 @@ class PxVisits extends ChangeNotifier {
 
       case QueryType.Date:
         final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCNAME_E, docname).eq(
+            .find(where.eq(SxVisit.DOCID, docid).eq(
                   SxVisit.VISITDATE,
                   date.toIso8601String(),
                 ))
@@ -77,7 +80,7 @@ class PxVisits extends ChangeNotifier {
         final result = await Database.instance.visits
             .find(
               where
-                  .eq(SxVisit.DOCNAME_E, docname)
+                  .eq(SxVisit.DOCID, docid)
                   .gte(SxVisit.VISITDATE, date.toIso8601String())
                   .lte(SxVisit.VISITDATE, secondDate.toIso8601String())
                   .sortBy(
@@ -91,7 +94,7 @@ class PxVisits extends ChangeNotifier {
 
       case QueryType.Search:
         final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCNAME_E, docname).and(where
+            .find(where.eq(SxVisit.DOCID, docid).and(where
                 .match(SxVisit.PTNAME, query!)
                 .or(where.match(SxVisit.PHONE, query))
                 .sortBy(
@@ -105,7 +108,7 @@ class PxVisits extends ChangeNotifier {
       case QueryType.All:
         final result = await Database.instance.visits
             .find(where
-                .eq(SxVisit.DOCNAME_E, docname)
+                .eq(SxVisit.DOCID, docid)
                 .sortBy(
                   SxVisit.VISITDATE,
                   descending: true,
@@ -116,6 +119,22 @@ class PxVisits extends ChangeNotifier {
         _visits = Visit.visitList(result);
         notifyListeners();
     }
+  }
+
+  Future<void> updateVisitDetails(
+    ObjectId id,
+    String attribute,
+    dynamic value,
+  ) async {
+    await Database.instance.visits.updateOne(
+      where.eq("_id", id),
+      {
+        r'$set': {
+          attribute: value,
+        },
+      },
+    );
+    await fetchVisits(type: QueryType.Today);
   }
 }
 

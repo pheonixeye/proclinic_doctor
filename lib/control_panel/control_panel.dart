@@ -37,7 +37,6 @@ class _ControlPanelPageState extends State<ControlPanelPage>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     await context.read<PxVisits>().fetchVisits(
-          docname: context.read<PxSelectedDoctor>().doctor!.docnameEN,
           type: QueryType.Today,
         );
   }
@@ -119,8 +118,6 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                 await EasyLoading.show(status: 'Loading...');
                 if (context.mounted) {
                   await context.read<PxVisits>().fetchVisits(
-                        docname:
-                            context.read<PxSelectedDoctor>().doctor!.docnameEN,
                         type: QueryType.Today,
                       );
                 }
@@ -129,11 +126,9 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               default:
                 await EasyLoading.show(status: 'Loading...');
                 if (context.mounted) {
-                  await context.read<PxVisits>().fetchVisits(
-                        docname:
-                            context.read<PxSelectedDoctor>().doctor!.docnameEN,
-                        type: QueryType.All,
-                      );
+                  await context
+                      .read<PxVisits>()
+                      .fetchVisits(type: QueryType.All);
                 }
                 await EasyLoading.dismiss();
             }
