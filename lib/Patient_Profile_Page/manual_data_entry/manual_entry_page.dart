@@ -46,66 +46,56 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TabBar(
+        dividerHeight: 2,
+        // dividerColor: Colors.orange,
         controller: _tabcontroller,
-        tabs: [
-          AppBar(
-            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            leading: const SizedBox.shrink(),
-            centerTitle: true,
-            title: const Text(
-              'Sheet',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                // color: Colors.black,
-              ),
+        tabs: const [
+          Card(
+            elevation: 6,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Tab(
+                    text: 'Sheet',
+                  ),
+                ),
+              ],
             ),
           ),
-          AppBar(
-            centerTitle: true,
-            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            leading: const SizedBox.shrink(),
-            title: const Text(
-              'Prescription',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                // color: Colors.black,
-              ),
+          Card(
+            elevation: 6,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Tab(
+                    text: 'Prescription',
+                  ),
+                ),
+              ],
             ),
           ),
-          AppBar(
-            centerTitle: true,
-            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            leading: const SizedBox.shrink(),
-            title: const Text(
-              'Supplies',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                // color: Colors.black,
-              ),
+          Card(
+            elevation: 6,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Tab(
+                    text: 'Supplies',
+                  ),
+                ),
+              ],
             ),
           ),
-          AppBar(
-            centerTitle: true,
-            // backgroundColor: Colors.purple[300]?.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            leading: const SizedBox.shrink(),
-            title: const Text(
-              'Visit Documents',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                // color: Colors.black,
-              ),
+          Card(
+            elevation: 6,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Tab(
+                    text: 'Visit Documents',
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -8,8 +8,37 @@ import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
+// ignore: camel_case_types
 class _sheetState {
-  //TODO: extract state into a private object
+  //todo: extract state into a private object
+  final String field;
+  final String? value;
+  final TextEditingController controller;
+
+  const _sheetState({
+    required this.field,
+    required this.value,
+    required this.controller,
+  });
+
+  _sheetState copyWith(String? value) {
+    return _sheetState(
+      field: field,
+      value: value,
+      controller: controller,
+    );
+  }
+
+  static List<_sheetState> list(
+      List<String> fields, Map<String, dynamic> values) {
+    return fields
+        .map((e) => _sheetState(
+              field: e,
+              value: values[e],
+              controller: TextEditingController(),
+            ))
+        .toList();
+  }
 }
 
 class SectionSheet extends StatefulWidget {
@@ -20,20 +49,30 @@ class SectionSheet extends StatefulWidget {
 
 class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
   final _formKey = GlobalKey<FormState>();
-  //TODO: maintain state of controllers between transitions
-  final Map<String, TextEditingController> _controllers =
-      <String, TextEditingController>{};
+  //todo: maintain state of controllers between transitions
+  //TODO: get rid of set state called during build
+
+  List<_sheetState>? _state;
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    context.read<PxSelectedDoctor>().doctor?.fields.map((e) {
-      _controllers[e] = TextEditingController();
-    }).toList();
+  void afterFirstLayout(BuildContext context) {}
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _state = _sheetState.list(
+          context.read<PxSelectedDoctor>().doctor!.fields,
+          context.read<PxVisitData>().data!.data,
+        );
+      });
+    });
   }
 
   @override
   void dispose() {
-    _controllers.entries.map((e) => e.value.dispose()).toList();
+    _state?.map((e) => e.controller.dispose()).toList();
     super.dispose();
   }
 
@@ -42,6 +81,11 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
     return Scaffold(
       body: Consumer2<PxSelectedDoctor, PxVisitData>(
         builder: (context, d, vd, _) {
+          while (d.doctor == null || vd.data == null || _state == null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Form(
@@ -71,59 +115,35 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                 const SizedBox(width: 20),
                                 Expanded(
                                   flex: 3,
-                                  child: Builder(
-                                    builder: (context) {
-                                      final controller =
-                                          _controllers[d.doctor?.fields[index]];
-                                      return TextFormField(
-                                        maxLines: null,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          labelText: d.doctor?.fields[index],
-                                        ),
-                                        controller: controller
-                                          ?..text =
-                                              "${vd.data?.data[d.doctor?.fields[index]]}",
-                                      );
+                                  child: TextFormField(
+                                    controller: _state![index].controller
+                                      ..text = _state![index].value ?? "",
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      labelText: d.doctor?.fields[index],
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _state?[index] =
+                                            _state![index].copyWith(value);
+                                      });
                                     },
                                   ),
                                 ),
                                 const SizedBox(width: 20),
                                 IconButton.filledTonal(
-                                  icon: const Icon(Icons.close),
+                                  icon: const Icon(Icons.clear_all),
                                   tooltip: 'Clear Field',
                                   onPressed: () {
-                                    _controllers[d.doctor?.fields[index]]
-                                        ?.clear();
+                                    _state?[index].controller.clear();
                                   },
                                 ),
                                 const SizedBox(width: 20),
                               ],
                             ),
-                            //TODO:
-
-                            // subtitle: Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Builder(
-                            //     builder: (context) {
-                            //       final isEmpty =
-                            //           (vd.data == null || vd.data!.data.isEmpty);
-                            //       return SelectableText(
-                            //         isEmpty
-                            //             ? ""
-                            //             : vd.data?.data[d.doctor!.fields[index]],
-                            //         style: const TextStyle(
-                            //           fontSize: 18,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //         textAlign: TextAlign.center,
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
                           ),
                         );
                       },
@@ -186,12 +206,13 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                 child: const Icon(Icons.save),
                                 onPressed: () async {
                                   //working
-                                  final data = <String, String>{};
+                                  final data = <String, dynamic>{};
                                   if (_formKey.currentState!.validate()) {
-                                    _controllers.entries.map((e) {
-                                      e.value.text.isEmpty
-                                          ? data[e.key] = vd.data?.data[e.key]
-                                          : data[e.key] = e.value.text;
+                                    _state?.map((e) {
+                                      (e.value != null && e.value!.isEmpty)
+                                          ? data[e.field] =
+                                              vd.data!.data[e.field]
+                                          : data[e.field] = e.value;
                                     }).toList();
 
                                     await EasyLoading.show(

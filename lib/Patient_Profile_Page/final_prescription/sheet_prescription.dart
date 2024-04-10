@@ -202,7 +202,8 @@ class _SheetPrescriptionState extends State<SheetPrescription> {
                                       subtitle: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20.0),
-                                        child: Text(e.value),
+                                        child: Text(e.value ??
+                                            "----------------------"),
                                       ),
                                     );
                                   }).toList(),

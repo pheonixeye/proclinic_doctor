@@ -31,9 +31,16 @@ class VisitCard extends StatelessWidget {
             onTap: () async {
               //todo: add qr code with mongodb object id to scan in both reception & doctor apps.
               //todo: fetch visitData associated with scanned visit in mobile scanner.
-              context.read<PxVisitData>().selectVisit(visit);
-              await context.read<PxScannedDocuments>().fetchVisitData(visit.id);
               await EasyLoading.show(status: "Loading...");
+              if (context.mounted) {
+                context.read<PxVisitData>().selectVisit(visit);
+                await context.read<PxVisitData>().fetchVisitData();
+              }
+              if (context.mounted) {
+                await context
+                    .read<PxScannedDocuments>()
+                    .fetchVisitData(visit.id);
+              }
               if (context.mounted) {
                 await context
                     .read<PxOnePatientVisits>()
