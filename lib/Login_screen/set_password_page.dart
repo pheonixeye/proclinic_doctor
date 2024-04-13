@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class PasswordSettingPage extends StatefulWidget {
@@ -128,8 +126,8 @@ class _PasswordSettingPageState extends State<PasswordSettingPage> {
                           if (_formKey.currentState!.validate()) {
                             await EasyLoading.show(status: "Loading...");
                             await d.updateSelectedDoctor(
-                              docname: d.doctor!.docnameEN,
-                              attribute: SxDoctor.PASSWORD,
+                              id: d.doctor!.id,
+                              attribute: 'password',
                               value: password2Controller.text,
                             );
                             await EasyLoading.showSuccess("Password Updated.");

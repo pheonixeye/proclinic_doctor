@@ -3,10 +3,9 @@ import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/popupmenubutton_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/models/visitModel.dart';
-import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class PreviousVisitsPage extends StatefulWidget {
@@ -158,7 +157,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                                 .map((e) {
                               return ListTile(
                                 title: Text(e.key),
-                                subtitle: Text(e.value),
+                                subtitle: Text(e.value ?? ""),
                               );
                             }).toList()
                           ],

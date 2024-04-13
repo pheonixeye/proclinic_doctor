@@ -2,7 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
 import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clinic_details_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/add_drugs_page.dart';
+import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/labs_rads_settings.dart';
 import 'package:proclinic_doctor_windows/control_panel/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //TODO: IMPLEMENT TWO WAY NOTIFICATIONS
+  //todo: ADD MODELS PACKAGE
   await initHive();
 
   await initThemes();
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
           home: const LoadingScreen(),
           routes: {
             '/fields': (context) => const FieldCreationPage(),
-            '/drugs': (context) => const AddDrugsPage(),
+            '/drugs': (context) => const DrugsAndProceduresPage(),
             '/controlpanel': (context) => const ControlPanelPage(),
             '/labsrads': (context) => const LabsAndRadsSettingsPage(),
             '/clinicdetails': (context) => const ClinicDetailsPage(),

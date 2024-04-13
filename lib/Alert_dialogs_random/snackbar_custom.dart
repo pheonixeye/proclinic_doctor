@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 void showCustomSnackbar({
   required BuildContext context,

@@ -5,13 +5,13 @@ import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
 import 'package:provider/provider.dart';
 import 'package:proclinic_models/proclinic_models.dart' as models;
 
-class DoctorTitlesCard extends StatefulWidget {
-  const DoctorTitlesCard({super.key});
+class DoctorAffiliatesCard extends StatefulWidget {
+  const DoctorAffiliatesCard({super.key});
   @override
-  State<DoctorTitlesCard> createState() => _DoctorTitlesCardState();
+  State<DoctorAffiliatesCard> createState() => _DoctorTitlesCardState();
 }
 
-class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
+class _DoctorTitlesCardState extends State<DoctorAffiliatesCard> {
   //todo: needs to be readjusted for the new doctor model
   late final TextEditingController _enController;
   late final TextEditingController _arController;
@@ -44,7 +44,7 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
               children: [
                 const CircleAvatar(),
                 const Spacer(),
-                const Text('Doctor Titles'),
+                const Text('Doctor Affiliates'),
                 const Spacer(),
                 Expanded(
                   flex: 2,
@@ -59,7 +59,7 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              labelText: 'English Title',
+                              labelText: 'English Affiliate',
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -79,7 +79,7 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              labelText: 'Arabic Title',
+                              labelText: 'Arabic Affiliate',
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -101,15 +101,15 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                     //todo: request change
                     if (formKey.currentState!.validate()) {
                       await EasyLoading.show(status: "Loading...");
-                      final title = models.Title.create(
-                        titleEn: _enController.text,
-                        titleAr: _arController.text,
+                      final affiliate = models.Affiliate.create(
+                        affiliateEn: _enController.text,
+                        affiliateAr: _arController.text,
                       );
                       await d.updateSelectedDoctor(
                         updateType: UpdateType.addToList,
                         id: d.doctor!.id,
-                        attribute: 'titles',
-                        value: title.toJson(),
+                        attribute: 'affiliates',
+                        value: affiliate.toJson(),
                       );
                       _enController.clear();
                       _arController.clear();
@@ -135,9 +135,9 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                     }
 
                     return ListView.builder(
-                      itemCount: d.doctor?.titles.length,
+                      itemCount: d.doctor?.affiliates.length,
                       itemBuilder: (context, index) {
-                        final title = d.doctor!.titles[index];
+                        final item = d.doctor!.affiliates[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
@@ -145,8 +145,8 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GridTileBar(
-                                title: SelectableText(title.titleEn),
-                                subtitle: SelectableText(title.titleAr),
+                                title: SelectableText(item.affiliateEn),
+                                subtitle: SelectableText(item.affiliateAr),
                                 leading: const CircleAvatar(),
                                 trailing: IconButton.filled(
                                   icon: const Icon(Icons.delete),
@@ -157,8 +157,8 @@ class _DoctorTitlesCardState extends State<DoctorTitlesCard> {
                                     await d.updateSelectedDoctor(
                                       updateType: UpdateType.removeFromList,
                                       id: d.doctor!.id,
-                                      attribute: 'titles',
-                                      value: title.toJson(),
+                                      attribute: 'affiliates',
+                                      value: item.toJson(),
                                     );
 
                                     await EasyLoading.showSuccess('Updated.');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/errors/db_query.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 class PxSelectedDoctor extends ChangeNotifier {
   Doctor? _doctor;
@@ -65,30 +65,51 @@ class PxSelectedDoctor extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchDoctorByDocName(String docname) async {
+  Future<void> fetchDoctorByid(int id) async {
     try {
       final result =
-          await Database.instance.doctors.findOne(where.eq('docname', docname));
-      _doctor = Doctor.fromJson(result);
-      notifyListeners();
+          await Database.instance.doctors.findOne(where.eq('_id', id));
+      if (result != null) {
+        _doctor = Doctor.fromJson(result);
+        notifyListeners();
+      }
     } catch (e) {
       throw MongoDbQueryError(message: e.toString());
     }
   }
 
   Future<void> updateSelectedDoctor({
-    required String docname,
+    required int id,
     required String attribute,
     required dynamic value,
+    UpdateType updateType = UpdateType.set,
   }) async {
     await Database.instance.doctors.updateOne(
-      where.eq('docname', docname),
-      {
-        r'$set': {
-          attribute: value,
-        },
+      where.eq('_id', id),
+      switch (updateType) {
+        UpdateType.set => {
+            r'$set': {
+              attribute: value,
+            },
+          },
+        UpdateType.addToList => {
+            r'$addToSet': {
+              attribute: value,
+            },
+          },
+        UpdateType.removeFromList => {
+            r'$pull': {
+              attribute: value,
+            }
+          },
       },
     );
-    await fetchDoctorByDocName(docname);
+    await fetchDoctorByid(id);
   }
+}
+
+enum UpdateType {
+  set,
+  addToList,
+  removeFromList,
 }

@@ -142,8 +142,9 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                         ),
                                       ],
                                     ),
-                                    ...d.doctor!.titlesAR.map((e) {
-                                      return Text(e,
+                                    ...d.doctor!.titles.map((e) {
+                                      //TODO: LOCALIZATION
+                                      return Text(e.titleAr,
                                           textAlign: TextAlign.center);
                                     }).toList(),
                                   ],
@@ -271,7 +272,10 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                               itemCount: d.doctor!.clinicDetails.length,
                               itemBuilder: (context, index) {
                                 return Center(
-                                  child: Text(d.doctor!.clinicDetails[index]),
+                                  //TODO: LOCALIZATION
+
+                                  child: Text(
+                                      d.doctor!.clinicDetails[index].detailAr),
                                 );
                               },
                             );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/models/visitModel.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 class BookKeepingListItem extends StatelessWidget {
   const BookKeepingListItem({super.key, required this.visit});

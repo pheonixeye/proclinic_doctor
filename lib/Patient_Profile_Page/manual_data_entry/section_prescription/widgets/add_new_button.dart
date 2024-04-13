@@ -32,7 +32,7 @@ class AddNewDrugLabRadButton extends StatelessWidget {
               };
               if (value.isNotEmpty) {
                 await d.updateSelectedDoctor(
-                  docname: d.doctor!.docnameEN,
+                  id: d.doctor!.id,
                   attribute: drugLabOrRad,
                   value: [...data_, value],
                 );

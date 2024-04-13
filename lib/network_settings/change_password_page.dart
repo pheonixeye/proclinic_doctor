@@ -134,7 +134,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                               if (passwordoldController.text ==
                                   d.doctor!.password) {
                                 await d.updateSelectedDoctor(
-                                  docname: d.doctor!.docnameEN,
+                                  id: d.doctor!.id,
                                   attribute: 'password',
                                   value:
                                       passwordnewController.text.trim().isEmpty

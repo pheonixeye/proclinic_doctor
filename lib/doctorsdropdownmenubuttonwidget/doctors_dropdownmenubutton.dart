@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class NewlyFormatedDoctorsDropDownButton extends StatefulWidget {
@@ -29,13 +27,11 @@ class _NewlyFormatedDoctorsDropDownButtonState
         for (int i = 0; i < doctors.doctorList!.length; i++) {
           items.add(
             DropdownMenuItem<Doctor>(
+              alignment: Alignment.center,
               value: doctors.doctorList![i],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
                   Text(
                     doctors.doctorList![i].docnameEN.toUpperCase(),
                     style: const TextStyle(
@@ -43,10 +39,6 @@ class _NewlyFormatedDoctorsDropDownButtonState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(doctors.doctorList![i].clinicEN),
                 ],
               ),
             ),

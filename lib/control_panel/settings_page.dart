@@ -3,7 +3,6 @@ import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
@@ -225,9 +224,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                         status: 'Loading...');
                                                     await d
                                                         .updateSelectedDoctor(
-                                                      docname:
-                                                          d.doctor!.docnameEN,
-                                                      attribute: SxDoctor.GRID,
+                                                      id: d.doctor!.id,
+                                                      attribute: 'grid',
                                                       value: value,
                                                     );
                                                     await EasyLoading
@@ -313,8 +311,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                 await EasyLoading.show(
                                                     status: "Loading...");
                                                 await d.updateSelectedDoctor(
-                                                  docname: d.doctor!.docnameEN,
-                                                  attribute: SxDoctor.FIELDS,
+                                                  id: d.doctor!.id,
+                                                  attribute: 'fields',
                                                   value: newFields,
                                                 );
 
@@ -357,8 +355,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                       fields.remove(fields[index]);
                                   await EasyLoading.show(status: "Loading...");
                                   await d.updateSelectedDoctor(
-                                    docname: d.doctor!.docnameEN,
-                                    attribute: SxDoctor.FIELDS,
+                                    id: d.doctor!.id,
+                                    attribute: 'fields',
                                     value: newFields,
                                   );
                                   await EasyLoading.showSuccess(

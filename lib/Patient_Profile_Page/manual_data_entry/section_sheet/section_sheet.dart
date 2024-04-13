@@ -2,8 +2,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/sheet_prescription.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
-import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +48,7 @@ class SectionSheet extends StatefulWidget {
 class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
   final _formKey = GlobalKey<FormState>();
   //todo: maintain state of controllers between transitions
-  //TODO: get rid of set state called during build
+  //todo: get rid of set state called during build
 
   List<_sheetState>? _state;
 
@@ -190,8 +188,8 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                 onPressed: () async {
                                   await EasyLoading.show(status: 'Loading...');
                                   await d.updateSelectedDoctor(
-                                    docname: d.doctor!.docnameEN,
-                                    attribute: SxDoctor.GRID,
+                                    id: d.doctor!.id,
+                                    attribute: 'grid',
                                     value: !d.doctor!.grid,
                                   );
                                   await EasyLoading.dismiss();
@@ -218,7 +216,7 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                     await EasyLoading.show(
                                         status: "Loading...");
                                     await vd.updateVisitData(
-                                      SxVD.DATA,
+                                      "medicaldata",
                                       data,
                                     );
                                     await EasyLoading.showSuccess(

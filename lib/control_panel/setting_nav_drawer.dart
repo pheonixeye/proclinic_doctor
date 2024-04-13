@@ -104,12 +104,13 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
               ),
             ),
             //drugs and prescriptions
+            //TODO: add ability to save a prescribed drug - not a drug
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
                 style: _btnTheme('/drugs'),
                 icon: const Icon(Icons.local_pharmacy),
-                label: const Text('Drugs & Prescriptions'),
+                label: const Text('Drugs & Procedures'),
                 onPressed: () {
                   const newRouteName = "/drugs";
                   bool isNewRouteSameAsCurrent = false;

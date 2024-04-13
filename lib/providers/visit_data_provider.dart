@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/errors/no_visit_selected.dart';
-import 'package:proclinic_doctor_windows/models/drug/drug_model.dart';
-import 'package:proclinic_doctor_windows/models/visitModel.dart';
-import 'package:proclinic_doctor_windows/models/visit_data/visit_data.dart';
-import 'package:proclinic_doctor_windows/models/visit_supply_item/visit_supply_item.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 class PxVisitData extends ChangeNotifier {
   Visit? _visit;
@@ -79,7 +76,7 @@ class PxVisitData extends ChangeNotifier {
         where.eq("_id", _visit!.id),
         {
           r"$set": {
-            "supplies": supplies.map((e) => e.toMap()).toList(),
+            "supplies": supplies.map((e) => e.toJson()).toList(),
           },
         },
       );
@@ -138,8 +135,8 @@ class PxVisitData extends ChangeNotifier {
   List<String> _rads = [];
   List<String> get rads => _rads;
 
-  List<Drug> _drugs = [];
-  List<Drug> get drugs => _drugs;
+  List<PrescribedDrug> _drugs = [];
+  List<PrescribedDrug> get drugs => _drugs;
 
   void setLabs(String value) {
     _labs.contains(value) ? _labs.remove(value) : _labs.add(value);
@@ -151,7 +148,7 @@ class PxVisitData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setDrugs(Drug value) {
+  void setDrugs(PrescribedDrug value) {
     _drugs.contains(value) ? _drugs.remove(value) : _drugs.add(value);
     notifyListeners();
   }

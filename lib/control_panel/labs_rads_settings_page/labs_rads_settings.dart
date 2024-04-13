@@ -2,7 +2,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:provider/provider.dart';
 
@@ -121,7 +120,7 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                         await EasyLoading.show(
                                             status: "Loading...");
                                         await d.updateSelectedDoctor(
-                                          docname: d.doctor!.docnameEN,
+                                          id: d.doctor!.id,
                                           attribute: 'labs',
                                           value: [
                                             ...d.doctor!.labs,
@@ -182,8 +181,8 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                       await EasyLoading.show(
                                           status: "Loading...");
                                       await d.updateSelectedDoctor(
-                                        docname: d.doctor!.docnameEN,
-                                        attribute: SxDoctor.LABS,
+                                        id: d.doctor!.id,
+                                        attribute: 'labs',
                                         value: newLabs,
                                       );
                                       await EasyLoading.showSuccess("Updated.");
@@ -269,8 +268,8 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                         await EasyLoading.show(
                                             status: "Loading...");
                                         await d.updateSelectedDoctor(
-                                          docname: d.doctor!.docnameEN,
-                                          attribute: SxDoctor.RADS,
+                                          id: d.doctor!.id,
+                                          attribute: 'rads',
                                           value: [
                                             ...d.doctor!.rads,
                                             radController.text
@@ -279,7 +278,7 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                         if (context.mounted) {
                                           showCustomSnackbar(
                                             context: context,
-                                            message: 'Lab Added.',
+                                            message: 'Rad Added.',
                                           );
                                         }
                                         await Future.delayed(
@@ -330,8 +329,8 @@ class _LabsAndRadsSettingsPageState extends State<LabsAndRadsSettingsPage> {
                                       await EasyLoading.show(
                                           status: "Loading...");
                                       await d.updateSelectedDoctor(
-                                        docname: d.doctor!.docnameEN,
-                                        attribute: SxDoctor.RADS,
+                                        id: d.doctor!.id,
+                                        attribute: 'rads',
                                         value: newRads,
                                       );
                                       await EasyLoading.showSuccess('Updated.');

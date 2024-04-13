@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/constants/attribute_language.dart';
+import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/widgets/doctor_affiliates_card.dart';
 import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/widgets/doctor_titles_card.dart';
 import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/models/doctorModel.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class ClinicDetailsPage extends StatefulWidget {
@@ -15,7 +15,8 @@ class ClinicDetailsPage extends StatefulWidget {
 }
 
 class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
-  late final TextEditingController _clinicDetailsController;
+  late final TextEditingController _enClinicDetailsController;
+  late final TextEditingController _arClinicDetailsController;
   late final TextEditingController _englishTitlesController;
   late final ScrollController _controller;
 
@@ -23,7 +24,8 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
 
   @override
   void initState() {
-    _clinicDetailsController = TextEditingController();
+    _enClinicDetailsController = TextEditingController();
+    _arClinicDetailsController = TextEditingController();
     _englishTitlesController = TextEditingController();
     _controller = ScrollController();
 
@@ -32,7 +34,8 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
 
   @override
   void dispose() {
-    _clinicDetailsController.dispose();
+    _enClinicDetailsController.dispose();
+    _arClinicDetailsController.dispose();
     _englishTitlesController.dispose();
     _controller.dispose();
     super.dispose();
@@ -86,25 +89,63 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                               ),
                               SizedBox(
                                 width: 350,
-                                child: Card(
-                                  child: TextFormField(
-                                    enableInteractiveSelection: true,
-                                    enabled: true,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        child: TextFormField(
+                                          enableInteractiveSelection: true,
+                                          enabled: true,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            labelText:
+                                                'Add English Clinic Detail',
+                                          ),
+                                          maxLines: null,
+                                          controller:
+                                              _enClinicDetailsController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Empty Inputs Are Not Allowed";
+                                            }
+                                            return null;
+                                          },
+                                        ),
                                       ),
-                                      labelText: 'Add Clinic Details',
                                     ),
-                                    maxLines: null,
-                                    controller: _clinicDetailsController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Empty Inputs Are Not Allowed";
-                                      }
-                                      return null;
-                                    },
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        child: TextFormField(
+                                          enableInteractiveSelection: true,
+                                          enabled: true,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            labelText:
+                                                'Add Arabic Clinic Detail',
+                                          ),
+                                          maxLines: null,
+                                          controller:
+                                              _arClinicDetailsController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Empty Inputs Are Not Allowed";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(
@@ -120,21 +161,26 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                                           .validate()) {
                                         await EasyLoading.show(
                                             status: "Loading...");
+                                        final detail = ClinicDetails.create(
+                                          detailEn:
+                                              _enClinicDetailsController.text,
+                                          detailAr:
+                                              _arClinicDetailsController.text,
+                                        );
 
                                         await d.updateSelectedDoctor(
-                                          docname: d.doctor!.docnameEN,
-                                          attribute: SxDoctor.CLINICDETAILS,
-                                          value: [
-                                            ...d.doctor!.clinicDetails,
-                                            _clinicDetailsController.text
-                                          ],
+                                          updateType: UpdateType.addToList,
+                                          id: d.doctor!.id,
+                                          attribute: 'clinicDetails',
+                                          value: detail.toJson(),
                                         );
 
                                         await EasyLoading.dismiss();
 
                                         await Future.delayed(
                                             const Duration(milliseconds: 50));
-                                        _clinicDetailsController.clear();
+                                        _enClinicDetailsController.clear();
+                                        _arClinicDetailsController.clear();
                                         await EasyLoading.showSuccess(
                                             'Updated.');
                                       }
@@ -159,14 +205,15 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                               child: ListView.builder(
                                 itemCount: d.doctor!.clinicDetails.length,
                                 itemBuilder: (context, index) {
+                                  final item = d.doctor!.clinicDetails[index];
                                   return Card(
                                     elevation: 6,
                                     child: ListTile(
                                       leading: CircleAvatar(
                                         child: Text('${index + 1}'),
                                       ),
-                                      title:
-                                          Text(d.doctor!.clinicDetails[index]),
+                                      title: Text(item.detailEn),
+                                      subtitle: Text(item.detailAr),
                                       trailing: IconButton.filled(
                                         icon: const Icon(
                                           Icons.delete_forever,
@@ -175,10 +222,11 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                                           await EasyLoading.show(
                                               status: 'Loading...');
                                           await d.updateSelectedDoctor(
-                                            docname: d.doctor!.docnameEN,
-                                            attribute: SxDoctor.CLINICDETAILS,
-                                            value: [...d.doctor!.clinicDetails]
-                                              ..removeAt(index),
+                                            updateType:
+                                                UpdateType.removeFromList,
+                                            id: d.doctor!.id,
+                                            attribute: 'clinicDetails',
+                                            value: item,
                                           );
                                           await EasyLoading.dismiss();
                                         },
@@ -201,7 +249,7 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                       ),
                     ),
 
-                    const DoctorTitlesCard(al: AttributeLanguage.en),
+                    const DoctorTitlesCard(),
                     const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Divider(
@@ -210,7 +258,7 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                         height: 10,
                       ),
                     ),
-                    const DoctorTitlesCard(al: AttributeLanguage.ar),
+                    const DoctorAffiliatesCard(),
                     const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Divider(

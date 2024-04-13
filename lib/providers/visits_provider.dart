@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/models/visitModel.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 class PxVisits extends ChangeNotifier {
   PxVisits({required this.docid});

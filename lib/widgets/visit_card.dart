@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_page_main.dart';
-import 'package:proclinic_doctor_windows/models/visitModel.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class VisitCard extends StatelessWidget {
@@ -20,7 +20,9 @@ class VisitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: ADD ABILITY TO CHANG VISIT TYPE & NOTIFY RECEPTION VIA SOCKETS
+    //TODO: ADD ABILITY TO CHANGE VISIT TYPE
+    //TODO: NOTIFY RECEPTION VIA SOCKETS
+    //TODO: ADD PROCEDURES IN LIST FORMAT
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -31,6 +33,7 @@ class VisitCard extends StatelessWidget {
             onTap: () async {
               //todo: add qr code with mongodb object id to scan in both reception & doctor apps.
               //todo: fetch visitData associated with scanned visit in mobile scanner.
+
               await EasyLoading.show(status: "Loading...");
               if (context.mounted) {
                 context.read<PxVisitData>().selectVisit(visit);
