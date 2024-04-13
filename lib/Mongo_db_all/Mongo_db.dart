@@ -35,6 +35,7 @@ class Database {
   static final DbCollection _allDoctors = mongo.collection('doctors');
   static final DbCollection _appOrganizer = mongo.collection('apporganizer');
   static final DbCollection _supplies = mongo.collection('supplies');
+  static final DbCollection _contracts = mongo.collection('contracts');
   static final GridFS _grid = GridFS(mongo);
 
   // static DbCollection patients = mongo.collection('patients');
@@ -67,6 +68,7 @@ class Database {
   DbCollection get doctors => Database._allDoctors;
   DbCollection get patients => Database._patients;
   DbCollection get supplies => Database._supplies;
+  DbCollection get contracts => Database._contracts;
   DbCollection get appOrganizer => Database._appOrganizer;
   GridFS get gird => Database._grid;
 }

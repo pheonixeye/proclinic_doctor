@@ -61,9 +61,7 @@ class VisitCard extends StatelessWidget {
                 );
               }
             },
-            leading: CircleAvatar(
-              backgroundColor: Colors.amber.shade200,
-            ),
+            leading: const CircleAvatar(),
             title: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -103,35 +101,10 @@ class VisitCard extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: SizedBox(
                       width: 30,
-                      child: Icon(Icons.monetization_on),
-                    ),
-                  ),
-                  Text('Paid :\n${visit.toJson()['amount']} L.E.'),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 30,
-                      child: Icon(Icons.money_off),
-                    ),
-                  ),
-                  Text('Remaining :\n${visit.toJson()['remaining']} L.E.'),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 30,
                       child: Icon(Icons.report_problem),
                     ),
                   ),
                   Text('Visit Type :\n${visit.toJson()['visittype']}'),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 30,
-                      child: Icon(Icons.emoji_symbols),
-                    ),
-                  ),
-                  Text(
-                      'Procedure :\n${visit.toJson()['procedure'] ?? 'No Procedure'}'),
                   if (forSearch)
                     const Padding(
                       padding: EdgeInsets.all(8.0),

@@ -124,6 +124,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                               .read<PxSupplies>()
                                               .fetchAllDoctorSupplies()
                                               .whenComplete(() async {
+                                            //TODO: notify reception
                                             await EasyLoading.dismiss();
                                           });
                                         }
