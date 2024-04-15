@@ -91,6 +91,7 @@ flutter:
     - assets/color.png
     - assets/loading.gif
     - assets/themes/
+    - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

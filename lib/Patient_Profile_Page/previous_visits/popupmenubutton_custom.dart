@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomPOPUPBUTTON extends StatefulWidget {
-  final Function callPrint;
-  final Function callPresc;
-  final Function callDocs;
+  final VoidCallback callPresc;
+  final VoidCallback callDocs;
 
   const CustomPOPUPBUTTON({
     super.key,
-    required this.callPrint,
     required this.callPresc,
     required this.callDocs,
   });
@@ -25,17 +23,6 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
       ),
       offset: const Offset(0, 50),
       elevation: 10,
-      onSelected: (String value) async {
-        setState(() {
-          if (value == 'print') {
-            widget.callPrint();
-          } else if (value == 'presc') {
-            widget.callPresc();
-          } else if (value == 'docs') {
-            widget.callDocs();
-          }
-        });
-      },
       icon: const CircleAvatar(
         child: Icon(
           Icons.menu_open,
@@ -44,24 +31,10 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
       tooltip: 'Options',
       itemBuilder: (context) {
         return <PopupMenuItem<String>>[
-          const PopupMenuItem(
-            value: 'print',
-            child: Row(
-              children: [
-                Icon(
-                  Icons.print,
-                  color: Colors.blue,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('Print Sheet'),
-              ],
-            ),
-          ),
-          const PopupMenuItem(
+          PopupMenuItem(
+            onTap: widget.callPresc,
             value: 'presc',
-            child: Row(
+            child: const Row(
               children: [
                 Icon(
                   Icons.library_books,
@@ -74,9 +47,10 @@ class _CustomPOPUPBUTTONState extends State<CustomPOPUPBUTTON> {
               ],
             ),
           ),
-          const PopupMenuItem(
+          PopupMenuItem(
+            onTap: widget.callDocs,
             value: 'docs',
-            child: Row(
+            child: const Row(
               children: [
                 Icon(
                   Icons.document_scanner,

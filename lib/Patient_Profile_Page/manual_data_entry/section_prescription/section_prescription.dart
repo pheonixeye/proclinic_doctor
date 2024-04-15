@@ -19,8 +19,9 @@ class _SectionPrescriptionState extends State<SectionPrescription> {
         isExtended: true,
         elevation: 50,
         backgroundColor: Colors.orange[400],
-        tooltip: 'Print Prescription',
-        child: const Icon(Icons.print),
+        heroTag: 'view-perescription',
+        tooltip: 'View Prescription',
+        child: const Icon(Icons.image_search),
         onPressed: () {
           Navigator.push(
             context,

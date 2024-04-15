@@ -20,9 +20,9 @@ class VisitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: ADD ABILITY TO CHANGE VISIT TYPE
+    //todo: ADD ABILITY TO CHANGE VISIT TYPE
     //TODO: NOTIFY RECEPTION VIA SOCKETS
-    //TODO: ADD PROCEDURES IN LIST FORMAT
+    //todo: ADD PROCEDURES IN LIST FORMAT
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

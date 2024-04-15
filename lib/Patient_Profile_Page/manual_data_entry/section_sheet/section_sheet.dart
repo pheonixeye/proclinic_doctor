@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/sheet_prescription.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
@@ -163,17 +163,15 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FloatingActionButton(
-                                heroTag: 'print-sheet',
-                                tooltip: "Print Sheet",
-                                child: const Icon(Icons.print),
+                                heroTag: 'view-sheet',
+                                tooltip: "View Sheet",
+                                child: const Icon(Icons.image_search),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SheetPrescription(
-                                        visit: vd.visit!,
-                                        data: vd.data!,
-                                      ),
+                                      builder: (context) =>
+                                          const FinalPrescription(),
                                     ),
                                   );
                                 },

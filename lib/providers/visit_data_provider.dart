@@ -115,6 +115,11 @@ class PxVisitData extends ChangeNotifier {
   VisitData? _data;
   VisitData? get data => _data;
 
+  void selectVisitData(VisitData? visitData) {
+    _data = visitData;
+    notifyListeners();
+  }
+
   Future<void> fetchVisitData() async {
     if (visit == null) {
       throw NoVisitSelectedException();

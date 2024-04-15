@@ -212,8 +212,8 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                                       leading: CircleAvatar(
                                         child: Text('${index + 1}'),
                                       ),
-                                      title: Text(item.detailEn),
-                                      subtitle: Text(item.detailAr),
+                                      title: SelectableText(item.detailEn),
+                                      subtitle: SelectableText(item.detailAr),
                                       trailing: IconButton.filled(
                                         icon: const Icon(
                                           Icons.delete_forever,
@@ -226,7 +226,7 @@ class _ClinicDetailsPageState extends State<ClinicDetailsPage> {
                                                 UpdateType.removeFromList,
                                             id: d.doctor!.id,
                                             attribute: 'clinicDetails',
-                                            value: item,
+                                            value: item.toJson(),
                                           );
                                           await EasyLoading.dismiss();
                                         },
