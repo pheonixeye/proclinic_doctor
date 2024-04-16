@@ -14,8 +14,11 @@ late final Socket socket;
 
 Future<void> initSocket() async {
   //TODO: EXPAND ON IT
+  //TODO: get network address from hive
   //TODO: define socket on login not app initiation
   //TODO: send login ack to reception with doctor id that logged in
+  //TODO: implement socket holder class
+  //TODO: add notification holder class
   socket = await Socket.connect(InternetAddress('192.168.0.88'), 6789);
   socket.write("Hello from the other side !");
 }

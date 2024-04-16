@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:provider/provider.dart';
+import 'package:open_filex/open_filex.dart';
 
 class ScannedDocumentsPage extends StatefulWidget {
   const ScannedDocumentsPage({super.key, required this.data});
@@ -57,10 +56,9 @@ class _ScannedDocumentsPageState extends State<ScannedDocumentsPage> {
                             alignment: Alignment.bottomRight,
                             child: FloatingActionButton(
                               heroTag: index,
-                              onPressed: () {
-                                //TODO: open file
-                                Process.run("cmd.exe ",
-                                    ['start "${d.docs[index].path}"']);
+                              onPressed: () async {
+                                //todo: open file
+                                await OpenFilex.open(d.docs[index].path);
                               },
                               child: const Icon(Icons.print),
                             ),

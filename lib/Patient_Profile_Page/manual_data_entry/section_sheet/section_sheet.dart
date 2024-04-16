@@ -170,8 +170,10 @@ class _SectionSheetState extends State<SectionSheet> with AfterLayoutMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const FinalPrescription(),
+                                      builder: (context) => FinalPrescription(
+                                        visit: vd.visit!,
+                                        data: vd.data!,
+                                      ),
                                     ),
                                   );
                                 },

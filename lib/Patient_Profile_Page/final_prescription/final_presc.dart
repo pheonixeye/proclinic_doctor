@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/pdf_prescription.dart';
 import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class FinalPrescription extends StatefulWidget {
-  const FinalPrescription({super.key});
+  const FinalPrescription({
+    super.key,
+    required this.visit,
+    required this.data,
+  });
+  final Visit visit;
+  final VisitData data;
   @override
   State<FinalPrescription> createState() => _FinalPrescriptionState();
 }
@@ -19,9 +25,9 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<PxSelectedDoctor, PxVisitData>(
-      builder: (context, d, vd, _) {
-        final d_ = DateTime.parse(vd.visit!.visitDate);
+    return Consumer<PxSelectedDoctor>(
+      builder: (context, d, _) {
+        final d_ = DateTime.parse(widget.visit.visitDate);
         return Scaffold(
           floatingActionButton: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -64,7 +70,10 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const PdfPrescription(),
+                              builder: (context) => PdfPrescription(
+                                visit: widget.visit,
+                                data: widget.data,
+                              ),
                             ),
                           );
                         },
@@ -98,16 +107,17 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                 children: [
                                   Text(
                                       'Date: ${d_.day}-${d_.month}-${d_.year}'),
-                                  Text('Name: ${vd.visit!.ptName}'),
+                                  Text('Name: ${widget.visit.ptName}'),
                                   Builder(
                                     builder: (context) {
-                                      final d = DateTime.parse(vd.visit!.dob);
+                                      final d =
+                                          DateTime.parse(widget.visit.dob);
                                       final t = DateTime.now();
                                       final age = t.year - d.year;
                                       return Text('Age: $age Years');
                                     },
                                   ),
-                                  Text('Type: ${vd.visit!.visitType}'),
+                                  Text('Type: ${widget.visit.visitType}'),
                                 ],
                               ),
                             ),
@@ -175,7 +185,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                   subtitle: const Divider(),
                                 ),
                                 if (!_showSheet)
-                                  ...vd.data!.drugs.map((e) {
+                                  ...widget.data.drugs.map((e) {
                                     return ListTile(
                                       title: Row(
                                         children: [
@@ -201,7 +211,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                     );
                                   }).toList()
                                 else
-                                  ...vd.data!.data.entries.map((e) {
+                                  ...widget.data.data.entries.map((e) {
                                     return ListTile(
                                       title: Row(
                                         children: [
@@ -251,7 +261,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                             ),
                             delegate: SliverChildListDelegate(
                               [
-                                ...vd.data!.labs.map((e) {
+                                ...widget.data.labs.map((e) {
                                   return ListTile(
                                     leading: const Text(
                                       '℞',
@@ -274,7 +284,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                   title: Text('Rads'),
                                   subtitle: Divider(),
                                 ),
-                                ...vd.data!.rads.map((e) {
+                                ...widget.data.rads.map((e) {
                                   return ListTile(
                                     leading: const Text(
                                       '℞',

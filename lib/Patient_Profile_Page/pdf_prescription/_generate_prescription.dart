@@ -18,25 +18,25 @@ Future<Uint8List> generatePrescription({
 }) async {
   final Uint8List fontData = File('assets\\fonts\\cairo.ttf').readAsBytesSync();
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
-  final _style = pw.TextStyle(
+  final style = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1.5,
     fontSize: 10,
   );
-  final _titleStyle = pw.TextStyle(
+  final titleStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1.5,
     fontSize: 18,
   );
-  final _subtitleStyle = pw.TextStyle(
+  final subtitleStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1.5,
     fontSize: 14,
   );
-  final _RxStyle = pw.TextStyle(
+  final RxStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1.5,
@@ -70,13 +70,13 @@ Future<Uint8List> generatePrescription({
                               final d_ = DateTime.parse(visit.visitDate);
                               return pw.Text(
                                 '${isEnglish ? "Date : " : "التاريخ : "} ${d_.day}-${d_.month}-${d_.year}',
-                                style: _style,
+                                style: style,
                               );
                             },
                           ),
                           pw.Text(
                             '${isEnglish ? "Name : " : "الاسم : "} ${visit.ptName}',
-                            style: _style,
+                            style: style,
                             textDirection: pw.TextDirection.rtl,
                           ),
                           pw.Builder(
@@ -86,13 +86,13 @@ Future<Uint8List> generatePrescription({
                               final age = t.year - d.year;
                               return pw.Text(
                                 '${isEnglish ? "Age : " : "السن : "} $age ${isEnglish ? "Years" : "سنة"}',
-                                style: _style,
+                                style: style,
                               );
                             },
                           ),
                           pw.Text(
                             '${isEnglish ? "Visit : " : "الزيارة : "} ${visitTypeTranslated(visit.visitType, isEnglish)}',
-                            style: _style,
+                            style: style,
                           ),
                         ],
                       ),
@@ -110,7 +110,7 @@ Future<Uint8List> generatePrescription({
                             children: [
                               pw.Text(
                                 isEnglish ? "Dr. " : 'دكتور',
-                                style: _style,
+                                style: style,
                                 textAlign: pw.TextAlign.center,
                               ),
                               pw.SizedBox(width: 10),
@@ -122,7 +122,7 @@ Future<Uint8List> generatePrescription({
                                       ? doctor.docnameEN
                                       : doctor.docnameAR,
                                   textAlign: pw.TextAlign.center,
-                                  style: _titleStyle,
+                                  style: titleStyle,
                                 ),
                               ),
                             ],
@@ -131,7 +131,7 @@ Future<Uint8List> generatePrescription({
                             return pw.Text(
                               isEnglish ? e.titleEn : e.titleAr,
                               textAlign: pw.TextAlign.center,
-                              style: _style,
+                              style: style,
                             );
                           }).toList(),
                         ],
@@ -171,7 +171,7 @@ Future<Uint8List> generatePrescription({
                               ),
                               child: pw.Text(
                                 'Rx',
-                                style: _RxStyle,
+                                style: RxStyle,
                                 textAlign: pw.TextAlign.center,
                               ),
                               alignment: pw.Alignment.center,
@@ -184,16 +184,16 @@ Future<Uint8List> generatePrescription({
                             children: [
                               pw.Text(
                                 e.name,
-                                style: _titleStyle,
+                                style: titleStyle,
                               ),
                               pw.Text(
                                 e.dose.formatArabic(),
-                                style: _subtitleStyle,
+                                style: subtitleStyle,
                                 textDirection: pw.TextDirection.rtl,
                               ),
                               pw.Text(
                                 "- - -",
-                                style: _style,
+                                style: style,
                               ),
                             ],
                           ),
@@ -208,7 +208,7 @@ Future<Uint8List> generatePrescription({
                               ),
                               child: pw.Text(
                                 'Rx',
-                                style: _RxStyle,
+                                style: RxStyle,
                                 textAlign: pw.TextAlign.center,
                               ),
                               alignment: pw.Alignment.center,
@@ -227,12 +227,12 @@ Future<Uint8List> generatePrescription({
                           pw.SizedBox(width: 30),
                           pw.Text(
                             isEnglish ? e.key : e.value,
-                            style: isEnglish ? _titleStyle : _subtitleStyle,
+                            style: isEnglish ? titleStyle : subtitleStyle,
                           ),
                           pw.SizedBox(width: 30),
                           pw.Text(
                             isEnglish ? e.value : e.key,
-                            style: isEnglish ? _subtitleStyle : _titleStyle,
+                            style: isEnglish ? subtitleStyle : titleStyle,
                           ),
                           pw.SizedBox(width: 30),
                         ],
@@ -247,14 +247,14 @@ Future<Uint8List> generatePrescription({
                   pw.SizedBox(height: 10),
                   pw.Text(
                     "${isEnglish ? "Laboratory Request" : "التحاليل المطلوبة"}\n--------------------",
-                    style: _subtitleStyle,
+                    style: subtitleStyle,
                     textAlign: pw.TextAlign.center,
                   ),
                   pw.SizedBox(height: 10),
                   ...data.labs.map((e) {
                     return pw.Text(
                       "** $e",
-                      style: _style,
+                      style: style,
                     );
                   }).toList(),
                   pw.SizedBox(height: 10),
@@ -266,13 +266,13 @@ Future<Uint8List> generatePrescription({
                   pw.SizedBox(height: 10),
                   pw.Text(
                     "${isEnglish ? "Radiology Request" : "الاشاعات المطلوبة"}\n--------------------",
-                    style: _subtitleStyle,
+                    style: subtitleStyle,
                   ),
                   pw.SizedBox(height: 10),
                   ...data.rads.map((e) {
                     return pw.Text(
                       "** $e",
-                      style: _style,
+                      style: style,
                     );
                   }).toList(),
                   pw.SizedBox(height: 10),
@@ -291,7 +291,7 @@ Future<Uint8List> generatePrescription({
                   ...doctor.clinicDetails.map((e) {
                     return pw.Text(
                       isEnglish ? e.detailEn : e.detailAr,
-                      style: _style,
+                      style: style,
                       textAlign: pw.TextAlign.center,
                     );
                   }).toList(),

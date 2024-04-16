@@ -4,7 +4,6 @@ import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/po
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
@@ -107,17 +106,15 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                               const Spacer(),
                               CustomPOPUPBUTTON(
                                 callPresc: () {
-                                  context.read<PxVisitData>().selectVisit(
-                                      o.database.values.toList()[index]["visit"]
-                                          as Visit);
-                                  context.read<PxVisitData>().selectVisitData(
-                                      o.database.values.toList()[index]["data"]
-                                          as VisitData);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const FinalPrescription(),
+                                      builder: (context) => FinalPrescription(
+                                        visit: o.database.values.toList()[index]
+                                            ["visit"] as Visit,
+                                        data: o.database.values.toList()[index]
+                                            ["data"] as VisitData,
+                                      ),
                                     ),
                                   );
                                 },

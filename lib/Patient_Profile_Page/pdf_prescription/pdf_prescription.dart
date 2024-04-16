@@ -5,11 +5,17 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_generate_prescription.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 class PdfPrescription extends StatefulWidget {
-  const PdfPrescription({super.key});
+  const PdfPrescription({
+    super.key,
+    required this.visit,
+    required this.data,
+  });
+  final Visit visit;
+  final VisitData data;
 
   @override
   State<PdfPrescription> createState() => _PdfPrescriptionState();
@@ -31,8 +37,8 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
       pageFormat: pageFormat,
       context: context,
       doctor: context.read<PxSelectedDoctor>().doctor!,
-      visit: context.read<PxVisitData>().visit!,
-      data: context.read<PxVisitData>().data!,
+      visit: widget.visit,
+      data: widget.data,
       isEnglish: _isEnglish,
       hasSheet: _hasSheet,
     );
