@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                               .read<PxSupplies>()
                                               .fetchAllDoctorSupplies()
                                               .whenComplete(() async {
-                                            //TODO: notify reception
+                                            //todo: notify reception
                                             //TODO: find a better configuration
                                             await context
                                                 .read<PxSocketProvider>()

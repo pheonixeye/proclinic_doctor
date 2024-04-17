@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 
 class PxOverlay extends ChangeNotifier {
-  OverlayEntry? _overlayEntry;
-  OverlayEntry? get overlayEntry => _overlayEntry;
+  Map<String, OverlayEntry> _overlays = {};
+  Map<String, OverlayEntry> get overlays => _overlays;
 
-  //TODO: make notifications stack in a column with downward replacement animation
-
-  bool get isOverlayShown => _overlayEntry != null;
-
-  void toggleOverlay(Widget child, BuildContext context) {
-    isOverlayShown ? _removeOverlay() : _insertOverlay(child, context);
+  void toggleOverlay({
+    required String id,
+    required Widget child,
+    required BuildContext context,
+  }) {
+    _overlays[id] != null
+        ? removeOverlay(id)
+        : _insertOverlay(
+            id: id,
+            child: child,
+            context: context,
+          );
   }
 
-  void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+  void removeOverlay(String id) {
+    _overlays[id]?.remove();
+    _overlays.remove(id);
   }
 
-  void _insertOverlay(Widget child, BuildContext context) {
-    _overlayEntry = OverlayEntry(
+  void _insertOverlay({
+    required String id,
+    required Widget child,
+    required BuildContext context,
+  }) {
+    _overlays[id] = OverlayEntry(
       builder: (context) {
         return child;
       },
     );
-    Overlay.of(context).insert(_overlayEntry!);
-  }
 
-  @override
-  void dispose() {
-    _removeOverlay();
-    super.dispose();
+    Overlay.of(context).insert(_overlays[id]!);
   }
 }

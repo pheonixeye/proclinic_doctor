@@ -6,6 +6,7 @@ import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_pa
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
@@ -57,6 +58,20 @@ class TodayVisitCard extends StatefulWidget {
 
 class _TodayVisitCardState extends State<TodayVisitCard> {
   _typeOfVisit? _state;
+
+  void _notifyReception() {
+    if (context.mounted) {
+      final msg = SocketNotificationMessage.visitUpdatedDoctor(
+        widget.visit.docid!,
+        Tr(
+          e: widget.visit.docNameEN,
+          a: widget.visit.docNameAR,
+        ),
+      );
+      context.read<PxSocketProvider>().sendSocketMessage(msg);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -203,7 +218,8 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                       SxVisit.VISITTYPE,
                                       value.e,
                                     );
-                                //TODO: notify reception
+                                //todo: notify reception
+                                _notifyReception();
                               }
                             }
                             setState(() {
@@ -261,7 +277,8 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                                     .map((e) => e.toJson())
                                                     .toList(),
                                               );
-                                          //TODO: notify reception
+                                          //todo: notify reception
+                                          _notifyReception();
                                         }
                                         await EasyLoading.dismiss();
                                       }
@@ -280,7 +297,8 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                                 ..map((e) => e.toJson())
                                                     .toList(),
                                             );
-                                        //TODO: notify reception
+                                        //todo: notify reception
+                                        _notifyReception();
                                       }
                                       await EasyLoading.dismiss();
                                     },

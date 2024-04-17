@@ -35,8 +35,9 @@ class PxAppNotifications extends ChangeNotifier {
     });
     if (context.mounted) {
       context.read<PxOverlay>().toggleOverlay(
-            NotificationOverlayCard(notification: value),
-            context,
+            id: value.id,
+            child: NotificationOverlayCard(notification: value),
+            context: context,
           );
     }
   }

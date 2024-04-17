@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class NetworkSettings {
@@ -33,7 +34,9 @@ class NetworkSettings {
 
   Future<String?> getIpAddress() async {
     final ip = await storage?.get('ip') as String?;
-    print(ip);
+    if (kDebugMode) {
+      print(ip);
+    }
     return ip;
   }
 }

@@ -65,6 +65,10 @@ class PxSocketProvider extends ChangeNotifier {
     _socket?.write(msg.toJson());
   }
 
+  void sendSocketMessage(SocketNotificationMessage message) {
+    _socket?.write(message.toJson());
+  }
+
   List<int>? _socketMessage;
   List<int>? get socketMessage => _socketMessage;
 
@@ -92,12 +96,12 @@ class PxSocketProvider extends ChangeNotifier {
 
   void parseSocketEvent(List<int>? event, BuildContext context) async {
     if (event != null) {
-      final String _strMessage = utf8.decode(_socketMessage!);
-      final _msg = SocketNotificationMessage.fromJson(_strMessage);
+      final String strMessage = utf8.decode(_socketMessage!);
+      final msg = SocketNotificationMessage.fromJson(strMessage);
       //todo: fire notification
       await context.read<PxAppNotifications>().addNotification(
-          AppNotification.fromSocketNotificationMessage(_msg), context);
-      if (_msg.type == MessageType.newVisit) {
+          AppNotification.fromSocketNotificationMessage(msg), context);
+      if (msg.type == MessageType.newVisit) {
         if (context.mounted) {
           await context.read<PxVisits>().fetchVisits(
                 type: QueryType.Today,

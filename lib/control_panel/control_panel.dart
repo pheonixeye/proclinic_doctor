@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
+import 'package:proclinic_doctor_windows/control_panel/notifier_popupmenu_btn.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/search_patients_under/search_patients_under.dart';
@@ -154,6 +155,10 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               );
             },
           ),
+          const SizedBox(
+            width: 20,
+          ),
+          const NotifierPopupMenuBtn(),
           const SizedBox(
             width: 20,
           ),

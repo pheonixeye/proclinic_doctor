@@ -30,7 +30,11 @@ class _NotificationOverlayCardState extends State<NotificationOverlayCard>
       setState(() {
         _progress += 0.001;
         if (_progress == 1.0) {
-          context.read<PxOverlay>().toggleOverlay(widget, context);
+          context.read<PxOverlay>().toggleOverlay(
+                id: widget.notification.id,
+                child: widget,
+                context: context,
+              );
           timer.cancel();
         }
       });
@@ -69,59 +73,81 @@ class _NotificationOverlayCardState extends State<NotificationOverlayCard>
     super.dispose();
   }
 
+  bool _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 36.0),
-      child: Align(
-        alignment: Alignment.topRight,
-        child: Container(
-          width: MediaQuery.sizeOf(context).width * 0.3,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(20),
+    return Consumer<PxOverlay>(
+      builder: (context, o, _) {
+        final index = o.overlays.keys
+            .toList()
+            .indexWhere((e) => e == widget.notification.id);
+        return Padding(
+          padding: EdgeInsets.only(
+            top: (index * 120.0) + 12,
+            right: 12,
           ),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ExpansionTile(
-                trailing: FloatingActionButton.small(
-                  heroTag: DateTime.now().toIso8601String(),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  onPressed: () {
-                    timer?.cancel();
-                    context.read<PxOverlay>().toggleOverlay(widget, context);
-                  },
-                  child: const Icon(Icons.check),
-                ),
-                leading: const CircleAvatar(
-                  child: Icon(Icons.info),
-                ),
-                title: Text(
-                  widget.notification.titleEn,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Padding(
+          child: Align(
+            alignment: _isExpanded ? Alignment.topCenter : Alignment.topRight,
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * 0.3,
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Card(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.cyanAccent,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
-                    value: _progress,
+                  child: ExpansionTile(
+                    onExpansionChanged: (value) {
+                      setState(() {
+                        _isExpanded = value;
+                      });
+                    },
+                    trailing: FloatingActionButton.small(
+                      heroTag: DateTime.now().toIso8601String(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      onPressed: () {
+                        timer?.cancel();
+                        o.toggleOverlay(
+                          id: widget.notification.id,
+                          child: widget,
+                          context: context,
+                        );
+                      },
+                      child: const Icon(Icons.check),
+                    ),
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.info),
+                    ),
+                    title: Text(
+                      widget.notification.titleEn,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.cyanAccent,
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.red),
+                        value: _progress,
+                      ),
+                    ),
+                    children: [
+                      SelectableText(
+                        widget.notification.descriptionEn,
+                      ),
+                    ],
                   ),
                 ),
-                children: [
-                  SelectableText(
-                    widget.notification.descriptionEn,
-                  ),
-                ],
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

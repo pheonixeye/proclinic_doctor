@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //TODO: IMPLEMENT TWO WAY NOTIFICATIONS
+  //todo: IMPLEMENT TWO WAY NOTIFICATIONS
   //todo: ADD MODELS PACKAGE
   await initHive();
 
