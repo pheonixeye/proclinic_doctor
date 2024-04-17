@@ -1,41 +1,109 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
+import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
+import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_models/proclinic_models.dart';
+import 'package:provider/provider.dart';
 
 class PxSocketProvider extends ChangeNotifier {
-  late final Socket? _socket;
+  Socket? _socket;
   final int docid;
   final NetworkSettings _networkSettings = NetworkSettings.instance();
 
-  PxSocketProvider({required this.docid});
+  PxSocketProvider({
+    required this.docid,
+  });
 
-  Future<void> initSocketConnection() async {
+  bool _isConnected = false;
+  bool get isConnected => _isConnected;
+
+  Future<void> initSocketConnection(BuildContext context) async {
     try {
       _socket = await Socket.connect(
         InternetAddress(await _networkSettings.getIpAddress() ?? ""),
         6789,
       );
-      print(docid);
+      _isConnected = true;
+      if (kDebugMode) {
+        print(docid);
+      }
+
+      notifyListeners();
+      if (context.mounted) {
+        sendDocLogin(context);
+      }
     } catch (e) {
       _socket = null;
-      print('socket is null');
+      _isConnected = false;
+      if (kDebugMode) {
+        print('socket not connected.');
+      }
+      notifyListeners();
     }
     notifyListeners();
   }
 
-  bool _isSocketConnected() {
-    if (_socket != null) {
-      return true;
-    }
-    return false;
-  }
-
-  bool get isSocketConnected => _isSocketConnected();
-
   void sendDocId() {
     if (_socket != null) {
       _socket!.write(docid);
+    }
+  }
+
+  void sendDocLogin(BuildContext context) {
+    final doctor = context.read<PxSelectedDoctor>().doctor!;
+    final tr = Tr(
+      e: doctor.docnameEN,
+      a: doctor.docnameAR,
+    );
+    final msg = SocketNotificationMessage.doctorLogin(docid, tr);
+    _socket?.write(msg.toJson());
+  }
+
+  List<int>? _socketMessage;
+  List<int>? get socketMessage => _socketMessage;
+
+  void listenToSocket(BuildContext context) {
+    _socket?.asBroadcastStream().listen((event) {
+      _socketMessage = event;
+      parseSocketEvent(event, context);
+    });
+  }
+
+  void disconnect(BuildContext context) {
+    final doctor = context.read<PxSelectedDoctor>().doctor!;
+    final tr = Tr(
+      e: doctor.docnameEN,
+      a: doctor.docnameAR,
+    );
+    final msg = SocketNotificationMessage.doctorLogout(docid, tr);
+
+    _socket?.write(msg.toJson());
+    _socket?.close();
+    _socket = null;
+    _isConnected = false;
+    notifyListeners();
+  }
+
+  void parseSocketEvent(List<int>? event, BuildContext context) async {
+    if (event != null) {
+      final String _strMessage = utf8.decode(_socketMessage!);
+      final _msg = SocketNotificationMessage.fromJson(_strMessage);
+      //todo: fire notification
+      await context.read<PxAppNotifications>().addNotification(
+          AppNotification.fromSocketNotificationMessage(_msg), context);
+      if (_msg.type == MessageType.newVisit) {
+        if (context.mounted) {
+          await context.read<PxVisits>().fetchVisits(
+                type: QueryType.Today,
+              );
+        }
+      }
     }
   }
 }

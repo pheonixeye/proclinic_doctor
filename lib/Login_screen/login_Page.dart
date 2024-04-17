@@ -129,10 +129,8 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                             //TODO: find a better configuration
                                             await context
                                                 .read<PxSocketProvider>()
-                                                .initSocketConnection();
-                                            context
-                                                .read<PxSocketProvider>()
-                                                .sendDocId();
+                                                .initSocketConnection(context);
+
                                             await EasyLoading.dismiss();
                                           });
                                         }

@@ -4,6 +4,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
+import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/search_patients_under/search_patients_under.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/today_patients_page/today_patients_page.dart';
@@ -48,6 +49,9 @@ class _ControlPanelPageState extends State<ControlPanelPage>
     await context.read<PxVisits>().fetchVisits(
           type: QueryType.Today,
         );
+    if (context.mounted) {
+      context.read<PxSocketProvider>().listenToSocket(context);
+    }
   }
 
   void callSettings() {
@@ -74,6 +78,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               label: const Text('Confirm'),
               onPressed: () {
                 Navigator.pop(context);
+                context.read<PxSocketProvider>().disconnect(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -121,18 +126,37 @@ class _ControlPanelPageState extends State<ControlPanelPage>
           const SizedBox(
             width: 20,
           ),
-          // Builder(
-          //   builder: (context) {
-          //     return IconButton.filled(
-          //       onPressed: () {
-          //         context
-          //             .read<PxAppNotifications>()
-          //             .addNotification(AppNotification.test(), context);
-          //       },
-          //       icon: const Icon(Icons.add),
-          //     );
-          //   },
-          // ),
+          Consumer<PxSocketProvider>(
+            builder: (context, s, _) {
+              while (s.isConnected) {
+                return IconButton.filled(
+                  tooltip: 'Notification Service Online, Disconnect.',
+                  onPressed: () async {
+                    await EasyLoading.show(status: "Loading...");
+                    if (context.mounted) {
+                      s.disconnect(context);
+                    }
+                    await EasyLoading.dismiss();
+                  },
+                  icon: const Icon(Icons.wifi_rounded),
+                );
+              }
+              return IconButton.outlined(
+                tooltip: "Notifications Service Offline, Try Again.",
+                onPressed: () async {
+                  await EasyLoading.show(status: "Loading...");
+                  if (context.mounted) {
+                    await s.initSocketConnection(context);
+                  }
+                  await EasyLoading.dismiss();
+                },
+                icon: const Icon(Icons.wifi_off),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 20,
+          ),
         ],
         title: Consumer<PxSelectedDoctor>(
           builder: (context, d, c) {

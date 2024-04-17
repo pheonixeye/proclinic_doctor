@@ -17,6 +17,11 @@ class PxAppNotifications extends ChangeNotifier {
 
   void fetchNotifications() {
     final result = box.values.toList();
+    result.sort((a, b) {
+      final da = DateTime.parse(a.dateTime);
+      final db = DateTime.parse(b.dateTime);
+      return da.isAfter(db) ? 0 : 1;
+    });
     _notifications = result;
     notifyListeners();
   }
