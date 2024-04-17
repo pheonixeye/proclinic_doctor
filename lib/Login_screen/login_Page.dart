@@ -7,6 +7,7 @@ import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.da
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/alert_dialogs.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
 // import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -125,6 +126,13 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                               .fetchAllDoctorSupplies()
                                               .whenComplete(() async {
                                             //TODO: notify reception
+                                            //TODO: find a better configuration
+                                            await context
+                                                .read<PxSocketProvider>()
+                                                .initSocketConnection();
+                                            context
+                                                .read<PxSocketProvider>()
+                                                .sendDocId();
                                             await EasyLoading.dismiss();
                                           });
                                         }

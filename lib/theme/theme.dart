@@ -9,7 +9,7 @@ class ThemeConstants {
     borderRadius: BorderRadius.circular(15),
     boxShadow: [
       BoxShadow(
-        color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+        color: _randomShadowColor,
         offset: const Offset(2, 2),
         blurRadius: 5,
         spreadRadius: 5,
@@ -17,4 +17,8 @@ class ThemeConstants {
     ],
   );
   static BoxDecoration get cd => _containerDecoration;
+
+  static final _randomShadowColor =
+      Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  static get randomShadowColor => _randomShadowColor;
 }

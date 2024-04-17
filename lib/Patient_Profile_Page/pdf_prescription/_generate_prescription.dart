@@ -36,7 +36,7 @@ Future<Uint8List> generatePrescription({
     letterSpacing: 1.5,
     fontSize: 14,
   );
-  final RxStyle = pw.TextStyle(
+  final rxStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1.5,
@@ -171,7 +171,7 @@ Future<Uint8List> generatePrescription({
                               ),
                               child: pw.Text(
                                 'Rx',
-                                style: RxStyle,
+                                style: rxStyle,
                                 textAlign: pw.TextAlign.center,
                               ),
                               alignment: pw.Alignment.center,
@@ -208,7 +208,7 @@ Future<Uint8List> generatePrescription({
                               ),
                               child: pw.Text(
                                 'Rx',
-                                style: RxStyle,
+                                style: rxStyle,
                                 textAlign: pw.TextAlign.center,
                               ),
                               alignment: pw.Alignment.center,

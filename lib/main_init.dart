@@ -6,13 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:minisound/minisound.dart' as minisound;
+import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
+import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
+import 'package:proclinic_models/proclinic_models.dart';
 
 ///init sockets
 ///
 late final Socket socket;
 
-Future<void> initSocket() async {
+Future<void> _initSocket() async {
   //TODO: EXPAND ON IT
   //TODO: get network address from hive
   //TODO: define socket on login not app initiation
@@ -26,9 +29,16 @@ Future<void> initSocket() async {
 ///init hive package
 ///
 Future<void> initHive() async {
-  //init hive boxes
+  //init theme box
   Hive.init('assets\\themestore.hive');
   ThemeChanger.box = await Hive.openBox('themestore');
+  //init notification box
+  Hive
+    ..init('assets\\notifications.hive')
+    ..registerAdapter(AppNotificationAdapter());
+  PxAppNotifications.box = await Hive.openBox<AppNotification>('notifications');
+  //init network settings
+  await NetworkSettings.init();
 }
 
 ///init themes

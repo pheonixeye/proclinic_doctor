@@ -10,23 +10,20 @@ class Database {
 
   static Database get instance => Database._();
 
-  static final Db _mongo = _checkforkeys();
+  static late final Db _mongo;
   static Db get mongo => _mongo;
 
-  static Db _checkforkeys() {
-    Db? m;
-    if (NetworkSettings.storage == null) {
-      NetworkSettings.init().whenComplete(() {
-        if (NetworkSettings.storage?.get('ip') == null ||
-            NetworkSettings.storage?.get('ip') == 'localhost') {
-          m = Db('mongodb://127.0.0.1:27017/proclinic');
-        } else if (NetworkSettings.storage?.get('ip') != null) {
-          m = Db(
-              'mongodb://${NetworkSettings.storage?.get('ip')}:${NetworkSettings.storage?.get('port')}/proclinic');
-        }
-      });
+  static Future<void> _checkforkeys() async {
+    if (NetworkSettings.storage != null) {
+      if (await NetworkSettings.storage?.get('ip') == null ||
+          await NetworkSettings.storage?.get('ip') == 'localhost') {
+        _mongo = Db('mongodb://127.0.0.1:27017/proclinic');
+      } else if (await NetworkSettings.storage?.get('ip') != null) {
+        _mongo = Db(
+            'mongodb://${await NetworkSettings.storage?.get('ip')}:${await NetworkSettings.storage?.get('port')}/proclinic');
+      }
     }
-    return m ?? Db('mongodb://127.0.0.1:27017/proclinic');
+    // return _mongo;
   }
 
   static final DbCollection _visits = mongo.collection('visits');
@@ -38,13 +35,8 @@ class Database {
   static final DbCollection _contracts = mongo.collection('contracts');
   static final GridFS _grid = GridFS(mongo);
 
-  // static DbCollection patients = mongo.collection('patients');
-  // static DbCollection visits = mongo.collection('visits');
-  // static DbCollection visitData = mongo.collection('visitdata');
-  // static DbCollection allDoctors = mongo.collection('doctors');
-  // static DbCollection appOrganizer = mongo.collection('apporganizer');
-
   static Future<void> openYaMongo() async {
+    await _checkforkeys();
     if (mongo.state == State.opening) {
       await mongo.close();
     }

@@ -31,7 +31,7 @@ Future<void> main() async {
   );
   initSound();
 
-  await initSocket();
+  // await _initSocket();
 }
 
 class MyApp extends StatelessWidget {

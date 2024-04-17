@@ -12,7 +12,7 @@ class NoDBConnectionPage extends StatefulWidget {
 }
 
 class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
-  final netset = const NetworkSettings();
+  final netset = NetworkSettings.instance();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

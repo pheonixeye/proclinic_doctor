@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
+import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/search_patients_under/search_patients_under.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/today_patients_page/today_patients_page.dart';
@@ -10,6 +11,8 @@ import 'package:proclinic_doctor_windows/control_panel/popupbutton_logout_settin
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_doctor_windows/widgets/notification_card.dart';
 import 'package:provider/provider.dart';
 
 class ControlPanelPage extends StatefulWidget {
@@ -32,6 +35,12 @@ class _ControlPanelPageState extends State<ControlPanelPage>
     );
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,6 +106,34 @@ class _ControlPanelPageState extends State<ControlPanelPage>
           callSettings: callSettings,
           callLogout: callLogout,
         ),
+        actions: [
+          Builder(
+            builder: (context) {
+              return IconButton.filled(
+                tooltip: "Notifications - التنبيهات",
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: const Icon(Icons.notifications),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          // Builder(
+          //   builder: (context) {
+          //     return IconButton.filled(
+          //       onPressed: () {
+          //         context
+          //             .read<PxAppNotifications>()
+          //             .addNotification(AppNotification.test(), context);
+          //       },
+          //       icon: const Icon(Icons.add),
+          //     );
+          //   },
+          // ),
+        ],
         title: Consumer<PxSelectedDoctor>(
           builder: (context, d, c) {
             while (d.doctor == null) {
@@ -153,6 +190,101 @@ class _ControlPanelPageState extends State<ControlPanelPage>
             ),
           ],
         ),
+      ),
+      endDrawer: Builder(
+        builder: (context) {
+          return Container(
+            width: 350,
+            decoration: BoxDecoration(
+              border: const Border.symmetric(),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(3, 3),
+                  blurRadius: 3,
+                  spreadRadius: 3,
+                  color: ThemeConstants.randomShadowColor,
+                ),
+              ],
+            ),
+            child: Card(
+              elevation: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "Notifications",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton.filled(
+                          tooltip:
+                              "delete all notifications - الغاء كل التنبيهات",
+                          onPressed: () async {
+                            await EasyLoading.show(status: "Loading...");
+                            if (context.mounted) {
+                              await context
+                                  .read<PxAppNotifications>()
+                                  .deleteAllNotifications();
+                            }
+                            await EasyLoading.dismiss();
+                          },
+                          icon: const Icon(Icons.clear_all),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Expanded(
+                    child: Consumer<PxAppNotifications>(
+                      builder: (context, n, _) {
+                        while (n.notifications.isEmpty) {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('No Notifications Found.'),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: n.notifications.length,
+                          itemBuilder: (context, index) {
+                            final item = n.notifications[index];
+                            return NotificationCard(
+                              index: index,
+                              item: item,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),

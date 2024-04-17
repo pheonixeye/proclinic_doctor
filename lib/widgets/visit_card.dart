@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_page_main.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +23,7 @@ class VisitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //todo: ADD ABILITY TO CHANGE VISIT TYPE
-    //TODO: NOTIFY RECEPTION VIA SOCKETS
+    //todo: NOTIFY RECEPTION VIA SOCKETS
     //todo: ADD PROCEDURES IN LIST FORMAT
 
     return Padding(
@@ -121,6 +123,22 @@ class VisitCard extends StatelessWidget {
                             'Visit Date :\n${d.day}-${d.month}-${d.year}');
                       },
                     ),
+                  //todo: ADD QR BTN
+                  const SizedBox(width: 30),
+                  IconButton.outlined(
+                    icon: const Icon(Icons.qr_code_2),
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) => QrDialog(
+                          code: QrCode.fromData(
+                            data: visit.id.oid,
+                            errorCorrectLevel: QrErrorCorrectLevel.H,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
