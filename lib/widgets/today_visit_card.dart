@@ -9,6 +9,7 @@ import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
 import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
@@ -67,6 +68,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
           e: widget.visit.docNameEN,
           a: widget.visit.docNameAR,
         ),
+        widget.visit.id.oid,
       );
       context.read<PxSocketProvider>().sendSocketMessage(msg);
     }
@@ -244,6 +246,9 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   Expanded(
                     child: Consumer<PxSelectedDoctor>(
                       builder: (context, d, _) {
+                        while (d.doctor == null) {
+                          return const CentralLoading();
+                        }
                         return Card(
                           elevation: 6,
                           child: Padding(
@@ -287,15 +292,20 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                       await EasyLoading.show(
                                           status: "Loading...");
                                       if (context.mounted) {
+                                        final original = [
+                                          ...widget.visit.procedures
+                                        ];
+                                        original
+                                            .removeWhere((x) => x.id == e.id);
+                                        final update = original
+                                            .map((e) => e.toJson())
+                                            .toList();
                                         await context
                                             .read<PxVisits>()
                                             .updateVisitDetails(
                                               widget.visit.id,
                                               SxVisit.PROCEDURES,
-                                              [...widget.visit.procedures]
-                                                ..remove(e)
-                                                ..map((e) => e.toJson())
-                                                    .toList(),
+                                              update,
                                             );
                                         //todo: notify reception
                                         _notifyReception();

@@ -37,10 +37,11 @@ class PxSocketProvider extends ChangeNotifier {
       if (context.mounted) {
         sendDocLogin(context);
       }
-    } catch (e) {
+    } on (Exception, StackTrace) catch (e, _) {
       _socket = null;
       _isConnected = false;
       if (kDebugMode) {
+        print(e.toString());
         print('socket not connected.');
       }
       notifyListeners();
@@ -95,7 +96,7 @@ class PxSocketProvider extends ChangeNotifier {
 
   void parseSocketEvent(List<int>? event, BuildContext context) async {
     if (event != null) {
-      final String strMessage = utf8.decode(_socketMessage!);
+      final String strMessage = json.encode(_socketMessage!);
       final msg = SocketNotificationMessage.fromJson(strMessage);
       //todo: fire notification
       await context.read<PxAppNotifications>().addNotification(

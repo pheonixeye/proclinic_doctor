@@ -82,7 +82,9 @@ class PxVisitData extends ChangeNotifier {
       );
       final result =
           await Database.instance.visits.findOne(where.eq("_id", _visit!.id));
-      selectVisit(Visit.fromJson(result));
+      if (result != null) {
+        selectVisit(Visit.fromJson(result));
+      }
     } else {
       throw Exception("No Selected Visit.");
     }

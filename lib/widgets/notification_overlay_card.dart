@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:minisound/minisound.dart';
+import 'package:proclinic_doctor_windows/functions/format_time.dart';
+import 'package:proclinic_doctor_windows/functions/visit_requests.dart';
 import 'package:proclinic_doctor_windows/main_init.dart';
 import 'package:proclinic_doctor_windows/providers/overlay_provider.dart';
+import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
@@ -140,6 +143,43 @@ class _NotificationOverlayCardState extends State<NotificationOverlayCard>
                       SelectableText(
                         widget.notification.descriptionEn,
                       ),
+                      if (widget.notification.visitid != null)
+                        GestureDetector(
+                          onTap: () {
+                            //TODO: complete
+                            //TODO: extract into a separate widget
+                          },
+                          child: Card(
+                            elevation: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FutureBuilder<Visit?>(
+                                future: VisitRequests.fetchVisitById(
+                                    widget.notification.visitid!),
+                                builder: (context, snapshot) {
+                                  while (snapshot.connectionState ==
+                                      ConnectionState.active) {
+                                    return const CentralLoading();
+                                  }
+                                  final visit =
+                                      snapshot.hasData ? snapshot.data : null;
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SelectableText(
+                                          "Patient Name : ${visit?.ptName}"),
+                                      SelectableText(
+                                          "Patient Phone : ${visit?.phone}"),
+                                      SelectableText(
+                                          "Visit Date : ${formatDateWithoutTime(visit!.visitDate)}"),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

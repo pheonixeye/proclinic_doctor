@@ -16,31 +16,40 @@ Future<Uint8List> generatePrescription({
   bool isEnglish = false,
   bool hasSheet = false,
 }) async {
-  final Uint8List fontData =
-      File('c:\\ProClinic\\Release\\cairo.ttf').readAsBytesSync();
+  //TODO: CHANGE AT BUILD TIME
+
+  // final Uint8List fontData =
+  //     File('c:\\ProClinic\\Release\\cairo.ttf').readAsBytesSync();
+  final Uint8List fontData = File('assets\\fonts\\font.ttf').readAsBytesSync();
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
   final style = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
-    letterSpacing: 1.5,
-    fontSize: 10,
+    letterSpacing: 1,
+    fontSize: 12,
   );
   final titleStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
-    letterSpacing: 1.5,
+    letterSpacing: 1,
+    fontSize: 24,
+  );
+  final drugStyle = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
     fontSize: 18,
   );
   final subtitleStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
-    letterSpacing: 1.5,
+    letterSpacing: 1,
     fontSize: 14,
   );
   final rxStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
-    letterSpacing: 1.5,
+    letterSpacing: 1,
     fontSize: 24,
   );
 
@@ -55,100 +64,97 @@ Future<Uint8List> generatePrescription({
       build: (pw.Context pwcontext) {
         return pw.Column(
           children: [
-            pw.Expanded(
-              flex: 2,
-              child: pw.Row(
-                children: [
-                  pw.Expanded(
-                    flex: 2,
-                    child: pw.Padding(
-                      padding: const pw.EdgeInsets.all(8.0),
-                      child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        children: [
-                          pw.Builder(
-                            builder: (context) {
-                              final d_ = DateTime.parse(visit.visitDate);
-                              return pw.Text(
-                                '${isEnglish ? "Date : " : "التاريخ : "} ${d_.day}-${d_.month}-${d_.year}',
-                                style: style,
-                              );
-                            },
-                          ),
-                          pw.Text(
-                            '${isEnglish ? "Name : " : "الاسم : "} ${visit.ptName}',
-                            style: style,
-                            textDirection: pw.TextDirection.rtl,
-                          ),
-                          pw.Builder(
-                            builder: (context) {
-                              final d = DateTime.parse(visit.dob);
-                              final t = DateTime.now();
-                              final age = t.year - d.year;
-                              return pw.Text(
-                                '${isEnglish ? "Age : " : "السن : "} $age ${isEnglish ? "Years" : "سنة"}',
-                                style: style,
-                              );
-                            },
-                          ),
-                          pw.Text(
-                            '${isEnglish ? "Visit : " : "الزيارة : "} ${visitTypeTranslated(visit.visitType, isEnglish)}',
-                            style: style,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  //doctor titles
-                  pw.Expanded(
-                    flex: 3,
-                    child: pw.Padding(
-                      padding: const pw.EdgeInsets.symmetric(horizontal: 8.0),
-                      child: pw.Column(
-                        children: [
-                          pw.Row(
-                            mainAxisAlignment: pw.MainAxisAlignment.center,
-                            children: [
-                              pw.Text(
-                                isEnglish ? "Dr. " : 'دكتور',
-                                style: style,
-                                textAlign: pw.TextAlign.center,
-                              ),
-                              pw.SizedBox(width: 10),
-                              pw.Padding(
-                                padding: const pw.EdgeInsets.symmetric(
-                                    vertical: 4.0),
-                                child: pw.Text(
-                                  isEnglish
-                                      ? doctor.docnameEN
-                                      : doctor.docnameAR,
-                                  textAlign: pw.TextAlign.center,
-                                  style: titleStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-                          ...doctor.titles.map((e) {
+            pw.Row(
+              children: [
+                pw.Expanded(
+                  flex: 2,
+                  child: pw.Padding(
+                    padding: const pw.EdgeInsets.all(8.0),
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      mainAxisSize: pw.MainAxisSize.min,
+                      children: [
+                        pw.Builder(
+                          builder: (context) {
+                            final d_ = DateTime.parse(visit.visitDate);
                             return pw.Text(
-                              isEnglish ? e.titleEn : e.titleAr,
-                              textAlign: pw.TextAlign.center,
+                              '${isEnglish ? "Date : " : "التاريخ : "} ${d_.day}-${d_.month}-${d_.year}',
                               style: style,
                             );
-                          }).toList(),
-                        ],
-                      ),
+                          },
+                        ),
+                        pw.Text(
+                          '${isEnglish ? "Name : " : "الاسم : "} ${visit.ptName}',
+                          style: style,
+                          textDirection: pw.TextDirection.rtl,
+                        ),
+                        pw.Builder(
+                          builder: (context) {
+                            final d = DateTime.parse(visit.dob);
+                            final t = DateTime.now();
+                            final age = t.year - d.year;
+                            return pw.Text(
+                              '${isEnglish ? "Age : " : "السن : "} $age ${isEnglish ? "Years" : "سنة"}',
+                              style: style,
+                            );
+                          },
+                        ),
+                        pw.Text(
+                          '${isEnglish ? "Visit : " : "الزيارة : "} ${visitTypeTranslated(visit.visitType, isEnglish)}',
+                          style: style,
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                //doctor titles
+                pw.Expanded(
+                  flex: 3,
+                  child: pw.Padding(
+                    padding: const pw.EdgeInsets.symmetric(horizontal: 8.0),
+                    child: pw.Column(
+                      mainAxisSize: pw.MainAxisSize.min,
+                      children: [
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.center,
+                          children: [
+                            pw.Text(
+                              isEnglish ? "Dr. " : 'دكتور',
+                              style: style,
+                              textAlign: pw.TextAlign.center,
+                            ),
+                            pw.SizedBox(width: 10),
+                            pw.Padding(
+                              padding:
+                                  const pw.EdgeInsets.symmetric(vertical: 4.0),
+                              child: pw.Text(
+                                isEnglish ? doctor.docnameEN : doctor.docnameAR,
+                                textAlign: pw.TextAlign.center,
+                                style: titleStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                        ...doctor.titles.map((e) {
+                          return pw.Text(
+                            isEnglish ? e.titleEn : e.titleAr,
+                            textAlign: pw.TextAlign.center,
+                            style: style,
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             pw.Divider(
-              height: 2,
+              height: 5,
               thickness: 1,
               color: PdfColor.fromInt(Colors.black.value),
             ),
             pw.Expanded(
-              flex: 8,
+              // flex: 8,
               child: pw.Column(
                 // crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
@@ -185,7 +191,7 @@ Future<Uint8List> generatePrescription({
                             children: [
                               pw.Text(
                                 e.name,
-                                style: titleStyle,
+                                style: drugStyle,
                               ),
                               pw.Text(
                                 e.dose.formatArabic(),
@@ -251,7 +257,6 @@ Future<Uint8List> generatePrescription({
                     style: subtitleStyle,
                     textAlign: pw.TextAlign.center,
                   ),
-                  pw.SizedBox(height: 10),
                   ...data.labs.map((e) {
                     return pw.Text(
                       "** $e",
@@ -269,7 +274,6 @@ Future<Uint8List> generatePrescription({
                     "${isEnglish ? "Radiology Request" : "الاشاعات المطلوبة"}\n--------------------",
                     style: subtitleStyle,
                   ),
-                  pw.SizedBox(height: 10),
                   ...data.rads.map((e) {
                     return pw.Text(
                       "** $e",
@@ -282,7 +286,6 @@ Future<Uint8List> generatePrescription({
                     thickness: 1,
                     color: PdfColor.fromInt(Colors.black.value),
                   ),
-                  pw.SizedBox(height: 10),
                   pw.Spacer(),
                   pw.Divider(
                     height: 2,
