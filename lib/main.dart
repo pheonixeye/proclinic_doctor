@@ -6,6 +6,8 @@ import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settin
 import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/labs_rads_settings.dart';
 import 'package:proclinic_doctor_windows/control_panel/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/get_mac_adress_fns/_UUID/fetchUUID.dart';
+import 'package:proclinic_doctor_windows/get_mac_adress_fns/wrong_mac_adress_page/wrong_mac_address.dart';
 import 'package:proclinic_doctor_windows/main_init.dart';
 import 'package:proclinic_doctor_windows/providers/_main.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
           theme: light,
           darkTheme: dark,
           themeMode: t.currentTheme,
-          home: const LoadingScreen(),
+          home: checkUUID() ? const LoadingScreen() : const WrongMacAddrPage(),
           routes: {
             '/fields': (context) => const FieldCreationPage(),
             '/drugs': (context) => const DrugsAndProceduresPage(),

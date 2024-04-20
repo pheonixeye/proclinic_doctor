@@ -3,6 +3,8 @@ import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.dart';
+
 class NoDBConnectionPage extends StatefulWidget {
   final String? error;
 
@@ -12,7 +14,6 @@ class NoDBConnectionPage extends StatefulWidget {
 }
 
 class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
-  final netset = NetworkSettings.instance();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +33,13 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
               height: 20,
             ),
             const Text('Please Resolve this Error and try again later.'),
+            FutureBuilder<String?>(
+              future: NetworkSettings.instance.getIpAddress(),
+              builder: (context, snapshot) {
+                return Text(
+                    'Ip Address : ${snapshot.hasData ? snapshot.data : ""}');
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -54,13 +62,30 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
               icon: const Icon(Icons.network_check_outlined),
               label: const Text('Reset Network Configuration'),
               onPressed: () async {
-                await netset.resetnetwork();
+                await NetworkSettings.instance.resetnetwork();
                 await Future.delayed(const Duration(milliseconds: 50));
                 if (context.mounted) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const LoadingScreen(),
+                    ),
+                  );
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.settings),
+              label: const Text('Network Settings'),
+              onPressed: () async {
+                if (context.mounted) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NetworkSettingsPage(),
                     ),
                   );
                 }

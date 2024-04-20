@@ -4,7 +4,7 @@ import 'package:proclinic_doctor_windows/get_mac_adress_fns/wrong_mac_adress_pag
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-Future runshellmac(BuildContext context) async {
+Future<void> runshellmac(BuildContext context) async {
   // final macadr = LocalStorage('macadr');
   Hive.init('assets\\internals.hive');
   Box boxInternals = await Hive.openBox('internals');

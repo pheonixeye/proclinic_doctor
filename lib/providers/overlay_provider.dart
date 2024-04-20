@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PxOverlay extends ChangeNotifier {
-  Map<String, OverlayEntry> _overlays = {};
+  final Map<String, OverlayEntry> _overlays = {};
   Map<String, OverlayEntry> get overlays => _overlays;
 
   void toggleOverlay({

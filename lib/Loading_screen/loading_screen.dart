@@ -1,5 +1,6 @@
-import 'dart:async' show Timer;
+import 'dart:async';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/Not_Connected_To_Db/not_connected_db.dart';
@@ -16,13 +17,17 @@ class LoadingScreen extends StatefulWidget {
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
   @override
   void initState() {
     runshellmac(context);
     super.initState();
     PdfPrinter.init();
-    Database.openYaMongo().then((value) {
+  }
+
+  @override
+  Future<void> afterFirstLayout(BuildContext context) async {
+    await Database.openYaMongo().then((_) {
       Timer(
         const Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(

@@ -16,7 +16,8 @@ Future<Uint8List> generatePrescription({
   bool isEnglish = false,
   bool hasSheet = false,
 }) async {
-  final Uint8List fontData = File('assets\\fonts\\cairo.ttf').readAsBytesSync();
+  final Uint8List fontData =
+      File('c:\\ProClinic\\Release\\cairo.ttf').readAsBytesSync();
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
   final style = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),

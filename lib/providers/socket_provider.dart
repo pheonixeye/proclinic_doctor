@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 class PxSocketProvider extends ChangeNotifier {
   Socket? _socket;
   final int docid;
-  final NetworkSettings _networkSettings = NetworkSettings.instance();
 
   PxSocketProvider({
     required this.docid,
@@ -26,7 +25,7 @@ class PxSocketProvider extends ChangeNotifier {
   Future<void> initSocketConnection(BuildContext context) async {
     try {
       _socket = await Socket.connect(
-        InternetAddress(await _networkSettings.getIpAddress() ?? ""),
+        InternetAddress(await NetworkSettings.instance.getIpAddress() ?? ""),
         6789,
       );
       _isConnected = true;

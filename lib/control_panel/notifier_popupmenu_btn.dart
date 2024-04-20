@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/constants/uuid.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
@@ -90,6 +92,23 @@ class NotifierPopupMenuBtn extends StatelessWidget {
                       Text("Call Next Visit"),
                       Spacer(),
                       Icon(Icons.next_plan_outlined),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => QrDialog(
+                        code: qrCodeUUID,
+                      ),
+                    );
+                  },
+                  child: const Row(
+                    children: [
+                      Text("Show QR Code"),
+                      Spacer(),
+                      Icon(Icons.qr_code),
                     ],
                   ),
                 ),

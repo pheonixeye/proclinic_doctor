@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io' show exit;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
 // import 'package:proclinic_doctor_windows/theme/theme.dart';
@@ -16,15 +15,13 @@ class NetworkSettingsPage extends StatefulWidget {
 class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
   TextEditingController ipController = TextEditingController();
   TextEditingController portController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final duration = const Duration(seconds: 5);
+  double horSize(context) => MediaQuery.of(context).size.width / 5;
+  double verSize(context) => MediaQuery.of(context).size.height / 5;
 
   @override
   Widget build(BuildContext context) {
-    double horSize = MediaQuery.of(context).size.width / 5;
-    double verSize = MediaQuery.of(context).size.height / 5;
-    final netset = NetworkSettings.instance();
-    const duration = Duration(seconds: 5);
-    final formKey = GlobalKey<FormState>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -38,7 +35,12 @@ class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
         child: Card(
           child: Card(
             elevation: 6,
-            margin: EdgeInsets.fromLTRB(horSize, verSize, horSize, verSize),
+            margin: EdgeInsets.fromLTRB(
+              horSize(context),
+              verSize(context),
+              horSize(context),
+              verSize(context),
+            ),
             child: Center(
               child: Form(
                 key: formKey,
@@ -113,28 +115,16 @@ class _NetworkSettingsPageState extends State<NetworkSettingsPage> {
                       label: const Text('Save'),
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          await netset.adddatatonetwork(
+                          await NetworkSettings.instance.adddatatonetwork(
                               ip: ipController.text.toString(),
                               port: portController.text.toString());
 
-                          if (context.mounted) {
-                            showCustomSnackbar(
-                              context: context,
-                              message: 'Network Settings Updated.',
-                            );
-                          }
-
-                          await EasyLoading.showProgress(
-                            duration.inSeconds / 10,
-                            status: 'Exiting in 5 Seconds.',
+                          await EasyLoading.showSuccess(
+                            'Network Settings Updated, Exiting in 5 Seconds.',
+                            duration: duration,
                           );
-
-                          Timer.periodic(
-                            duration,
-                            (timer) {
-                              setState(() {});
-                            },
-                          );
+                          await Future.delayed(duration);
+                          await EasyLoading.dismiss();
 
                           exit(0);
                         }

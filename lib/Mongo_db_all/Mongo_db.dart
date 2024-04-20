@@ -8,32 +8,38 @@ import 'package:mongo_dart/mongo_dart.dart';
 class Database {
   Database._();
 
-  static Database get instance => Database._();
+  factory Database._instance() => Database._();
+
+  static Database get instance => Database._instance();
 
   static late final Db _mongo;
   static Db get mongo => _mongo;
 
   static Future<void> _checkforkeys() async {
-    if (NetworkSettings.storage != null) {
-      if (await NetworkSettings.storage?.get('ip') == null ||
-          await NetworkSettings.storage?.get('ip') == 'localhost') {
-        _mongo = Db('mongodb://127.0.0.1:27017/proclinic');
-      } else if (await NetworkSettings.storage?.get('ip') != null) {
-        _mongo = Db(
-            'mongodb://${await NetworkSettings.storage?.get('ip')}:${await NetworkSettings.storage?.get('port')}/proclinic');
+    await NetworkSettings.init().then((_) async {
+      if (NetworkSettings.storage != null) {
+        if (await NetworkSettings.storage?.get('ip') == null ||
+            await NetworkSettings.storage?.get('ip') == 'localhost') {
+          _mongo = Db('mongodb://127.0.0.1:27017/proclinic');
+        } else if (await NetworkSettings.storage?.get('ip') != null) {
+          _mongo = Db(
+              'mongodb://${await NetworkSettings.storage?.get('ip')}:${await NetworkSettings.storage?.get('port')}/proclinic');
+        } else {
+          throw MongoDbConnectionException(message: 'Initialization Error.');
+        }
       }
-    }
+    });
     // return _mongo;
   }
 
-  static final DbCollection _visits = mongo.collection('visits');
-  static final DbCollection _patients = mongo.collection('patients');
-  static final DbCollection _visitData = mongo.collection('visitdata');
-  static final DbCollection _allDoctors = mongo.collection('doctors');
-  static final DbCollection _appOrganizer = mongo.collection('apporganizer');
-  static final DbCollection _supplies = mongo.collection('supplies');
-  static final DbCollection _contracts = mongo.collection('contracts');
-  static final GridFS _grid = GridFS(mongo);
+  final DbCollection _visits = mongo.collection('visits');
+  final DbCollection _patients = mongo.collection('patients');
+  final DbCollection _visitData = mongo.collection('visitdata');
+  final DbCollection _allDoctors = mongo.collection('doctors');
+  final DbCollection _appOrganizer = mongo.collection('apporganizer');
+  final DbCollection _supplies = mongo.collection('supplies');
+  final DbCollection _contracts = mongo.collection('contracts');
+  final GridFS _grid = GridFS(mongo);
 
   static Future<void> openYaMongo() async {
     await _checkforkeys();
@@ -50,17 +56,15 @@ class Database {
       }
     } catch (e) {
       throw MongoDbConnectionException(message: e.toString());
-      // return false;
     }
-    // await _checkforkeys();
   }
 
-  DbCollection get visits => Database._visits;
-  DbCollection get visitData => Database._visitData;
-  DbCollection get doctors => Database._allDoctors;
-  DbCollection get patients => Database._patients;
-  DbCollection get supplies => Database._supplies;
-  DbCollection get contracts => Database._contracts;
-  DbCollection get appOrganizer => Database._appOrganizer;
-  GridFS get gird => Database._grid;
+  DbCollection get visits => _visits;
+  DbCollection get visitData => _visitData;
+  DbCollection get doctors => _allDoctors;
+  DbCollection get patients => _patients;
+  DbCollection get supplies => _supplies;
+  DbCollection get contracts => _contracts;
+  DbCollection get appOrganizer => _appOrganizer;
+  GridFS get gird => _grid;
 }

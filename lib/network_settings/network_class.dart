@@ -4,39 +4,46 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class NetworkSettings {
-  const NetworkSettings._();
+  NetworkSettings._();
 
-  static const NetworkSettings _instance = NetworkSettings._();
+  factory NetworkSettings._instance() => NetworkSettings._();
 
-  factory NetworkSettings.instance() {
-    return _instance;
-  }
+  static NetworkSettings get instance => NetworkSettings._instance();
+
+  static final Future<Box> _box = Hive.openBox('network');
 
   static Box? storage;
 
   static Future<void> init() async {
     Hive.init('assets\\network.hive');
-    storage = await Hive.openBox('network');
+    storage = await _box;
   }
 
   Future<void> adddatatonetwork({
     required String ip,
     required String port,
   }) async {
-    await storage?.put('ip', ip);
-    await storage?.put('port', port);
+    if (storage != null) {
+      await storage!.put('ip', ip);
+      await storage!.put('port', port);
+    }
   }
 
   Future<void> resetnetwork() async {
-    await storage?.put('ip', 'localhost');
-    await storage?.delete('port');
+    if (storage != null) {
+      await storage!.put('ip', 'localhost');
+      await storage!.delete('port');
+    }
   }
 
   Future<String?> getIpAddress() async {
-    final ip = await storage?.get('ip') as String?;
-    if (kDebugMode) {
-      print(ip);
+    if (storage != null) {
+      final ip = await storage?.get('ip') as String?;
+      if (kDebugMode) {
+        print(ip);
+      }
+      return ip;
     }
-    return ip;
+    return null;
   }
 }
