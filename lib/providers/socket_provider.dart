@@ -96,7 +96,7 @@ class PxSocketProvider extends ChangeNotifier {
 
   void parseSocketEvent(List<int>? event, BuildContext context) async {
     if (event != null) {
-      final String strMessage = json.encode(_socketMessage!);
+      final String strMessage = utf8.decode(_socketMessage!);
       final msg = SocketNotificationMessage.fromJson(strMessage);
       //todo: fire notification
       await context.read<PxAppNotifications>().addNotification(
