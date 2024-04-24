@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/patient_profile_page_main.dart';
+import 'package:proclinic_doctor_windows/functions/format_time.dart';
+import 'package:proclinic_doctor_windows/providers/app_organizer_provider.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -10,6 +12,7 @@ import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:proclinic_doctor_windows/widgets/date_time_picker.dart';
 import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
@@ -325,11 +328,63 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                 ],
               ),
               const Divider(),
-              //TODO: SET DATE OF FOLLOWUP
+              ChangeNotifierProvider(
+                create: (context) => PxAppOrganizer(
+                  visitId: widget.visit.id,
+                ),
+                builder: (context, child) {
+                  return Row(
+                    children: [
+                      const SizedBox(width: 50),
+                      const CircleAvatar(),
+                      const SizedBox(width: 50),
+                      const Text("Set Follow Up Date"),
+                      const Spacer(),
+                      PickedDateText(visit: widget.visit),
+                      const Spacer(),
+                      FloatingActionButton(
+                        heroTag: widget.visit.id,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => DateAndTimePickerDialog(
+                              visit: widget.visit,
+                            ),
+                          );
+                        },
+                        child: const Icon(Icons.calendar_month),
+                      ),
+                      const SizedBox(width: 50),
+                    ],
+                  );
+                },
+              ),
+              const Divider(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class PickedDateText extends StatelessWidget {
+  const PickedDateText({super.key, required this.visit});
+  final Visit visit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PxAppOrganizer>(
+      //TODO: FIND WHY IT'S NOT UPDATING
+      builder: (context, a, _) {
+        while (a.appointement == null) {
+          return const Text("Follow Up Appointment Not Set.");
+        }
+        return Text(formatDate(a.appointement!.dateTime));
+      },
     );
   }
 }
