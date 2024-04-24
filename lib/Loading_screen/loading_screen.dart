@@ -77,7 +77,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Custom Integrated \nClinic Management Systems : \nProClinic v1.0',
+                          'Custom Integrated \nClinic Management Systems : \nProClinic v1.5',
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.w600,

@@ -25,52 +25,67 @@ class _ScannedDocumentsPageState extends State<ScannedDocumentsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PxScannedDocuments>(
-          builder: (context, d, _) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
+        child: Card(
+          elevation: 6,
+          child: Consumer<PxScannedDocuments>(
+            builder: (context, d, _) {
+              while (d.docs.isEmpty) {
+                return Center(
+                  child: Card(
+                    elevation: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("No '${widget.data.key}' Found."),
+                    ),
                   ),
-                  itemCount: d.docs.length,
-                  itemBuilder: (context, index) {
-                    final controller = PdfController(
-                        document: PdfDocument.openFile(d.docs[index].path));
+                );
+              }
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 1.2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                    ),
+                    itemCount: d.docs.length,
+                    itemBuilder: (context, index) {
+                      final controller = PdfController(
+                          document: PdfDocument.openFile(d.docs[index].path));
 
-                    return Stack(
-                      children: [
-                        Card.filled(
-                          elevation: 20,
-                          child: PdfView(
-                            controller: controller,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: FloatingActionButton(
-                              heroTag: index,
-                              onPressed: () async {
-                                //todo: open file
-                                await OpenFilex.open(d.docs[index].path);
-                              },
-                              child: const Icon(Icons.print),
+                      return Stack(
+                        children: [
+                          Card.filled(
+                            elevation: 20,
+                            child: PdfView(
+                              controller: controller,
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: FloatingActionButton(
+                                heroTag: index,
+                                onPressed: () async {
+                                  //todo: open file
+                                  await OpenFilex.open(d.docs[index].path);
+                                },
+                                child: const Icon(Icons.print),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

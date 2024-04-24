@@ -325,6 +325,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                 ],
               ),
               const Divider(),
+              //TODO: SET DATE OF FOLLOWUP
             ],
           ),
         ),

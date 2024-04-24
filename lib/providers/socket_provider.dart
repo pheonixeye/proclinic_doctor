@@ -73,10 +73,23 @@ class PxSocketProvider extends ChangeNotifier {
   List<int>? get socketMessage => _socketMessage;
 
   void listenToSocket(BuildContext context) {
-    _socket?.asBroadcastStream().listen((event) {
-      _socketMessage = event;
-      parseSocketEvent(event, context);
-    });
+    _socket?.asBroadcastStream().listen(
+      (event) {
+        _socketMessage = event;
+        parseSocketEvent(event, context);
+      },
+      onDone: () {
+        _socket = null;
+        _isConnected = _socket == null;
+        notifyListeners();
+      },
+      onError: (e) {
+        _socket = null;
+        _isConnected = _socket == null;
+        notifyListeners();
+      },
+      cancelOnError: true,
+    );
   }
 
   void disconnect(BuildContext context) {
@@ -106,6 +119,20 @@ class PxSocketProvider extends ChangeNotifier {
           await context.read<PxVisits>().fetchVisits(
                 type: QueryType.Today,
               );
+          if (kDebugMode) {
+            print("fetching today visits - new visit");
+          }
+        }
+      }
+      if (msg.type == MessageType.visitUpdatedreception) {
+        if (context.mounted) {
+          await context.read<PxVisits>().fetchVisits(
+                type: QueryType.Today,
+              );
+
+          if (kDebugMode) {
+            print("fetching today visits - visit update reception");
+          }
         }
       }
     }
