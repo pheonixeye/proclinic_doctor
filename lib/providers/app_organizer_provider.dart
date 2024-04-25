@@ -63,5 +63,15 @@ class PxAppOrganizer extends ChangeNotifier with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [visitId];
+  List<Object?> get props => [visitId, appointement];
+
+  static Future<OrgAppointement?> fetctAppointmentById(ObjectId visitId) async {
+    final result =
+        await Database.instance.appOrganizer.findOne(where.eq("_id", visitId));
+    if (result != null) {
+      return OrgAppointement.fromJson(result);
+    } else {
+      return null;
+    }
+  }
 }

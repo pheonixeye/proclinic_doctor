@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/functions/format_time.dart';
 import 'package:proclinic_doctor_windows/providers/app_organizer_provider.dart';
+import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/time_picker.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
@@ -150,7 +151,20 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
                           a.setOrganizerAppointment(widget.visit, _currentDate);
                           await a.createFollowUpDate();
                           await EasyLoading.dismiss();
-                          //TODO: notify reception by date
+                          //todo: notify reception by date
+                          if (context.mounted) {
+                            final s = context.read<PxSocketProvider>();
+                            final msg =
+                                SocketNotificationMessage.setFollowUpDate(
+                              widget.visit.docid!,
+                              Tr(
+                                e: widget.visit.docNameEN,
+                                a: widget.visit.docNameAR,
+                              ),
+                              widget.visit.id.oid,
+                            );
+                            s.sendSocketMessage(msg);
+                          }
                           if (context.mounted) {
                             Navigator.pop(context);
                           }

@@ -145,6 +145,7 @@ class _NotificationOverlayCardState extends State<NotificationOverlayCard>
                         widget.notification.descriptionEn,
                       ),
                       if (widget.notification.visitid != null)
+                        //TODO: REFACTOR IN IT'S OWN WIDGET
                         FutureBuilder<Visit?>(
                             future: VisitRequests.fetchVisitById(
                                 widget.notification.visitid!),

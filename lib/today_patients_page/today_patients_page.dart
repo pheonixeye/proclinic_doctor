@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/providers/app_organizer_provider.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/today_visit_card.dart';
 import 'package:provider/provider.dart';
@@ -49,8 +50,15 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
                     return ListView.separated(
                       itemCount: v.visits.length,
                       itemBuilder: (context, index) {
-                        return TodayVisitCard(
-                          visit: v.visits[index],
+                        return ChangeNotifierProvider(
+                          create: (context) => PxAppOrganizer(
+                            visitId: v.visits[index].id,
+                          ),
+                          builder: (context, _) {
+                            return TodayVisitCard(
+                              visit: v.visits[index],
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (context, index) {

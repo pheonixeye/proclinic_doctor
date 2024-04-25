@@ -8,7 +8,7 @@ import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
 import 'package:proclinic_doctor_windows/search_patients_under/search_patients_under.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/today_patients_page/today_patients_page.dart';
+import 'package:proclinic_doctor_windows/today_patients_page/today_patients_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/popupbutton_logout_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';

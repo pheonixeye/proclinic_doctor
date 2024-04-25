@@ -328,39 +328,35 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                 ],
               ),
               const Divider(),
-              ChangeNotifierProvider(
-                create: (context) => PxAppOrganizer(
-                  visitId: widget.visit.id,
-                ),
-                builder: (context, child) {
-                  return Row(
-                    children: [
-                      const SizedBox(width: 50),
-                      const CircleAvatar(),
-                      const SizedBox(width: 50),
-                      const Text("Set Follow Up Date"),
-                      const Spacer(),
-                      PickedDateText(visit: widget.visit),
-                      const Spacer(),
-                      FloatingActionButton(
-                        heroTag: widget.visit.id,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+              Row(
+                children: [
+                  const SizedBox(width: 50),
+                  const CircleAvatar(),
+                  const SizedBox(width: 50),
+                  const Text("Set Follow Up Date"),
+                  const Spacer(),
+                  PickedDateText(
+                    visit: widget.visit,
+                  ),
+                  const Spacer(),
+                  FloatingActionButton(
+                    heroTag: widget.visit.id,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) => DateAndTimePickerDialog(
+                          visit: widget.visit,
                         ),
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => DateAndTimePickerDialog(
-                              visit: widget.visit,
-                            ),
-                          );
-                        },
-                        child: const Icon(Icons.calendar_month),
-                      ),
-                      const SizedBox(width: 50),
-                    ],
-                  );
-                },
+                      );
+                      setState(() {});
+                    },
+                    child: const Icon(Icons.calendar_month),
+                  ),
+                  const SizedBox(width: 50),
+                ],
               ),
               const Divider(),
             ],
@@ -377,13 +373,20 @@ class PickedDateText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PxAppOrganizer>(
-      //TODO: FIND WHY IT'S NOT UPDATING
-      builder: (context, a, _) {
-        while (a.appointement == null) {
+    return FutureBuilder<OrgAppointement?>(
+      future: PxAppOrganizer.fetctAppointmentById(visit.id),
+      builder: (context, snapshot) {
+        while (!snapshot.hasData || snapshot.data == null) {
           return const Text("Follow Up Appointment Not Set.");
         }
-        return Text(formatDate(a.appointement!.dateTime));
+        return Text(
+          formatDateForVisitCard(snapshot.data!.dateTime),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        );
       },
     );
   }
