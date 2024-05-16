@@ -32,4 +32,10 @@ class PxSupplies extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void onLogout() {
+    _supplies = [];
+    _filteredSupplies = [];
+    notifyListeners();
+  }
 }

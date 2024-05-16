@@ -4,6 +4,7 @@ import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clini
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/labs_rads_settings.dart';
+import 'package:proclinic_doctor_windows/control_panel/prescription_settings/prescription_settings.dart';
 import 'package:proclinic_doctor_windows/control_panel/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/get_mac_adress_fns/_UUID/fetchUUID.dart';
@@ -64,6 +65,8 @@ class MyApp extends StatelessWidget {
             '/controlpanel': (context) => const ControlPanelPage(),
             '/labsrads': (context) => const LabsAndRadsSettingsPage(),
             '/clinicdetails': (context) => const ClinicDetailsPage(),
+            '/prescriptionsettings': (context) =>
+                const PrescriptionSettingsPage(),
           },
         );
       },

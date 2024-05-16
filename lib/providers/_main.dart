@@ -3,6 +3,7 @@ import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/overlay_provider.dart';
+import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
@@ -34,6 +35,11 @@ final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => PxOnePatientVisits()),
   ChangeNotifierProvider(create: (context) => PdfPrinter()),
   ChangeNotifierProvider(create: (context) => PxScannedDocuments()),
+  ChangeNotifierProvider(
+    create: (context) => PxPrescriptionSettings(
+      docId: context.read<PxSelectedDoctor>().doctor!.id,
+    ),
+  ),
   ChangeNotifierProvider(
     create: (context) => PxSupplies(
       docid: context.read<PxSelectedDoctor>().doctor!.id,

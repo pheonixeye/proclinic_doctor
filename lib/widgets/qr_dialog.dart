@@ -23,6 +23,8 @@ class QrDialog extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.circular(8),
         ),
+        width: 500,
+        height: 500,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: PrettyQrView(

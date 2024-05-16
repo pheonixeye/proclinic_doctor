@@ -202,6 +202,38 @@ class _CustomSettingsNavDrawerState extends State<CustomSettingsNavDrawer> {
                 height: 10,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                style: _btnTheme('/prescriptionsettings'),
+                icon: const Icon(Icons.details),
+                label: const Text('Prescription Settings'),
+                onPressed: () {
+                  const newRouteName = "/prescriptionsettings";
+                  bool isNewRouteSameAsCurrent = false;
+
+                  Navigator.popUntil(context, (route) {
+                    if (route.settings.name == newRouteName) {
+                      isNewRouteSameAsCurrent = true;
+                    }
+                    Navigator.pop(context);
+                    return true;
+                  });
+
+                  if (!isNewRouteSameAsCurrent) {
+                    Navigator.popAndPushNamed(context, newRouteName);
+                  }
+                },
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(
+                color: Colors.blueGrey,
+                thickness: 5,
+                height: 10,
+              ),
+            ),
             //control panel (back nav)
             Padding(
               padding: const EdgeInsets.all(8.0),

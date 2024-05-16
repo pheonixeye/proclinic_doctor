@@ -340,7 +340,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   ),
                   const Spacer(),
                   FloatingActionButton(
-                    heroTag: widget.visit.id,
+                    heroTag: "${widget.visit.id}+followup",
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),

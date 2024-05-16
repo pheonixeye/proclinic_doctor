@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/notifier_popupmenu_btn.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
+import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
+import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
 import 'package:proclinic_doctor_windows/search_patients_under/search_patients_under.dart';
 import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/today_patients_page/today_patients_page.dart';
@@ -27,6 +30,16 @@ class _ControlPanelPageState extends State<ControlPanelPage>
     with TickerProviderStateMixin, AfterLayoutMixin {
   late final TabController _tabController;
   final d = DateTime.now();
+
+  void _onLogout() {
+    context.read<PxSocketProvider>().disconnect(context);
+    context.read<PxPrescriptionSettings>().onLogout();
+    context.read<PxSupplies>().onLogout();
+    context.read<PxSelectedDoctor>().onLogout();
+    if (kDebugMode) {
+      print("ControlPanel()._onLogout()");
+    }
+  }
 
   @override
   void initState() {
@@ -52,6 +65,9 @@ class _ControlPanelPageState extends State<ControlPanelPage>
         );
     if (context.mounted) {
       context.read<PxSocketProvider>().listenToSocket(context);
+    }
+    if (context.mounted) {
+      await context.read<PxPrescriptionSettings>().init;
     }
   }
 
@@ -79,7 +95,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               label: const Text('Confirm'),
               onPressed: () {
                 Navigator.pop(context);
-                context.read<PxSocketProvider>().disconnect(context);
+                _onLogout();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

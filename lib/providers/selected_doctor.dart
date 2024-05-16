@@ -22,6 +22,14 @@ class PxSelectedDoctor extends ChangeNotifier {
     }
   }
 
+  void onLogout() {
+    _doctor = null;
+    _labs = [];
+    _rads = [];
+    _drugs = [];
+    notifyListeners();
+  }
+
   List<String> _drugs = [];
   List<String> get drugs => _drugs;
 
