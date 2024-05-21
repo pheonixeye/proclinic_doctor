@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:pdf/pdf.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_models/proclinic_models.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class PxPrescriptionSettings extends ChangeNotifier {
   final int docId;
@@ -44,5 +50,121 @@ class PxPrescriptionSettings extends ChangeNotifier {
     }
   }
 
-  Future<void> updatePrescriptionSettings() async {}
+  Future<void> updatePrescriptionSettings({
+    required String key,
+    required dynamic value,
+  }) async {
+    await Database.instance.prescriptionSettings.updateOne(
+      where.eq("_id", _settings?.id),
+      {
+        r'$set': {
+          key: value,
+        },
+      },
+    );
+    if (kDebugMode) {
+      print('PxPrescriptionSetting().updatePrescriptionSettings($key)');
+    }
+    await init;
+  }
+
+  Future<void> updatePrescriptionData({
+    required PositionedDataItem newData,
+  }) async {
+    await Database.instance.prescriptionSettings.updateOne(
+      where.eq("_id", _settings?.id),
+      {
+        r'$set': {
+          "data" "." "${newData.type.name}": newData.toJson(),
+        },
+      },
+    );
+    if (kDebugMode) {
+      print(
+          'PxPrescriptionSetting().updatePrescriptionData(${newData.type.name})');
+    }
+    await init;
+  }
+
+  static const Map<String, PdfPageFormat> _pageFormats = {
+    // "a4": PdfPageFormat.a4,
+    "a5": PdfPageFormat.a5,
+  };
+
+  Map<String, PdfPageFormat> get pageFormats => _pageFormats;
+
+  //TODO: change at build time
+  static final Uint8List fontData =
+      File('assets\\fonts\\font.ttf').readAsBytesSync();
+  static final ttf = pw.Font.ttf(fontData.buffer.asByteData());
+  final style = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
+    fontSize: 12,
+  );
+  final titleStyle = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
+    fontSize: 24,
+  );
+  final drugStyle = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
+    fontSize: 18,
+  );
+  final subtitleStyle = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
+    fontSize: 14,
+  );
+  final rxStyle = pw.TextStyle(
+    color: PdfColor.fromInt(Colors.black.value),
+    font: ttf,
+    letterSpacing: 1,
+    fontSize: 24,
+  );
+
+  File? _pdfPrescription;
+  File? get pdfPrescription => _pdfPrescription;
+
+  FutureOr<Uint8List> _buildPdf() {
+    if (_settings != null && _settings!.path != null) {
+      _pdfPrescription = File(_settings!.path!);
+      // notifyListeners();
+      return _pdfPrescription!.readAsBytes();
+    } else {
+      _pdfPrescription = null;
+      // notifyListeners();
+      final doc = pw.Document();
+      doc.addPage(pw.Page(
+        theme: pw.ThemeData(
+          defaultTextStyle: titleStyle,
+        ),
+        pageFormat: pageFormats['a5']!,
+        build: (context) {
+          return pw.Center(
+            child: pw.Text(
+              "No Prescription File Selected.",
+              textAlign: pw.TextAlign.center,
+            ),
+          );
+        },
+      ));
+      return doc.save();
+    }
+  }
+
+  FutureOr<Uint8List> get pdfPrescriptionBuilder => _buildPdf();
+
+  PosDataType? _posDataType;
+  PosDataType? get posDataType => _posDataType;
+
+  void selectPosDataType(PosDataType? value) {
+    _posDataType = value;
+    notifyListeners();
+  }
 }
