@@ -128,16 +128,43 @@ class PxPrescriptionSettings extends ChangeNotifier {
     fontSize: 24,
   );
 
-  File? _pdfPrescription;
-  File? get pdfPrescription => _pdfPrescription;
+  File? _pngPrescription;
+  File? get pdfPrescription => _pngPrescription;
 
   FutureOr<Uint8List> _buildPdf() {
     if (_settings != null && _settings!.path != null) {
-      _pdfPrescription = File(_settings!.path!);
-      // notifyListeners();
-      return _pdfPrescription!.readAsBytes();
+      _pngPrescription = File(_settings!.path!);
+      final image = pw.MemoryImage(
+        _pngPrescription!.readAsBytesSync(),
+      );
+      final doc = pw.Document();
+      doc.addPage(
+        pw.Page(
+          margin: pw.EdgeInsets.zero,
+          pageFormat: _pageFormats['a5']!,
+          theme: pw.ThemeData(
+            defaultTextStyle: style,
+          ),
+          build: (context) {
+            return pw.Stack(
+              fit: pw.StackFit.expand,
+              alignment: pw.Alignment.center,
+              children: [
+                pw.Image(image),
+                pw.Positioned(
+                  child: pw.Text("{{ ${posDataType?.forWidgets() ?? ''} }}"),
+                  left: settings?.data[posDataType.toString()]?.x,
+                  top: settings?.data[posDataType.toString()]?.y,
+                ),
+              ],
+            );
+          },
+        ),
+      );
+
+      return doc.save();
     } else {
-      _pdfPrescription = null;
+      _pngPrescription = null;
       // notifyListeners();
       final doc = pw.Document();
       doc.addPage(pw.Page(
