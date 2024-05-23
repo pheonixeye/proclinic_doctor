@@ -7,7 +7,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:proclinic_doctor_windows/functions/visit_type_translate.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
-Future<Uint8List> generatePrescription({
+Future<Uint8List> generatePrescriptionFromScratch({
   required PdfPageFormat pageFormat,
   required BuildContext context,
   required Doctor doctor,

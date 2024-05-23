@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:printing/printing.dart';
@@ -148,7 +149,7 @@ class PrescriptionSettingsPage extends StatelessWidget {
                       child: Card(
                         child: GestureDetector(
                           onSecondaryTapDown: (details) async {
-                            //TODO: update position
+                            //todo: update position
                             final PositionedDataItem? data =
                                 s.settings?.data[s.posDataType.toString()];
                             if (data != null) {
@@ -156,7 +157,9 @@ class PrescriptionSettingsPage extends StatelessWidget {
                                 x: details.localPosition.dx,
                                 y: details.localPosition.dy,
                               );
-                              print(details.localPosition.toString());
+                              if (kDebugMode) {
+                                print(details.localPosition.toString());
+                              }
                               await EasyLoading.show(status: 'Loading...');
                               await s.updatePrescriptionData(newData: newData);
                               await EasyLoading.showSuccess('Success...');

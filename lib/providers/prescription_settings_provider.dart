@@ -100,28 +100,9 @@ class PxPrescriptionSettings extends ChangeNotifier {
   final style = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
-    letterSpacing: 1,
-    fontSize: 12,
+    fontSize: 10,
   );
   final titleStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
-    font: ttf,
-    letterSpacing: 1,
-    fontSize: 24,
-  );
-  final drugStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
-    font: ttf,
-    letterSpacing: 1,
-    fontSize: 18,
-  );
-  final subtitleStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
-    font: ttf,
-    letterSpacing: 1,
-    fontSize: 14,
-  );
-  final rxStyle = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),
     font: ttf,
     letterSpacing: 1,

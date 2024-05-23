@@ -37,7 +37,7 @@ class PxSocketProvider extends ChangeNotifier {
       if (context.mounted) {
         sendDocLogin(context);
       }
-    } on (Exception, StackTrace) catch (e, _) {
+    } catch (e) {
       _socket = null;
       _isConnected = false;
       if (kDebugMode) {
@@ -49,11 +49,11 @@ class PxSocketProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendDocId() {
-    if (_socket != null) {
-      _socket!.write(docid);
-    }
-  }
+  // void sendDocId() {
+  //   if (_socket != null) {
+  //     _socket!.write(docid);
+  //   }
+  // }
 
   void sendDocLogin(BuildContext context) {
     final doctor = context.read<PxSelectedDoctor>().doctor!;

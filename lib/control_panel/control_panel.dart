@@ -153,7 +153,8 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                     if (context.mounted) {
                       s.disconnect(context);
                     }
-                    await EasyLoading.dismiss();
+                    await EasyLoading.showSuccess('Success...',
+                        duration: const Duration(seconds: 3));
                   },
                   icon: const Icon(Icons.wifi_rounded),
                 );
@@ -164,8 +165,15 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                   await EasyLoading.show(status: "Loading...");
                   if (context.mounted) {
                     await s.initSocketConnection(context);
+                    if (s.isConnected) {
+                      await EasyLoading.showSuccess('Success...',
+                          duration: const Duration(seconds: 3));
+                    } else {
+                      await EasyLoading.showError(
+                          'Notification Server Offline...',
+                          duration: const Duration(seconds: 3));
+                    }
                   }
-                  await EasyLoading.dismiss();
                 },
                 icon: const Icon(Icons.wifi_off),
               );

@@ -48,7 +48,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
-                    tooltip: "toogle Sheet / Drugs",
+                    tooltip: "Toogle Sheet / Drugs",
                     heroTag: 'swap-sheet-drug',
                     child: const Icon(Icons.medical_information),
                     onPressed: () {

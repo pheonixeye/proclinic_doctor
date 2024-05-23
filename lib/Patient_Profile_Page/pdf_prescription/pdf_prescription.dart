@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_generate_prescription.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_gen_pres_printed.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_gen_pres_scratch.dart';
+import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
@@ -22,18 +24,23 @@ class PdfPrescription extends StatefulWidget {
 }
 
 class _PdfPrescriptionState extends State<PdfPrescription> {
-  PdfPageFormat _format = PdfPageFormat.a4;
+  //TODO: SPLIT INTO PAGES ACCORDING TO DRUGS LENGTH OR DECREASE FONT SIZE
+  //TODO: ADD MEDICAL REPORT
+  //TODO: ALLOW SHEET WITH DRUGS
+  PdfPageFormat _format = PdfPageFormat.a5;
   bool _isEnglish = false;
   bool _hasSheet = false;
+  bool _showImage = true;
+  bool _showLabs = true;
+  bool _showRads = true;
 
   static const Map<String, PdfPageFormat> _pageFormats = {
-    "a4": PdfPageFormat.a4,
     "a5": PdfPageFormat.a5,
   };
 
   //todo: make pdf reciept
-  Future<Uint8List> buildPdf(PdfPageFormat pageFormat) {
-    return generatePrescription(
+  Future<Uint8List> buildPdfFromScratch(PdfPageFormat pageFormat) {
+    return generatePrescriptionFromScratch(
       pageFormat: pageFormat,
       context: context,
       doctor: context.read<PxSelectedDoctor>().doctor!,
@@ -41,6 +48,24 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
       data: widget.data,
       isEnglish: _isEnglish,
       hasSheet: _hasSheet,
+    );
+  }
+
+  Future<Uint8List> buildPdfOnPrinted(
+    PdfPageFormat pageFormat,
+    PrescriptionSettings settings,
+  ) {
+    return generatePrescritionOnAlreadyPrintedPrescription(
+      pageFormat: pageFormat,
+      context: context,
+      doctor: context.read<PxSelectedDoctor>().doctor!,
+      visit: widget.visit,
+      data: widget.data,
+      settings: settings,
+      showImage: _showImage,
+      showSheet: _hasSheet,
+      showLabs: _showLabs,
+      showRads: _showRads,
     );
   }
 
@@ -92,14 +117,54 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: FloatingActionButton(
-              tooltip: 'Sheet',
-              heroTag: 'sheet',
+              tooltip: 'Toogle Sheet / Drugs',
+              heroTag: 'sheet-drugs',
               onPressed: () {
                 setState(() {
                   _hasSheet = !_hasSheet;
                 });
               },
-              child: const Icon(Icons.medical_information),
+              child: Icon(
+                  _hasSheet ? Icons.medication : Icons.medical_information),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Labs',
+              heroTag: 'show-hide-labs',
+              onPressed: () {
+                setState(() {
+                  _showLabs = !_showLabs;
+                });
+              },
+              child: Icon(_showLabs ? Icons.label_off : Icons.label),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Rads',
+              heroTag: 'show-hide-rads',
+              onPressed: () {
+                setState(() {
+                  _showRads = !_showRads;
+                });
+              },
+              child: Icon(_showRads ? Icons.raw_off_rounded : Icons.raw_on),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Presc. Image',
+              heroTag: 'show-hide-img',
+              onPressed: () {
+                setState(() {
+                  _showImage = !_showImage;
+                });
+              },
+              child: Icon(_showImage ? Icons.hide_image : Icons.image),
             ),
           ),
         ],
@@ -107,23 +172,30 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Card(
-          child: PdfPreview(
-            pageFormats: _pageFormats,
-            maxPageWidth: 600,
-            dpi: 72,
-            build: (_) {
-              return buildPdf(_format);
-            },
-            // actions: actions,
-            onPrinted: _showPrintedToast,
-            onPageFormatChanged: (value) {
-              setState(() {
-                _format = value;
-              });
-            },
-            onShared: _showSharedToast,
-          ),
+        child: Consumer<PxPrescriptionSettings>(
+          builder: (context, p, _) {
+            return Card.outlined(
+              elevation: 6,
+              child: PdfPreview(
+                pageFormats: _pageFormats,
+                maxPageWidth: 600,
+                build: (_) {
+                  return (p.settings != null && p.settings!.usePrinted)
+                      ? buildPdfOnPrinted(_format, p.settings!)
+                      : buildPdfFromScratch(_format);
+                },
+                // actions: actions,
+                onPrinted: _showPrintedToast,
+                onPageFormatChanged: (value) {
+                  setState(() {
+                    _format = value;
+                  });
+                },
+                onShared: _showSharedToast,
+                canChangePageFormat: false,
+              ),
+            );
+          },
         ),
       ),
     );
