@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -18,6 +19,9 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
   required bool showSheet,
   required bool showLabs,
   required bool showRads,
+  required bool showVisitType,
+  required bool showMedicalReport,
+  required bool showDrugs,
 }) async {
   //TODO: change at Build Time
   final Uint8List fontData = File('assets\\fonts\\font.ttf').readAsBytesSync();
@@ -33,11 +37,18 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
 
   final doc = pw.Document();
 
+  final numberOfPages = (data.drugs.length / 8).round();
+  if (kDebugMode) {
+    print(
+        'generatePrescritionOnAlreadyPrintedPrescription().numberOfPages $numberOfPages');
+  }
+
   final image = pw.MemoryImage(
     File(settings.path!).readAsBytesSync(),
   );
-  doc.addPage(
-    pw.Page(
+
+  pw.Page _genPage(List<PrescribedDrug> drugs) {
+    return pw.Page(
       pageTheme: pw.PageTheme(
         margin: pw.EdgeInsets.zero,
         pageFormat: pageFormat,
@@ -93,18 +104,19 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                     top: y,
                   ),
                 PosDataType.visit => pw.Positioned(
-                    child:
-                        isDataShown ? pw.Text(visit.visitType) : pw.SizedBox(),
+                    child: (isDataShown && showVisitType)
+                        ? pw.Text(visit.visitType)
+                        : pw.SizedBox(),
                     left: x,
                     top: y,
                   ),
                 PosDataType.drugs => pw.Positioned(
-                    child: !showSheet
+                    child: showDrugs
                         ? pw.Column(
                             mainAxisAlignment: pw.MainAxisAlignment.start,
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
-                              ...data.drugs.map((e) {
+                              ...drugs.map((e) {
                                 return pw.Row(
                                   mainAxisAlignment: pw.MainAxisAlignment.start,
                                   crossAxisAlignment:
@@ -215,6 +227,9 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
                               ...data.data.entries.map((e) {
+                                if (e.key == "Medical Report") {
+                                  return pw.SizedBox();
+                                }
                                 return pw.Column(
                                   mainAxisAlignment: pw.MainAxisAlignment.start,
                                   crossAxisAlignment:
@@ -230,7 +245,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                     pw.SizedBox(
                                       width: 200,
                                       child: pw.Text(
-                                        e.value,
+                                        e.value ?? '',
                                         textAlign: pw.TextAlign.start,
                                       ),
                                     ),
@@ -245,7 +260,39 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                     top: y,
                   ),
                 PosDataType.report => pw.Positioned(
-                    child: pw.SizedBox(),
+                    child: (showMedicalReport &&
+                            data.data.containsKey("Medical Report"))
+                        ? pw.Center(
+                            child: pw.Column(
+                              mainAxisAlignment: pw.MainAxisAlignment.center,
+                              crossAxisAlignment: pw.CrossAxisAlignment.center,
+                              children: [
+                                pw.Text(
+                                  "* Medical Report *",
+                                  style: style.copyWith(
+                                    decoration: pw.TextDecoration.underline,
+                                  ),
+                                  textAlign: pw.TextAlign.center,
+                                ),
+                                pw.SizedBox(
+                                  width: 418,
+                                  child: pw.Padding(
+                                    padding: const pw.EdgeInsets.all(8.0),
+                                    child: pw.Text(
+                                      data.data['Medical Report'] ?? '',
+                                      style: style.copyWith(
+                                        lineSpacing: 1.6,
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: pw.TextAlign.center,
+                                      textDirection: pw.TextDirection.rtl,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : pw.SizedBox(),
                     left: x,
                     top: y,
                   ),
@@ -254,8 +301,20 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
           ],
         );
       },
-    ),
-  );
+    );
+  }
+
+  if (numberOfPages > 1) {
+    //TODO: GEN PAGES
+    for (int i = 0; i < numberOfPages; i++) {
+      final length = data.drugs.length;
+      final drugs = data.drugs
+          .sublist(i * 8, (i + 1) * 8 > length ? length : (i + 1) * 8);
+      doc.addPage(_genPage(drugs), index: i);
+    }
+  } else {
+    doc.addPage(_genPage(data.drugs), index: 1);
+  }
 
   return doc.save();
 }

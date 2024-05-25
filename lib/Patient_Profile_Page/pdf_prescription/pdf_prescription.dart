@@ -24,15 +24,18 @@ class PdfPrescription extends StatefulWidget {
 }
 
 class _PdfPrescriptionState extends State<PdfPrescription> {
-  //TODO: SPLIT INTO PAGES ACCORDING TO DRUGS LENGTH OR DECREASE FONT SIZE
-  //TODO: ADD MEDICAL REPORT
-  //TODO: ALLOW SHEET WITH DRUGS
+  //todo: SPLIT INTO PAGES ACCORDING TO DRUGS LENGTH OR DECREASE FONT SIZE
+  //todo: ADD MEDICAL REPORT
+  //defered: ALLOW SHEET WITH DRUGS
   PdfPageFormat _format = PdfPageFormat.a5;
   bool _isEnglish = false;
   bool _hasSheet = false;
   bool _showImage = true;
   bool _showLabs = true;
   bool _showRads = true;
+  bool _showVisitType = true;
+  bool _showMedicalReport = false;
+  bool _showDrugs = true;
 
   static const Map<String, PdfPageFormat> _pageFormats = {
     "a5": PdfPageFormat.a5,
@@ -66,6 +69,9 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
       showSheet: _hasSheet,
       showLabs: _showLabs,
       showRads: _showRads,
+      showVisitType: _showVisitType,
+      showMedicalReport: _showMedicalReport,
+      showDrugs: _showDrugs,
     );
   }
 
@@ -88,7 +94,8 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Column(
+      floatingActionButton: Wrap(
+        direction: Axis.vertical,
         children: [
           Padding(
             padding: const EdgeInsets.all(24.0),
@@ -117,15 +124,30 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: FloatingActionButton(
-              tooltip: 'Toogle Sheet / Drugs',
-              heroTag: 'sheet-drugs',
+              tooltip: 'Toogle Sheet',
+              heroTag: 'toogle-sheet',
               onPressed: () {
                 setState(() {
                   _hasSheet = !_hasSheet;
                 });
               },
+              child: Icon(_hasSheet
+                  ? Icons.medical_services_outlined
+                  : Icons.medical_services),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Drugs',
+              heroTag: 'toogle-drugs',
+              onPressed: () {
+                setState(() {
+                  _showDrugs = !_showDrugs;
+                });
+              },
               child: Icon(
-                  _hasSheet ? Icons.medication : Icons.medical_information),
+                  _showDrugs ? Icons.medication_outlined : Icons.medication),
             ),
           ),
           Padding(
@@ -152,6 +174,36 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
                 });
               },
               child: Icon(_showRads ? Icons.raw_off_rounded : Icons.raw_on),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Visit Type',
+              heroTag: 'show-hide-visit-type',
+              onPressed: () {
+                setState(() {
+                  _showVisitType = !_showVisitType;
+                });
+              },
+              child: Icon(_showVisitType
+                  ? Icons.content_paste_off
+                  : Icons.content_paste),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Medical Report',
+              heroTag: 'show-hide-medical-report',
+              onPressed: () {
+                setState(() {
+                  _showMedicalReport = !_showMedicalReport;
+                });
+              },
+              child: Icon(_showMedicalReport
+                  ? Icons.speaker_notes_off
+                  : Icons.speaker_notes),
             ),
           ),
           Padding(
