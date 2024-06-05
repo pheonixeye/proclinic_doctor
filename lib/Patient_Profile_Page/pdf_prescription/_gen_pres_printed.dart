@@ -313,7 +313,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
       doc.addPage(_genPage(drugs), index: i);
     }
   } else {
-    doc.addPage(_genPage(data.drugs), index: 1);
+    doc.addPage(_genPage(data.drugs), index: 0);
   }
 
   return doc.save();

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/section_form.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_sheet/section_sheet.dart';
 
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
     _tabcontroller = TabController(
       vsync: this,
       initialIndex: 0,
-      length: 4,
+      length: 5,
     );
     super.initState();
   }
@@ -47,7 +48,6 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
     return Scaffold(
       appBar: TabBar(
         dividerHeight: 2,
-        // dividerColor: Colors.orange,
         controller: _tabcontroller,
         tabs: const [
           Card(
@@ -57,6 +57,18 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
                 Expanded(
                   child: Tab(
                     text: 'Sheet',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Card(
+            elevation: 6,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Tab(
+                    text: 'Form',
                   ),
                 ),
               ],
@@ -104,6 +116,7 @@ class _EntryPageByDoctorState extends State<EntryPageByDoctor>
         controller: _tabcontroller,
         children: const [
           SectionSheet(),
+          SectionForm(),
           SectionPrescription(),
           SuppliesSection(),
           PaperWorkPage(),

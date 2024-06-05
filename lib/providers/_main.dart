@@ -1,5 +1,6 @@
 import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
+import 'package:proclinic_doctor_windows/providers/form_loader.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor_windows/providers/overlay_provider.dart';
@@ -45,4 +46,5 @@ final List<SingleChildWidget> providers = [
       docid: context.read<PxSelectedDoctor>().doctor!.id,
     ),
   ),
+  ChangeNotifierProvider(create: (context) => PxFormLoader()),
 ];

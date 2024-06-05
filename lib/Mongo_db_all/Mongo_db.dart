@@ -41,6 +41,7 @@ class Database {
   final DbCollection _contracts = mongo.collection('contracts');
   final DbCollection _prescriptionSettings =
       mongo.collection('prescriptionsettings');
+  final DbCollection forms = mongo.collection('forms');
 
   final GridFS _grid = GridFS(mongo);
 

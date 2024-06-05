@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/notifier_popupmenu_btn.dart';
+import 'package:proclinic_doctor_windows/providers/form_loader.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
 import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
@@ -68,6 +69,10 @@ class _ControlPanelPageState extends State<ControlPanelPage>
     }
     if (context.mounted) {
       await context.read<PxPrescriptionSettings>().init;
+    }
+    if (context.mounted) {
+      //todo: load all forms
+      await context.read<PxFormLoader>().init;
     }
   }
 
