@@ -21,6 +21,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
   required bool showRads,
   required bool showVisitType,
   required bool showMedicalReport,
+  required bool showFormData,
   required bool showDrugs,
 }) async {
   //TODO: change at Build Time
@@ -40,7 +41,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
   final numberOfPages = (data.drugs.length / 8).round();
   if (kDebugMode) {
     print(
-        'generatePrescritionOnAlreadyPrintedPrescription().numberOfPages $numberOfPages');
+        'generatePrescritionOnAlreadyPrintedPrescription().numberOfPages ($numberOfPages page)');
   }
 
   final image = pw.MemoryImage(
@@ -255,7 +256,42 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                               }).toList(),
                             ],
                           )
-                        : pw.SizedBox(),
+                        : showFormData
+                            ? pw.Column(
+                                mainAxisAlignment: pw.MainAxisAlignment.start,
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  if (data.formdata != null)
+                                    ...data.formdata!.entries.map((e) {
+                                      if (e.value == null) {
+                                        return pw.SizedBox();
+                                      }
+                                      return pw.Wrap(
+                                        direction: pw.Axis.horizontal,
+                                        children: [
+                                          pw.Text(
+                                            "* ${e.key}",
+                                            style: style.copyWith(
+                                              decoration:
+                                                  pw.TextDecoration.underline,
+                                            ),
+                                            textAlign: pw.TextAlign.start,
+                                          ),
+                                          pw.SizedBox(width: 10),
+                                          pw.SizedBox(
+                                            width: 200,
+                                            child: pw.Text(
+                                              e.value.toString(),
+                                              textAlign: pw.TextAlign.start,
+                                            ),
+                                          ),
+                                          pw.SizedBox(height: 5),
+                                        ],
+                                      );
+                                    }).toList(),
+                                ],
+                              )
+                            : pw.SizedBox(),
                     left: x,
                     top: y,
                   ),
@@ -305,7 +341,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
   }
 
   if (numberOfPages > 1) {
-    //TODO: GEN PAGES
+    //todo: GEN PAGES
     for (int i = 0; i < numberOfPages; i++) {
       final length = data.drugs.length;
       final drugs = data.drugs

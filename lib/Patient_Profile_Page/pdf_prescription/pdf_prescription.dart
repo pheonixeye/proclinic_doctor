@@ -36,6 +36,7 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
   bool _showVisitType = true;
   bool _showMedicalReport = false;
   bool _showDrugs = true;
+  bool _showFormData = false;
 
   static const Map<String, PdfPageFormat> _pageFormats = {
     "a5": PdfPageFormat.a5,
@@ -72,6 +73,7 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
       showVisitType: _showVisitType,
       showMedicalReport: _showMedicalReport,
       showDrugs: _showDrugs,
+      showFormData: _showFormData,
     );
   }
 
@@ -204,6 +206,20 @@ class _PdfPrescriptionState extends State<PdfPrescription> {
               child: Icon(_showMedicalReport
                   ? Icons.speaker_notes_off
                   : Icons.speaker_notes),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: FloatingActionButton(
+              tooltip: 'Toogle Form Data',
+              heroTag: 'show-hide-form-data',
+              onPressed: () {
+                setState(() {
+                  _showFormData = !_showFormData;
+                });
+              },
+              child: Icon(
+                  _showFormData ? Icons.open_in_new_off : Icons.open_in_new),
             ),
           ),
           Padding(

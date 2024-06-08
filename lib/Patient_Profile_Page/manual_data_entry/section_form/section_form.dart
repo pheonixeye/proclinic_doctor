@@ -22,6 +22,7 @@ class SectionForm extends StatefulWidget {
 class _SectionFormState extends State<SectionForm> {
   final formKey = GlobalKey<FormState>();
   late final ScrollController _controller;
+  Map<String, TextEditingController>? _controllers;
 
   String? _textFieldValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -44,11 +45,17 @@ class _SectionFormState extends State<SectionForm> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final vd = context.read<PxVisitData>();
       final fl = context.read<PxFormLoader>();
+
       if (vd.data != null && vd.data!.formId != null && fl.forms != null) {
         fl.selectForm(
             fl.forms!.firstWhere((x) => x.id == vd.data!.formId), vd.data);
       } else {
         fl.selectForm(null);
+      }
+      if (fl.selectedForm != null) {
+        _controllers = Map.fromEntries(fl.selectedForm!.elements.map((e) {
+          return MapEntry(e.title, TextEditingController());
+        }));
       }
     });
   }
@@ -176,7 +183,8 @@ class _SectionFormState extends State<SectionForm> {
                                 height: e.spanY,
                                 child: switch (e.formElement) {
                                   FormElement.textfield => TextFormField(
-                                      initialValue: l.formState?[e.title],
+                                      controller: _controllers?[e.title]
+                                        ?..text = l.formState?[e.title] ?? "",
                                       decoration: InputDecoration(
                                         labelText: e.title,
                                         border: const OutlineInputBorder(),
@@ -193,6 +201,13 @@ class _SectionFormState extends State<SectionForm> {
                                       title: Text(e.title),
                                       tristate: true,
                                       value: l.formState?[e.title],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: const BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(12),
                                       onChanged: (value) {
                                         //todo
                                         l.updateFormState(e.title, value);
@@ -202,6 +217,13 @@ class _SectionFormState extends State<SectionForm> {
                                     DropdownButtonFormField<String>(
                                       isExpanded: true,
                                       alignment: Alignment.center,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
                                       hint: Text(e.title),
                                       items: e.options.map((x) {
                                         return DropdownMenuItem<String>(
@@ -220,7 +242,19 @@ class _SectionFormState extends State<SectionForm> {
                                           : null,
                                     ),
                                   FormElement.image => Image.memory(
-                                      base64Decode(e.options.first.value)),
+                                      base64Decode(e.options.first.value),
+                                      fit: BoxFit.cover,
+                                      frameBuilder: (context, child, frame,
+                                          wasSynchronouslyLoaded) {
+                                        return Card.outlined(
+                                          elevation: 6,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: child,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   FormElement.text => Text(e.title),
                                 },
                               );
@@ -228,11 +262,12 @@ class _SectionFormState extends State<SectionForm> {
                           else
                             const Center(
                               child: Card.outlined(
-                                  elevation: 6,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text("No Form Selected."),
-                                  )),
+                                elevation: 6,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text("No Form Selected."),
+                                ),
+                              ),
                             ),
                         ],
                       ),

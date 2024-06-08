@@ -22,17 +22,14 @@ class PxFormLoader extends ChangeNotifier {
   Map<String, dynamic>? _formState;
   Map<String, dynamic>? get formState => _formState;
 
-  void _onFormSelected([VisitData? data]) {
-    _formState = (data != null && data.formdata != null)
-        ? data.formdata
-        : _selectedForm?.formState;
-    notifyListeners();
-  }
-
   void selectForm(ProClinicForm? value, [VisitData? data]) {
     _selectedForm = value;
+    if (_selectedForm != null) {
+      _formState = (data != null && data.formdata != null)
+          ? {...data.formdata!}
+          : {..._selectedForm!.formState};
+    }
     notifyListeners();
-    _onFormSelected(data);
   }
 
   void updateFormState(String key, dynamic value) {

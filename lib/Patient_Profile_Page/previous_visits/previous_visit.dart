@@ -14,7 +14,22 @@ class PreviousVisitsPage extends StatefulWidget {
   State<PreviousVisitsPage> createState() => _PreviousVisitsPageState();
 }
 
-class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
+class _PreviousVisitsPageState extends State<PreviousVisitsPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _controller;
+
+  @override
+  void initState() {
+    _controller = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -135,16 +150,115 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage> {
                             ],
                           ),
                           children: [
-                            ...(o.database.values.toList()[index]["data"]
-                                    as VisitData)
-                                .data
-                                .entries
-                                .map((e) {
-                              return ListTile(
-                                title: Text(e.key),
-                                subtitle: Text(e.value ?? ""),
-                              );
-                            }).toList()
+                            Card.outlined(
+                              elevation: 6,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TabBar(
+                                  controller: _controller,
+                                  tabs: const [
+                                    Tab(
+                                      child: Text(
+                                        "Sheet Data",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        "Form Data",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 300,
+                              child: TabBarView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                controller: _controller,
+                                children: [
+                                  ListView(
+                                    children: [
+                                      ...(o.database.values.toList()[index]
+                                              ["data"] as VisitData)
+                                          .data
+                                          .entries
+                                          .map((e) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              const CircleAvatar(
+                                                radius: 7,
+                                              ),
+                                              const SizedBox(width: 30),
+                                              SizedBox(
+                                                width: 250,
+                                                child: Text(
+                                                  e.key,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 30),
+                                              Expanded(
+                                                child: Text(e.value ?? ""),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList()
+                                    ],
+                                  ),
+                                  ListView(
+                                    children: [
+                                      if ((o.database.values.toList()[index]
+                                                  ["data"] as VisitData)
+                                              .formdata !=
+                                          null)
+                                        ...(o.database.values.toList()[index]
+                                                ["data"] as VisitData)
+                                            .formdata!
+                                            .entries
+                                            .map((e) {
+                                          if (e.value == null) {
+                                            return const SizedBox();
+                                          }
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                const CircleAvatar(
+                                                  radius: 7,
+                                                ),
+                                                const SizedBox(width: 30),
+                                                SizedBox(
+                                                  width: 250,
+                                                  child: Text(
+                                                    e.key,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 30),
+                                                Expanded(
+                                                  child:
+                                                      Text(e.value.toString()),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        }).toList()
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
