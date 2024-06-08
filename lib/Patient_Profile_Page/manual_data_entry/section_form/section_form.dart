@@ -1,19 +1,16 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/widgets/confim_detatch_form_dialog.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/widgets/select_form_dialog.dart';
 import 'package:proclinic_doctor_windows/providers/form_loader.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
-
-class _FormState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
 
 class SectionForm extends StatefulWidget {
   const SectionForm({super.key});
@@ -24,7 +21,6 @@ class SectionForm extends StatefulWidget {
 
 class _SectionFormState extends State<SectionForm> {
   final formKey = GlobalKey<FormState>();
-  late final _FormState _state;
   late final ScrollController _controller;
 
   String? _textFieldValidator(String? value) {
@@ -43,9 +39,18 @@ class _SectionFormState extends State<SectionForm> {
 
   @override
   void initState() {
-    _state = _FormState();
-    _controller = ScrollController();
     super.initState();
+    _controller = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final vd = context.read<PxVisitData>();
+      final fl = context.read<PxFormLoader>();
+      if (vd.data != null && vd.data!.formId != null && fl.forms != null) {
+        fl.selectForm(
+            fl.forms!.firstWhere((x) => x.id == vd.data!.formId), vd.data);
+      } else {
+        fl.selectForm(null);
+      }
+    });
   }
 
   @override
@@ -59,15 +64,16 @@ class _SectionFormState extends State<SectionForm> {
     return Consumer3<PxSelectedDoctor, PxVisitData, PxFormLoader>(
       builder: (context, d, v, l, _) {
         while (d.doctor == null || v.data == null || l.forms == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const CentralLoading();
         }
         final pages = l.selectedForm == null
             ? [0]
             : l.selectedForm!.elements.map((e) => e.page).toList();
         pages.sort();
         final totalPages = pages.last;
+        if (kDebugMode) {
+          print(l.formState);
+        }
         return Form(
           key: formKey,
           child: Scaffold(
@@ -98,9 +104,20 @@ class _SectionFormState extends State<SectionForm> {
                     child: FloatingActionButton(
                       heroTag: 'unload-form',
                       tooltip: 'Remove Form',
-                      onPressed: () {
+                      onPressed: () async {
                         //todo
-                        l.selectForm(null);
+                        final result = await showDialog<bool>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const ConfirmDetachFormDialog(),
+                        );
+                        if (result == true) {
+                          await EasyLoading.show(status: "Loading...");
+                          await v.updateVisitData(SxVD.FORMID, null);
+                          await v.updateVisitData(SxVD.FORMDATA, null);
+                          await EasyLoading.showSuccess("Form Detached...");
+                          l.selectForm(null);
+                        }
                       },
                       child: const Icon(Icons.close),
                     ),
@@ -111,12 +128,17 @@ class _SectionFormState extends State<SectionForm> {
                       heroTag: 'save-form',
                       tooltip: "Save Form",
                       onPressed: () async {
-                        await EasyLoading.show(status: "Loading...");
                         if (formKey.currentState!.validate()) {
-                          //TODO
-                          await l.saveForm();
+                          //todo
+                          if (context.mounted) {
+                            await EasyLoading.show(status: "Loading...")
+                                .then((_) async => await l.saveForm(context));
+                            await EasyLoading.showSuccess("Form Saved...");
+                          }
+                          if (kDebugMode) {
+                            print(l.formState);
+                          }
                         }
-                        await EasyLoading.showSuccess("Form Saved...");
                       },
                       child: const Icon(Icons.save),
                     ),
@@ -127,7 +149,9 @@ class _SectionFormState extends State<SectionForm> {
             body: LayoutBuilder(
               builder: (context, constraints) {
                 final height = constraints.maxHeight;
-                print(height);
+                if (kDebugMode) {
+                  print(height);
+                }
                 return Card.outlined(
                   elevation: 6,
                   child: ListView(
@@ -152,12 +176,14 @@ class _SectionFormState extends State<SectionForm> {
                                 height: e.spanY,
                                 child: switch (e.formElement) {
                                   FormElement.textfield => TextFormField(
+                                      initialValue: l.formState?[e.title],
                                       decoration: InputDecoration(
                                         labelText: e.title,
                                         border: const OutlineInputBorder(),
                                       ),
                                       onChanged: (value) {
-                                        //TODO
+                                        //todo
+                                        l.updateFormState(e.title, value);
                                       },
                                       validator: e.required
                                           ? _textFieldValidator
@@ -165,9 +191,11 @@ class _SectionFormState extends State<SectionForm> {
                                     ),
                                   FormElement.checkbox => CheckboxListTile(
                                       title: Text(e.title),
-                                      value: false,
+                                      tristate: true,
+                                      value: l.formState?[e.title],
                                       onChanged: (value) {
-                                        //TODO
+                                        //todo
+                                        l.updateFormState(e.title, value);
                                       },
                                     ),
                                   FormElement.dropdown =>
@@ -183,8 +211,10 @@ class _SectionFormState extends State<SectionForm> {
                                         );
                                       }).toList(),
                                       onChanged: (value) {
-                                        //TODO
+                                        //todo
+                                        l.updateFormState(e.title, value);
                                       },
+                                      value: l.formState?[e.title],
                                       validator: e.required
                                           ? _dropdownValidator
                                           : null,

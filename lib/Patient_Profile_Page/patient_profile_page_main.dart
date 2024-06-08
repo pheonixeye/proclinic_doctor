@@ -3,6 +3,9 @@ import 'dart:math' show Random;
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/manual_entry_page.dart';
 import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/previous_visit.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:provider/provider.dart';
 
 class PatientProfilePage extends StatefulWidget {
   final bool fromnew;
@@ -62,14 +65,17 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
+    return Consumer<PxVisitData>(
+      builder: (context, vd, _) {
+        while (vd.data == null) {
+          return const CentralLoading();
+        }
         return Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'Patient Profile Page',
-              textScaler: TextScaler.linear(1.4),
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              'Patient Profile Page (${vd.data?.ptname})',
+              textScaler: const TextScaler.linear(1.4),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           body: _scaffoldBodyWidgets(widget.fromnew)[currentindex],
