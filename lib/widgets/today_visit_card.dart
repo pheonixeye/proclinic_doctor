@@ -14,6 +14,7 @@ import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
 import 'package:proclinic_doctor_windows/widgets/date_time_picker.dart';
 import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
+import 'package:proclinic_doctor_windows/widgets/show_visit_form_data_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +82,8 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
+      child: Card.outlined(
+        elevation: 6,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ExpansionTile(
@@ -166,6 +168,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   //todo: ADD QR BTN
                   const SizedBox(width: 30),
                   IconButton.outlined(
+                    tooltip: "Visit QR Code",
                     icon: const Icon(Icons.qr_code_2),
                     onPressed: () async {
                       await showDialog(
@@ -178,6 +181,26 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                         ),
                       );
                     },
+                  ),
+                  const SizedBox(width: 30),
+                  IconButton.outlined(
+                    tooltip: "View Attached Form",
+                    onPressed: widget.visit.formid == null
+                        ? null
+                        : () async {
+                            await showGeneralDialog(
+                              context: context,
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child:
+                                      VisitFormDataDialog(visit: widget.visit),
+                                );
+                              },
+                            );
+                          },
+                    icon: const Icon(Icons.insert_drive_file_outlined),
                   ),
                 ],
               ),
