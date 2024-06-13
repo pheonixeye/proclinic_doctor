@@ -185,7 +185,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   const SizedBox(width: 30),
                   IconButton.outlined(
                     tooltip: "View Attached Form",
-                    onPressed: widget.visit.formid == null
+                    onPressed: widget.visit.formId == null
                         ? null
                         : () async {
                             await showGeneralDialog(

@@ -25,8 +25,8 @@ class PxFormLoader extends ChangeNotifier {
   void selectForm(ProClinicForm? value, [VisitData? data]) {
     _selectedForm = value;
     if (_selectedForm != null) {
-      _formState = (data != null && data.formdata != null)
-          ? {...data.formdata!}
+      _formState = (data != null && data.formData != null)
+          ? {...data.formData!}
           : {..._selectedForm!.formState};
     }
     notifyListeners();

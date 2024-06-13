@@ -261,8 +261,8 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                 mainAxisAlignment: pw.MainAxisAlignment.start,
                                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 children: [
-                                  if (data.formdata != null)
-                                    ...data.formdata!.entries.map((e) {
+                                  if (data.formData != null)
+                                    ...data.formData!.entries.map((e) {
                                       if (e.value == null) {
                                         return pw.SizedBox();
                                       }

@@ -29,7 +29,7 @@ class VisitFormDataDialog extends StatelessWidget {
                     Consumer<PxFormLoader>(
                       builder: (context, f, _) {
                         final form =
-                            f.forms?.firstWhere((x) => x.id == visit.formid);
+                            f.forms?.firstWhere((x) => x.id == visit.formId);
                         return Text(
                           form?.titleEn ?? "",
                           style: const TextStyle(fontSize: 18),
@@ -46,8 +46,8 @@ class VisitFormDataDialog extends StatelessWidget {
                   ],
                 ),
               ),
-              if (visit.formdata != null)
-                ...visit.formdata!.entries.map((e) {
+              if (visit.formData != null)
+                ...visit.formData!.entries.map((e) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SelectableText.rich(

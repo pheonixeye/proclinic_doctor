@@ -217,11 +217,11 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage>
                                     children: [
                                       if ((o.database.values.toList()[index]
                                                   ["data"] as VisitData)
-                                              .formdata !=
+                                              .formData !=
                                           null)
                                         ...(o.database.values.toList()[index]
                                                 ["data"] as VisitData)
-                                            .formdata!
+                                            .formData!
                                             .entries
                                             .map((e) {
                                           if (e.value == null) {
