@@ -144,7 +144,7 @@ class _DoctorTitlesCardState extends State<DoctorAffiliatesCard> {
                             elevation: 6,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: GridTileBar(
+                              child: ListTile(
                                 title: SelectableText(item.affiliateEn),
                                 subtitle: SelectableText(item.affiliateAr),
                                 leading: const CircleAvatar(),
