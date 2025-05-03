@@ -58,7 +58,7 @@ dependencies:
   open_filex: ^4.4.0
   pretty_qr_code: ^3.3.0
   proclinic_models:
-    path: ../packages/proclinic_models
+    path: ../proclinic_models
 
 
 
