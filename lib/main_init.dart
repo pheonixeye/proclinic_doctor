@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:json_theme/json_theme.dart';
-import 'package:minisound/minisound.dart' as minisound;
+import 'package:minisound/engine.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
@@ -57,8 +57,8 @@ Future<void> initThemes() async {
 
 ///init sound package
 ///
-late final minisound.Engine engine;
+late final Engine engine;
 
 void initSound() {
-  engine = minisound.Engine();
+  engine = Engine();
 }

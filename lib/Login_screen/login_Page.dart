@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/network_settings/change_password_page.dart';
 import 'package:proclinic_doctor_windows/Login_screen/set_password_page.dart';
 import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
-import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.dart';
+// import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/Alert_dialogs_random/alert_dialogs.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
@@ -195,28 +195,28 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                       const SizedBox(
                         height: 40,
                       ),
-                      SizedBox(
-                        width: 400,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.network_check),
-                                label: const Text('Network Settings'),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const NetworkSettingsPage(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: 400,
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: ElevatedButton.icon(
+                      //           icon: const Icon(Icons.network_check),
+                      //           label: const Text('Network Settings'),
+                      //           onPressed: () {
+                      //             Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                 builder: (context) =>
+                      //                     const NetworkSettingsPage(),
+                      //               ),
+                      //             );
+                      //           },
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

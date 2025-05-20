@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:minisound/minisound.dart';
+import 'package:minisound/engine.dart';
 import 'package:proclinic_doctor_windows/functions/format_time.dart';
 import 'package:proclinic_doctor_windows/functions/visit_requests.dart';
 import 'package:proclinic_doctor_windows/main_init.dart';

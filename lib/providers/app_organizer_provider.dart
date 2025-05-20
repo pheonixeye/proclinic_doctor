@@ -5,12 +5,13 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
+// ignore: must_be_immutable
 class PxAppOrganizer extends ChangeNotifier with EquatableMixin {
-  OrgAppointement? _appointement;
-
   PxAppOrganizer({required this.visitId}) {
     fetchOrganizerAppointment();
   }
+
+  OrgAppointement? _appointement;
   OrgAppointement? get appointement => _appointement;
 
   final ObjectId visitId;

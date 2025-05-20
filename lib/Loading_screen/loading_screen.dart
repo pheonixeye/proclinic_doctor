@@ -5,7 +5,6 @@ import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/Not_Connected_To_Db/not_connected_db.dart';
 import 'package:proclinic_doctor_windows/functions/print_logic.dart';
-import 'package:proclinic_doctor_windows/get_mac_adress_fns/get_mac_adress.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
@@ -20,32 +19,32 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
   @override
   void initState() {
-    runshellmac(context);
+    // runshellmac(context);
     super.initState();
     PdfPrinter.init();
   }
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    await Database.openYaMongo().then((_) {
-      Timer(
-        const Duration(seconds: 5),
-        () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (BuildContext context) => const LoginPage(),
-          ),
-        ),
-      );
-    }).catchError((e) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NoDBConnectionPage(
-            error: e.toString(),
-          ),
-        ),
-      );
-    });
+    //   await Database.openYaMongo()
+    //       .then((_) {
+    //         Timer(
+    //           const Duration(seconds: 5),
+    //           () => Navigator.of(context).pushReplacement(
+    //             MaterialPageRoute(
+    //               builder: (BuildContext context) => const LoginPage(),
+    //             ),
+    //           ),
+    //         );
+    //       })
+    //       .catchError((e) {
+    //         Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => NoDBConnectionPage(error: e.toString()),
+    //           ),
+    //         );
+    //       });
   }
 
   @override
@@ -70,9 +69,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
                       width: 400,
                       height: 400,
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                    SizedBox(height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

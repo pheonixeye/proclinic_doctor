@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
+import 'package:pdfrx/pdfrx.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:provider/provider.dart';
 import 'package:open_filex/open_filex.dart';
@@ -53,14 +53,14 @@ class _ScannedDocumentsPageState extends State<ScannedDocumentsPage> {
                     ),
                     itemCount: d.docs.length,
                     itemBuilder: (context, index) {
-                      final controller = PdfController(
-                          document: PdfDocument.openFile(d.docs[index].path));
+                      final controller = PdfViewerController();
 
                       return Stack(
                         children: [
                           Card.filled(
                             elevation: 20,
-                            child: PdfView(
+                            child: PdfViewer(
+                              PdfDocumentRefFile(d.docs[index].path),
                               controller: controller,
                             ),
                           ),

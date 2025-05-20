@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "proclinic_doctor_windows" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "proclinic_doctor_windows" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 kareemzaher.com. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 kareemzaher.com. All rights reserved." "\0"
             VALUE "OriginalFilename", "proclinic_doctor_windows.exe" "\0"
             VALUE "ProductName", "proclinic_doctor_windows" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
