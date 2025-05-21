@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class PxFormLoader extends ChangeNotifier {
   Future<void> _init() async {
-    final result = await Database.instance.forms.find().toList();
+    final result = await Database.forms.find().toList();
     _forms = result.map((e) => ProClinicForm.fromJson(e)).toList();
     notifyListeners();
   }
@@ -25,9 +25,10 @@ class PxFormLoader extends ChangeNotifier {
   void selectForm(ProClinicForm? value, [VisitData? data]) {
     _selectedForm = value;
     if (_selectedForm != null) {
-      _formState = (data != null && data.formData != null)
-          ? {...data.formData!}
-          : {..._selectedForm!.formState};
+      _formState =
+          (data != null && data.formData != null)
+              ? {...data.formData!}
+              : {..._selectedForm!.formState};
     }
     notifyListeners();
   }

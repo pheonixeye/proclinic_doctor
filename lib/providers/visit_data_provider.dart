@@ -19,8 +19,9 @@ class PxVisitData extends ChangeNotifier {
   Future<void> addSuppliesToVisit(VisitSupplyItem item) async {
     if (_visit != null &&
         _visit!.supplies.any((i) => i.nameEn == item.nameEn)) {
-      final oldItem =
-          _visit!.supplies.firstWhere((x) => x.nameEn == item.nameEn);
+      final oldItem = _visit!.supplies.firstWhere(
+        (x) => x.nameEn == item.nameEn,
+      );
       final index = _visit!.supplies.indexOf(oldItem);
       final amount = (oldItem.amount + 1.0);
       final price = (amount * item.price);
@@ -45,8 +46,9 @@ class PxVisitData extends ChangeNotifier {
   Future<void> removeSuppliesFromVisit(VisitSupplyItem item) async {
     if (_visit != null &&
         _visit!.supplies.any((i) => i.nameEn == item.nameEn)) {
-      final oldItem =
-          _visit!.supplies.firstWhere((x) => x.nameEn == item.nameEn);
+      final oldItem = _visit!.supplies.firstWhere(
+        (x) => x.nameEn == item.nameEn,
+      );
       final index = _visit!.supplies.toList().indexOf(oldItem);
       final amount = (item.amount - 1.0);
       final price = ((oldItem.price ~/ oldItem.amount) * amount);
@@ -72,16 +74,10 @@ class PxVisitData extends ChangeNotifier {
 
   Future<void> updateVisitSupplies(List<VisitSupplyItem> supplies) async {
     if (_visit != null) {
-      await Database.instance.visits.updateOne(
-        where.eq("_id", _visit!.id),
-        {
-          r"$set": {
-            "supplies": supplies.map((e) => e.toJson()).toList(),
-          },
-        },
-      );
-      final result =
-          await Database.instance.visits.findOne(where.eq("_id", _visit!.id));
+      await Database.visits.updateOne(where.eq("_id", _visit!.id), {
+        r"$set": {"supplies": supplies.map((e) => e.toJson()).toList()},
+      });
+      final result = await Database.visits.findOne(where.eq("_id", _visit!.id));
       if (result != null) {
         selectVisit(Visit.fromJson(result));
       }
@@ -91,25 +87,15 @@ class PxVisitData extends ChangeNotifier {
   }
 
   Future<void> _deductSuppliesFromStore(VisitSupplyItem item) async {
-    await Database.instance.supplies.updateOne(
-      where.eq('_id', item.id),
-      {
-        r'$inc': {
-          'amount': -1.0,
-        },
-      },
-    );
+    await Database.supplies.updateOne(where.eq('_id', item.id), {
+      r'$inc': {'amount': -1.0},
+    });
   }
 
   Future<void> _returnSuppliesToStore(VisitSupplyItem item) async {
-    await Database.instance.supplies.updateOne(
-      where.eq('_id', item.id),
-      {
-        r'$inc': {
-          'amount': 1.0,
-        },
-      },
-    );
+    await Database.supplies.updateOne(where.eq('_id', item.id), {
+      r'$inc': {'amount': 1.0},
+    });
   }
 
   //------------------------------------//
@@ -126,8 +112,9 @@ class PxVisitData extends ChangeNotifier {
     if (visit == null) {
       throw NoVisitSelectedException();
     }
-    final result = await Database.instance.visitData
-        .findOne(where.eq(SxVD.VISITID, visit!.id));
+    final result = await Database.visitData.findOne(
+      where.eq(SxVD.VISITID, visit!.id),
+    );
     _data = VisitData.fromJson(result);
     notifyListeners();
     _drugs = _data!.drugs;
@@ -163,27 +150,32 @@ class PxVisitData extends ChangeNotifier {
   void filterLabs(String value) {
     value.isEmpty
         ? _labs = _data!.labs
-        : _labs = _labs
-            .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
-            .toList();
+        : _labs =
+            _labs
+                .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
+                .toList();
     notifyListeners();
   }
 
   void filterRads(String value) {
     value.isEmpty
         ? _rads = _data!.rads
-        : _rads = _rads
-            .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
-            .toList();
+        : _rads =
+            _rads
+                .where((e) => e.toLowerCase().startsWith(value.toLowerCase()))
+                .toList();
     notifyListeners();
   }
 
   void filterDrugs(String value) {
     value.isEmpty
         ? _drugs = _data!.drugs
-        : _drugs = _drugs
-            .where((e) => e.name.toLowerCase().startsWith(value.toLowerCase()))
-            .toList();
+        : _drugs =
+            _drugs
+                .where(
+                  (e) => e.name.toLowerCase().startsWith(value.toLowerCase()),
+                )
+                .toList();
     notifyListeners();
   }
 
@@ -228,14 +220,9 @@ class PxVisitData extends ChangeNotifier {
   }
 
   Future<void> updateVisitData(String attribute, dynamic value) async {
-    await Database.instance.visitData.updateOne(
-      where.eq(SxVD.VISITID, visit!.id),
-      {
-        r'$set': {
-          attribute: value,
-        }
-      },
-    );
+    await Database.visitData.updateOne(where.eq(SxVD.VISITID, visit!.id), {
+      r'$set': {attribute: value},
+    });
     await fetchVisitData();
   }
 }

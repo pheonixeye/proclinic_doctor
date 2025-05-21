@@ -44,28 +44,40 @@ class PxSelectedDoctor extends ChangeNotifier {
       case 'labs':
         filter.isEmpty
             ? _labs = _doctor!.labs
-            : _labs = _labs
-                .where((element) =>
-                    element.toLowerCase().startsWith(filter.toLowerCase()))
-                .toList();
+            : _labs =
+                _labs
+                    .where(
+                      (element) => element.toLowerCase().startsWith(
+                        filter.toLowerCase(),
+                      ),
+                    )
+                    .toList();
         notifyListeners();
         break;
       case 'rads':
         filter.isEmpty
             ? _rads = _doctor!.rads
-            : _rads = _rads
-                .where((element) =>
-                    element.toLowerCase().startsWith(filter.toLowerCase()))
-                .toList();
+            : _rads =
+                _rads
+                    .where(
+                      (element) => element.toLowerCase().startsWith(
+                        filter.toLowerCase(),
+                      ),
+                    )
+                    .toList();
         notifyListeners();
         break;
       case 'drugs':
         filter.isEmpty
             ? _drugs = _doctor!.drugs
-            : _drugs = _drugs
-                .where((element) =>
-                    element.toLowerCase().startsWith(filter.toLowerCase()))
-                .toList();
+            : _drugs =
+                _drugs
+                    .where(
+                      (element) => element.toLowerCase().startsWith(
+                        filter.toLowerCase(),
+                      ),
+                    )
+                    .toList();
         notifyListeners();
         break;
       default:
@@ -75,8 +87,7 @@ class PxSelectedDoctor extends ChangeNotifier {
 
   Future<void> fetchDoctorByid(int id) async {
     try {
-      final result =
-          await Database.instance.doctors.findOne(where.eq('_id', id));
+      final result = await Database.doctors.findOne(where.eq('_id', id));
       if (result != null) {
         _doctor = Doctor.fromJson(result);
         notifyListeners();
@@ -92,32 +103,19 @@ class PxSelectedDoctor extends ChangeNotifier {
     required dynamic value,
     UpdateType updateType = UpdateType.set,
   }) async {
-    await Database.instance.doctors.updateOne(
-      where.eq('_id', id),
-      switch (updateType) {
-        UpdateType.set => {
-            r'$set': {
-              attribute: value,
-            },
-          },
-        UpdateType.addToList => {
-            r'$addToSet': {
-              attribute: value,
-            },
-          },
-        UpdateType.removeFromList => {
-            r'$pull': {
-              attribute: value,
-            }
-          },
+    await Database.doctors.updateOne(where.eq('_id', id), switch (updateType) {
+      UpdateType.set => {
+        r'$set': {attribute: value},
       },
-    );
+      UpdateType.addToList => {
+        r'$addToSet': {attribute: value},
+      },
+      UpdateType.removeFromList => {
+        r'$pull': {attribute: value},
+      },
+    });
     await fetchDoctorByid(id);
   }
 }
 
-enum UpdateType {
-  set,
-  addToList,
-  removeFromList,
-}
+enum UpdateType { set, addToList, removeFromList }

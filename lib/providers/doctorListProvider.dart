@@ -12,7 +12,7 @@ class PxDoctorListProvider extends ChangeNotifier {
   List<Doctor>? get doctorList => _doctorList;
 
   Future<void> _fetchAllDoctors() async {
-    final result = await Database.instance.doctors.find().toList();
+    final result = await Database.doctors.find().toList();
     _doctorList = result.map((e) => Doctor.fromJson(e)).toList();
     notifyListeners();
   }

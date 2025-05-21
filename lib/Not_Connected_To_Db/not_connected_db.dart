@@ -8,7 +8,7 @@ import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.da
 class NoDBConnectionPage extends StatefulWidget {
   final String? error;
 
-  const NoDBConnectionPage({Key? key, this.error}) : super(key: key);
+  const NoDBConnectionPage({super.key, this.error});
   @override
   State<NoDBConnectionPage> createState() => _NoDBConnectionPageState();
 }
@@ -23,26 +23,22 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Failed to innitialize ProClinic App.'),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Card(
-                color: Colors.red,
-                child: Text('Error : ${widget.error.toString()}')),
-            const SizedBox(
-              height: 20,
+              color: Colors.red,
+              child: Text('Error : ${widget.error.toString()}'),
             ),
+            const SizedBox(height: 20),
             const Text('Please Resolve this Error and try again later.'),
             FutureBuilder<String?>(
               future: NetworkSettings.instance.getIpAddress(),
               builder: (context, snapshot) {
                 return Text(
-                    'Ip Address : ${snapshot.hasData ? snapshot.data : ""}');
+                  'Ip Address : ${snapshot.hasData ? snapshot.data : ""}',
+                );
               },
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
               icon: const Icon(Icons.refresh),
               label: const Text('Retry'),
@@ -55,9 +51,7 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
                 );
               },
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               icon: const Icon(Icons.network_check_outlined),
               label: const Text('Reset Network Configuration'),
@@ -74,9 +68,7 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
                 }
               },
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               icon: const Icon(Icons.settings),
               label: const Text('Network Settings'),
@@ -91,9 +83,7 @@ class _NoDBConnectionPageState extends State<NoDBConnectionPage> {
                 }
               },
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               icon: const Icon(Icons.close),
               label: const Text('Exit'),

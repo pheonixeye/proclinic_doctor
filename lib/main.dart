@@ -1,6 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/Mongo_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clinic_details_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
@@ -14,7 +13,7 @@ import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
 import 'package:proclinic_doctor_windows/scroll/scroll_behaviour.dart';
 import 'package:provider/provider.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //todo: IMPLEMENT TWO WAY NOTIFICATIONS
   //todo: ADD MODELS PACKAGE
@@ -22,17 +21,24 @@ Future<void> main() async {
 
   await initThemes();
 
-  await Database.openYaMongo();
+  // await Database.openYaMongo();
 
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: MyApp(light: lightTheme, dark: darkTheme),
-    ),
-  );
+  runApp(const AppProvider());
+
   initSound();
 
   // await _initSocket();
+}
+
+class AppProvider extends StatelessWidget {
+  const AppProvider({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: providers,
+      child: MyApp(light: lightTheme, dark: darkTheme),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

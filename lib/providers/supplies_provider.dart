@@ -17,17 +17,19 @@ class PxSupplies extends ChangeNotifier {
   void filterSupplies(String val) {
     val.isEmpty
         ? _filteredSupplies = _supplies
-        : _filteredSupplies = _supplies
-            .where((x) => x.nameEn.toLowerCase().startsWith(val.toLowerCase()))
-            .toList();
+        : _filteredSupplies =
+            _supplies
+                .where(
+                  (x) => x.nameEn.toLowerCase().startsWith(val.toLowerCase()),
+                )
+                .toList();
     notifyListeners();
   }
 
   Future<void> fetchAllDoctorSupplies() async {
     if (docid != null) {
-      final result = await Database.instance.supplies
-          .find(where.eq("docid", docid))
-          .toList();
+      final result =
+          await Database.supplies.find(where.eq("docid", docid)).toList();
       _supplies = result.map((e) => SupplyItem.fromMap(e)).toList();
       notifyListeners();
     }

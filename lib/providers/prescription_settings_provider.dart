@@ -25,20 +25,24 @@ class PxPrescriptionSettings extends ChangeNotifier {
   Future<void> get init => _checkIfDoctorSettingsExists();
 
   Future<void> _checkIfDoctorSettingsExists() async {
-    final result = await Database.instance.prescriptionSettings
-        .findOne(where.eq('docId', docId));
+    final result = await Database.prescriptionSettings.findOne(
+      where.eq('docId', docId),
+    );
     if (result == null) {
       //todo: perform add first time
-      await Database.instance.prescriptionSettings
-          .insertOne(PrescriptionSettings.create(docId).toJson());
+      await Database.prescriptionSettings.insertOne(
+        PrescriptionSettings.create(docId).toJson(),
+      );
       //todo: assign data
-      final newResult = await Database.instance.prescriptionSettings
-          .findOne(where.eq('docId', docId));
+      final newResult = await Database.prescriptionSettings.findOne(
+        where.eq('docId', docId),
+      );
       _settings = PrescriptionSettings.fromJson(newResult!);
       notifyListeners();
       if (kDebugMode) {
         print(
-            'PxPrescriptionSetting()._checkIfDoctorSettingsExists(create&assign)');
+          'PxPrescriptionSetting()._checkIfDoctorSettingsExists(create&assign)',
+        );
       }
     } else {
       //todo: assign data
@@ -54,12 +58,10 @@ class PxPrescriptionSettings extends ChangeNotifier {
     required String key,
     required dynamic value,
   }) async {
-    await Database.instance.prescriptionSettings.updateOne(
+    await Database.prescriptionSettings.updateOne(
       where.eq("_id", _settings?.id),
       {
-        r'$set': {
-          key: value,
-        },
+        r'$set': {key: value},
       },
     );
     if (kDebugMode) {
@@ -71,17 +73,21 @@ class PxPrescriptionSettings extends ChangeNotifier {
   Future<void> updatePrescriptionData({
     required PositionedDataItem newData,
   }) async {
-    await Database.instance.prescriptionSettings.updateOne(
+    await Database.prescriptionSettings.updateOne(
       where.eq("_id", _settings?.id),
       {
         r'$set': {
-          "data" "." "${newData.type.name}": newData.toJson(),
+          "data"
+                  "."
+                  "${newData.type.name}":
+              newData.toJson(),
         },
       },
     );
     if (kDebugMode) {
       print(
-          'PxPrescriptionSetting().updatePrescriptionData(${newData.type.name})');
+        'PxPrescriptionSetting().updatePrescriptionData(${newData.type.name})',
+      );
     }
     await init;
   }
@@ -115,17 +121,13 @@ class PxPrescriptionSettings extends ChangeNotifier {
   FutureOr<Uint8List> _buildPdf() {
     if (_settings != null && _settings!.path != null) {
       _pngPrescription = File(_settings!.path!);
-      final image = pw.MemoryImage(
-        _pngPrescription!.readAsBytesSync(),
-      );
+      final image = pw.MemoryImage(_pngPrescription!.readAsBytesSync());
       final doc = pw.Document();
       doc.addPage(
         pw.Page(
           margin: pw.EdgeInsets.zero,
           pageFormat: _pageFormats['a5']!,
-          theme: pw.ThemeData(
-            defaultTextStyle: style,
-          ),
+          theme: pw.ThemeData(defaultTextStyle: style),
           build: (context) {
             return pw.Stack(
               fit: pw.StackFit.expand,
@@ -148,20 +150,20 @@ class PxPrescriptionSettings extends ChangeNotifier {
       _pngPrescription = null;
       // notifyListeners();
       final doc = pw.Document();
-      doc.addPage(pw.Page(
-        theme: pw.ThemeData(
-          defaultTextStyle: titleStyle,
+      doc.addPage(
+        pw.Page(
+          theme: pw.ThemeData(defaultTextStyle: titleStyle),
+          pageFormat: pageFormats['a5']!,
+          build: (context) {
+            return pw.Center(
+              child: pw.Text(
+                "No Prescription File Selected.",
+                textAlign: pw.TextAlign.center,
+              ),
+            );
+          },
         ),
-        pageFormat: pageFormats['a5']!,
-        build: (context) {
-          return pw.Center(
-            child: pw.Text(
-              "No Prescription File Selected.",
-              textAlign: pw.TextAlign.center,
-            ),
-          );
-        },
-      ));
+      );
       return doc.save();
     }
   }

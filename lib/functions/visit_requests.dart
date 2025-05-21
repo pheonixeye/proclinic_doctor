@@ -4,8 +4,9 @@ import 'package:proclinic_models/proclinic_models.dart';
 
 class VisitRequests {
   static Future<Visit?> fetchVisitById(String oid) async {
-    final result = await Database.instance.visits
-        .findOne(where.eq("_id", ObjectId.fromHexString(oid)));
+    final result = await Database.visits.findOne(
+      where.eq("_id", ObjectId.fromHexString(oid)),
+    );
     if (result != null) {
       final visit = Visit.fromJson(result);
       return visit;

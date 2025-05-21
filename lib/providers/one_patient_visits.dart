@@ -18,23 +18,25 @@ class PxOnePatientVisits extends ChangeNotifier {
 
   Future<void> fetchOnePatientVisits({required Visit visit}) async {
     _database.clear();
-    final result = await Database.instance.visits
-        .find(where
-            .eq(SxVisit.DOCID, visit.docid)
-            .eq(SxVisit.PTNAME, visit.ptName)
-            .eq(SxVisit.DOB, visit.dob)
-            .eq(SxVisit.PHONE, visit.phone)
-            .lt(SxVisit.VISITDATE, _cutoffDate)
-            .sortBy(
-              SxVisit.VISITDATE,
-              descending: true,
-            ))
-        .toList();
+    final result =
+        await Database.visits
+            .find(
+              where
+                  .eq(SxVisit.DOCID, visit.docid)
+                  .eq(SxVisit.PTNAME, visit.ptName)
+                  .eq(SxVisit.DOB, visit.dob)
+                  .eq(SxVisit.PHONE, visit.phone)
+                  .lt(SxVisit.VISITDATE, _cutoffDate)
+                  .sortBy(SxVisit.VISITDATE, descending: true),
+            )
+            .toList();
 
     // _visits = result.map((e) => Visit.fromJson(e)).toList();
     result.map((e) {
       _database.putIfAbsent(
-          e["_id"] as ObjectId, () => {"visit": {}, "data": {}});
+        e["_id"] as ObjectId,
+        () => {"visit": {}, "data": {}},
+      );
       _database[(e["_id"] as ObjectId)]?['visit'] = Visit.fromJson(e);
     }).toList();
     notifyListeners();
@@ -43,11 +45,12 @@ class PxOnePatientVisits extends ChangeNotifier {
 
   Future<void> fetchOnePatientVisitsData() async {
     for (final entry in _database.entries) {
-      final result = await Database.instance.visitData
-          .findOne(where.eq(SxVD.VISITID, entry.key));
+      final result = await Database.visitData.findOne(
+        where.eq(SxVD.VISITID, entry.key),
+      );
       // print(result);
-      _database[result![SxVD.VISITID] as ObjectId]?["data"] =
-          VisitData.fromJson(result);
+      _database[result![SxVD.VISITID]
+          as ObjectId]?["data"] = VisitData.fromJson(result);
     }
     notifyListeners();
     // print(_database);

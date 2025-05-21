@@ -48,73 +48,76 @@ class PxVisits extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchVisits({
-    required QueryType type,
-    String? query,
-  }) async {
+  Future<void> fetchVisits({required QueryType type, String? query}) async {
     switch (type) {
       case QueryType.Today:
-        final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCID, docid).eq(
-                  SxVisit.VISITDATE,
-                  today.toIso8601String(),
-                ))
-            .toList();
+        final result =
+            await Database.visits
+                .find(
+                  where
+                      .eq(SxVisit.DOCID, docid)
+                      .eq(SxVisit.VISITDATE, today.toIso8601String()),
+                )
+                .toList();
 
         _visits = Visit.visitList(result);
         notifyListeners();
 
       case QueryType.Date:
-        final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCID, docid).eq(
-                  SxVisit.VISITDATE,
-                  date.toIso8601String(),
-                ))
-            .toList();
+        final result =
+            await Database.visits
+                .find(
+                  where
+                      .eq(SxVisit.DOCID, docid)
+                      .eq(SxVisit.VISITDATE, date.toIso8601String()),
+                )
+                .toList();
 
         _visits = Visit.visitList(result);
         notifyListeners();
 
       case QueryType.Range:
         //todo: FIX QUERY
-        final result = await Database.instance.visits
-            .find(
-              where
-                  .eq(SxVisit.DOCID, docid)
-                  .gte(SxVisit.VISITDATE, date.toIso8601String())
-                  .lte(SxVisit.VISITDATE, secondDate.toIso8601String())
-                  .sortBy(
-                    SxVisit.VISITDATE,
-                    descending: true,
-                  ),
-            )
-            .toList();
+        final result =
+            await Database.visits
+                .find(
+                  where
+                      .eq(SxVisit.DOCID, docid)
+                      .gte(SxVisit.VISITDATE, date.toIso8601String())
+                      .lte(SxVisit.VISITDATE, secondDate.toIso8601String())
+                      .sortBy(SxVisit.VISITDATE, descending: true),
+                )
+                .toList();
         _visits = Visit.visitList(result);
         notifyListeners();
 
       case QueryType.Search:
-        final result = await Database.instance.visits
-            .find(where.eq(SxVisit.DOCID, docid).and(where
-                .match(SxVisit.PTNAME, query ?? '')
-                .or(where.match(SxVisit.PHONE, query ?? ''))
-                .sortBy(
-                  SxVisit.VISITDATE,
-                  descending: true,
-                )))
-            .toList();
+        final result =
+            await Database.visits
+                .find(
+                  where
+                      .eq(SxVisit.DOCID, docid)
+                      .and(
+                        where
+                            .match(SxVisit.PTNAME, query ?? '')
+                            .or(where.match(SxVisit.PHONE, query ?? ''))
+                            .sortBy(SxVisit.VISITDATE, descending: true),
+                      ),
+                )
+                .toList();
         _visits = Visit.visitList(result);
         notifyListeners();
 
       case QueryType.All:
-        final result = await Database.instance.visits
-            .find(where
-                .eq(SxVisit.DOCID, docid)
-                .sortBy(
-                  SxVisit.VISITDATE,
-                  descending: true,
+        final result =
+            await Database.visits
+                .find(
+                  where
+                      .eq(SxVisit.DOCID, docid)
+                      .sortBy(SxVisit.VISITDATE, descending: true)
+                      .limit(25),
                 )
-                .limit(25))
-            .toList();
+                .toList();
 
         _visits = Visit.visitList(result);
         notifyListeners();
@@ -126,22 +129,11 @@ class PxVisits extends ChangeNotifier {
     String attribute,
     dynamic value,
   ) async {
-    await Database.instance.visits.updateOne(
-      where.eq("_id", id),
-      {
-        r'$set': {
-          attribute: value,
-        },
-      },
-    );
+    await Database.visits.updateOne(where.eq("_id", id), {
+      r'$set': {attribute: value},
+    });
     await fetchVisits(type: QueryType.Today);
   }
 }
 
-enum QueryType {
-  Today,
-  Date,
-  Range,
-  Search,
-  All,
-}
+enum QueryType { Today, Date, Range, Search, All }

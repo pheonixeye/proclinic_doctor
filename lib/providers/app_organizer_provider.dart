@@ -17,8 +17,9 @@ class PxAppOrganizer extends ChangeNotifier with EquatableMixin {
   final ObjectId visitId;
 
   Future<void> fetchOrganizerAppointment() async {
-    final result =
-        await Database.instance.appOrganizer.findOne(where.eq("_id", visitId));
+    final result = await Database.appOrganizer.findOne(
+      where.eq("_id", visitId),
+    );
     if (result != null) {
       _appointement = OrgAppointement.fromJson(result);
       // if (kDebugMode) {
@@ -49,15 +50,16 @@ class PxAppOrganizer extends ChangeNotifier with EquatableMixin {
 
   Future<void> createFollowUpDate() async {
     if (_appointement != null) {
-      final oldApp = await Database.instance.appOrganizer
-          .findOne(where.eq("_id", visitId));
+      final oldApp = await Database.appOrganizer.findOne(
+        where.eq("_id", visitId),
+      );
       if (oldApp == null) {
-        await Database.instance.appOrganizer.insertOne(_appointement!.toJson());
+        await Database.appOrganizer.insertOne(_appointement!.toJson());
       } else {
-        await Database.instance.appOrganizer
-            .updateOne(where.eq("_id", _appointement!.id), {
-          r'$set': _appointement!.toJson(),
-        });
+        await Database.appOrganizer.updateOne(
+          where.eq("_id", _appointement!.id),
+          {r'$set': _appointement!.toJson()},
+        );
       }
       await fetchOrganizerAppointment();
     }
@@ -67,8 +69,9 @@ class PxAppOrganizer extends ChangeNotifier with EquatableMixin {
   List<Object?> get props => [visitId, appointement];
 
   static Future<OrgAppointement?> fetctAppointmentById(ObjectId visitId) async {
-    final result =
-        await Database.instance.appOrganizer.findOne(where.eq("_id", visitId));
+    final result = await Database.appOrganizer.findOne(
+      where.eq("_id", visitId),
+    );
     if (result != null) {
       return OrgAppointement.fromJson(result);
     } else {

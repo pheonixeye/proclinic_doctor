@@ -26,25 +26,27 @@ class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    //   await Database.openYaMongo()
-    //       .then((_) {
-    //         Timer(
-    //           const Duration(seconds: 5),
-    //           () => Navigator.of(context).pushReplacement(
-    //             MaterialPageRoute(
-    //               builder: (BuildContext context) => const LoginPage(),
-    //             ),
-    //           ),
-    //         );
-    //       })
-    //       .catchError((e) {
-    //         Navigator.pushReplacement(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => NoDBConnectionPage(error: e.toString()),
-    //           ),
-    //         );
-    //       });
+    await Database.openYaMongo()
+        .then((_) {
+          Timer(
+            const Duration(seconds: 5),
+            () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const LoginPage(),
+              ),
+            ),
+          );
+        })
+        .catchError((e) {
+          if (context.mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NoDBConnectionPage(error: e.toString()),
+              ),
+            );
+          }
+        });
   }
 
   @override
