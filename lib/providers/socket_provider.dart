@@ -1,34 +1,35 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class PxSocketProvider extends ChangeNotifier {
-  Socket? _socket;
+  WebSocketChannel? _socket;
   final int docid;
 
-  PxSocketProvider({
-    required this.docid,
-  });
+  PxSocketProvider({required this.docid});
 
   bool _isConnected = false;
   bool get isConnected => _isConnected;
 
   Future<void> initSocketConnection(BuildContext context) async {
     try {
-      _socket = await Socket.connect(
-        InternetAddress(await NetworkSettings.instance.getIpAddress() ?? ""),
-        6789,
+      final wsUrl = Uri.parse(
+        'ws://127.0.0.1:6789/proclinic_kf:doctor:${context.read<PxSelectedDoctor>().doctor?.id}',
       );
+      _socket = WebSocketChannel.connect(wsUrl);
+
+      await _socket?.ready;
+
       _isConnected = true;
+
       if (kDebugMode) {
         print(docid);
       }
@@ -57,23 +58,20 @@ class PxSocketProvider extends ChangeNotifier {
 
   void sendDocLogin(BuildContext context) {
     final doctor = context.read<PxSelectedDoctor>().doctor!;
-    final tr = Tr(
-      e: doctor.docnameEN,
-      a: doctor.docnameAR,
-    );
+    final tr = Tr(e: doctor.docnameEN, a: doctor.docnameAR);
     final msg = SocketNotificationMessage.doctorLogin(docid, tr);
-    _socket?.write(msg.toJson());
+    _socket?.sink.add(msg.toJson());
   }
 
   void sendSocketMessage(SocketNotificationMessage message) {
-    _socket?.write(message.toJson());
+    _socket?.sink.add(message.toJson());
   }
 
   List<int>? _socketMessage;
   List<int>? get socketMessage => _socketMessage;
 
   void listenToSocket(BuildContext context) {
-    _socket?.asBroadcastStream().listen(
+    _socket?.stream.asBroadcastStream().listen(
       (event) {
         _socketMessage = event;
         parseSocketEvent(event, context);
@@ -94,14 +92,11 @@ class PxSocketProvider extends ChangeNotifier {
 
   void disconnect(BuildContext context) {
     final doctor = context.read<PxSelectedDoctor>().doctor!;
-    final tr = Tr(
-      e: doctor.docnameEN,
-      a: doctor.docnameAR,
-    );
+    final tr = Tr(e: doctor.docnameEN, a: doctor.docnameAR);
     final msg = SocketNotificationMessage.doctorLogout(docid, tr);
 
-    _socket?.write(msg.toJson());
-    _socket?.close();
+    _socket?.sink.add(msg.toJson());
+    _socket?.sink.close();
     _socket = null;
     _isConnected = false;
     notifyListeners();
@@ -113,12 +108,12 @@ class PxSocketProvider extends ChangeNotifier {
       final msg = SocketNotificationMessage.fromJson(strMessage);
       //todo: fire notification
       await context.read<PxAppNotifications>().addNotification(
-          AppNotification.fromSocketNotificationMessage(msg), context);
+        AppNotification.fromSocketNotificationMessage(msg),
+        context,
+      );
       if (msg.type == MessageType.newVisit) {
         if (context.mounted) {
-          await context.read<PxVisits>().fetchVisits(
-                type: QueryType.Today,
-              );
+          await context.read<PxVisits>().fetchVisits(type: QueryType.Today);
           if (kDebugMode) {
             print("fetching today visits - new visit");
           }
@@ -126,9 +121,7 @@ class PxSocketProvider extends ChangeNotifier {
       }
       if (msg.type == MessageType.visitUpdatedreception) {
         if (context.mounted) {
-          await context.read<PxVisits>().fetchVisits(
-                type: QueryType.Today,
-              );
+          await context.read<PxVisits>().fetchVisits(type: QueryType.Today);
 
           if (kDebugMode) {
             print("fetching today visits - visit update reception");
