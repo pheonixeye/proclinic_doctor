@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -20,9 +22,13 @@ class PxSocketProvider extends ChangeNotifier {
   bool get isConnected => _isConnected;
 
   Future<void> initSocketConnection(BuildContext context) async {
+    const WSS_URL = String.fromEnvironment('WSS_URL');
+    const MONGODB_NAME = String.fromEnvironment('MONGODB_NAME');
+    const USER_TYPE = String.fromEnvironment('USER_TYPE');
+    // const USER_ID = String.fromEnvironment('USER_ID');
     try {
       final wsUrl = Uri.parse(
-        'ws://127.0.0.1:6789/proclinic_kf:doctor:${context.read<PxSelectedDoctor>().doctor?.id}',
+        '$WSS_URL/$MONGODB_NAME:$USER_TYPE:${context.read<PxSelectedDoctor>().doctor?.id}',
       );
       _socket = WebSocketChannel.connect(wsUrl);
 
