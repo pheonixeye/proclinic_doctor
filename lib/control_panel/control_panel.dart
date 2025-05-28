@@ -22,7 +22,7 @@ import 'package:proclinic_doctor_windows/widgets/notification_card.dart';
 import 'package:provider/provider.dart';
 
 class ControlPanelPage extends StatefulWidget {
-  const ControlPanelPage({Key? key}) : super(key: key);
+  const ControlPanelPage({super.key});
   @override
   State<ControlPanelPage> createState() => _ControlPanelPageState();
 }
@@ -44,11 +44,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
 
   @override
   void initState() {
-    _tabController = TabController(
-      initialIndex: 0,
-      length: 3,
-      vsync: this,
-    );
+    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
 
     super.initState();
   }
@@ -61,9 +57,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    await context.read<PxVisits>().fetchVisits(
-          type: QueryType.Today,
-        );
+    await context.read<PxVisits>().fetchVisits(type: QueryType.Today);
     if (context.mounted) {
       context.read<PxSocketProvider>().listenToSocket(context);
     }
@@ -85,35 +79,26 @@ class _ControlPanelPageState extends State<ControlPanelPage>
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: const Text('Logout From Clinic Console ??'),
-          content: const SingleChildScrollView(
-            child: Text('Are You Sure ?'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
           ),
+          title: const Text('Logout From Clinic Console ??'),
+          content: const SingleChildScrollView(child: Text('Are You Sure ?')),
           actions: [
             ElevatedButton.icon(
-              icon: const Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
+              icon: const Icon(Icons.check, color: Colors.green),
               label: const Text('Confirm'),
               onPressed: () {
                 Navigator.pop(context);
                 _onLogout();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
             ),
             ElevatedButton.icon(
-              icon: const Icon(
-                Icons.cancel,
-                color: Colors.red,
-              ),
+              icon: const Icon(Icons.cancel, color: Colors.red),
               label: const Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context);
@@ -145,9 +130,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               );
             },
           ),
-          const SizedBox(
-            width: 20,
-          ),
+          const SizedBox(width: 20),
           Consumer<PxSocketProvider>(
             builder: (context, s, _) {
               while (s.isConnected) {
@@ -158,8 +141,10 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                     if (context.mounted) {
                       s.disconnect(context);
                     }
-                    await EasyLoading.showSuccess('Success...',
-                        duration: const Duration(seconds: 3));
+                    await EasyLoading.showSuccess(
+                      'Success...',
+                      duration: const Duration(seconds: 3),
+                    );
                   },
                   icon: const Icon(Icons.wifi_rounded),
                 );
@@ -171,12 +156,15 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                   if (context.mounted) {
                     await s.initSocketConnection(context);
                     if (s.isConnected) {
-                      await EasyLoading.showSuccess('Success...',
-                          duration: const Duration(seconds: 3));
+                      await EasyLoading.showSuccess(
+                        'Success...',
+                        duration: const Duration(seconds: 3),
+                      );
                     } else {
                       await EasyLoading.showError(
-                          'Notification Server Offline...',
-                          duration: const Duration(seconds: 3));
+                        'Notification Server Offline...',
+                        duration: const Duration(seconds: 3),
+                      );
                     }
                   }
                 },
@@ -184,20 +172,14 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               );
             },
           ),
-          const SizedBox(
-            width: 20,
-          ),
+          const SizedBox(width: 20),
           const NotifierPopupMenuBtn(),
-          const SizedBox(
-            width: 20,
-          ),
+          const SizedBox(width: 20),
         ],
         title: Consumer<PxSelectedDoctor>(
           builder: (context, d, c) {
             while (d.doctor == null) {
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+              return const Center(child: CircularProgressIndicator.adaptive());
             }
             return Text(
               'Dr. ${d.doctor!.docnameEN.toUpperCase()} Clinic',
@@ -213,17 +195,17 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                 await EasyLoading.show(status: 'Loading...');
                 if (context.mounted) {
                   await context.read<PxVisits>().fetchVisits(
-                        type: QueryType.Today,
-                      );
+                    type: QueryType.Today,
+                  );
                 }
                 await EasyLoading.dismiss();
                 break;
               default:
                 await EasyLoading.show(status: 'Loading...');
                 if (context.mounted) {
-                  await context
-                      .read<PxVisits>()
-                      .fetchVisits(type: QueryType.All);
+                  await context.read<PxVisits>().fetchVisits(
+                    type: QueryType.All,
+                  );
                 }
                 await EasyLoading.dismiss();
             }
@@ -234,18 +216,8 @@ class _ControlPanelPageState extends State<ControlPanelPage>
               icon: const Icon(Icons.person),
               text: 'Today ${d.day} - ${d.month} - ${d.year}',
             ),
-            const Tab(
-              icon: Icon(
-                Icons.person_search,
-              ),
-              text: 'Find Patient',
-            ),
-            const Tab(
-              icon: Icon(
-                Icons.monetization_on,
-              ),
-              text: 'BookKeeping',
-            ),
+            const Tab(icon: Icon(Icons.person_search), text: 'Find Patient'),
+            const Tab(icon: Icon(Icons.monetization_on), text: 'BookKeeping'),
           ],
         ),
       ),
@@ -329,10 +301,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                           itemCount: n.notifications.length,
                           itemBuilder: (context, index) {
                             final item = n.notifications[index];
-                            return NotificationCard(
-                              index: index,
-                              item: item,
-                            );
+                            return NotificationCard(index: index, item: item);
                           },
                         );
                       },
@@ -350,7 +319,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
         children: const <Widget>[
           TodayPatients(),
           SearchPatientsUnder(),
-          BookKeepingPage()
+          BookKeepingPage(),
         ],
       ),
     );

@@ -56,7 +56,8 @@ class PxVisits extends ChangeNotifier {
                 .find(
                   where
                       .eq(SxVisit.DOCID, docid)
-                      .eq(SxVisit.VISITDATE, today.toIso8601String()),
+                      .eq(SxVisit.VISITDATE, today.toIso8601String())
+                      .sortBy(SxVisit.ENTRYNUMBER, descending: true),
                 )
                 .toList();
 

@@ -17,9 +17,7 @@ class TodayPatients extends StatefulWidget {
 class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    await context.read<PxVisits>().fetchVisits(
-          type: QueryType.Today,
-        );
+    await context.read<PxVisits>().fetchVisits(type: QueryType.Today);
   }
 
   @override
@@ -51,13 +49,11 @@ class _TodayPatientsState extends State<TodayPatients> with AfterLayoutMixin {
                       itemCount: v.visits.length,
                       itemBuilder: (context, index) {
                         return ChangeNotifierProvider(
-                          create: (context) => PxAppOrganizer(
-                            visitId: v.visits[index].id,
-                          ),
+                          create:
+                              (context) =>
+                                  PxAppOrganizer(visitId: v.visits[index].id),
                           builder: (context, _) {
-                            return TodayVisitCard(
-                              visit: v.visits[index],
-                            );
+                            return TodayVisitCard(visit: v.visits[index]);
                           },
                         );
                       },

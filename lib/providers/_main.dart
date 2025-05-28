@@ -23,28 +23,30 @@ final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => PxDoctorListProvider()),
   ChangeNotifierProvider(create: (context) => PxSelectedDoctor()),
   ChangeNotifierProvider(
-    create: (context) => PxSocketProvider(
-      docid: context.read<PxSelectedDoctor>().doctor!.id,
-    ),
+    create:
+        (context) =>
+            PxSocketProvider(docid: context.read<PxSelectedDoctor>().doctor!.id)
+              ..listenToSocket(context),
   ),
   ChangeNotifierProvider(
-    create: (context) => PxVisits(
-      docid: context.read<PxSelectedDoctor>().doctor!.id,
-    ),
+    create:
+        (context) =>
+            PxVisits(docid: context.read<PxSelectedDoctor>().doctor!.id),
   ),
   ChangeNotifierProvider(create: (context) => PxVisitData()),
   ChangeNotifierProvider(create: (context) => PxOnePatientVisits()),
   ChangeNotifierProvider(create: (context) => PdfPrinter()),
   ChangeNotifierProvider(create: (context) => PxScannedDocuments()),
   ChangeNotifierProvider(
-    create: (context) => PxPrescriptionSettings(
-      docId: context.read<PxSelectedDoctor>().doctor!.id,
-    ),
+    create:
+        (context) => PxPrescriptionSettings(
+          docId: context.read<PxSelectedDoctor>().doctor!.id,
+        ),
   ),
   ChangeNotifierProvider(
-    create: (context) => PxSupplies(
-      docid: context.read<PxSelectedDoctor>().doctor!.id,
-    ),
+    create:
+        (context) =>
+            PxSupplies(docid: context.read<PxSelectedDoctor>().doctor!.id),
   ),
   ChangeNotifierProvider(create: (context) => PxFormLoader()),
 ];

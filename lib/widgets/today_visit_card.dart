@@ -68,10 +68,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
     if (context.mounted) {
       final msg = SocketNotificationMessage.visitUpdatedDoctor(
         widget.visit.docid!,
-        Tr(
-          e: widget.visit.docNameEN,
-          a: widget.visit.docNameAR,
-        ),
+        Tr(e: widget.visit.docNameEN, a: widget.visit.docNameAR),
         widget.visit.id.oid,
       );
       context.read<PxSocketProvider>().sendSocketMessage(msg);
@@ -99,9 +96,9 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   await context.read<PxVisitData>().fetchVisitData();
                 }
                 if (context.mounted) {
-                  await context
-                      .read<PxScannedDocuments>()
-                      .fetchVisitData(widget.visit.id);
+                  await context.read<PxScannedDocuments>().fetchVisitData(
+                    widget.visit.id,
+                  );
                 }
                 if (context.mounted) {
                   await context
@@ -113,9 +110,8 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PatientProfilePage(
-                        fromnew: true,
-                      ),
+                      builder:
+                          (context) => const PatientProfilePage(fromnew: true),
                     ),
                   );
                 }
@@ -126,20 +122,22 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton.small(
+                      heroTag: widget.visit.id,
+                      onPressed: null,
+                      child: Text('${widget.visit.entryNumber}'),
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 30,
-                      child: Icon(Icons.person),
-                    ),
+                    child: SizedBox(width: 30, child: Icon(Icons.person)),
                   ),
                   Text('Name :\n${widget.visit.ptName}'),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 30,
-                      child: Icon(Icons.phone),
-                    ),
+                    child: SizedBox(width: 30, child: Icon(Icons.phone)),
                   ),
                   Text('Phone :\n${widget.visit.phone}'),
                   const Padding(
@@ -173,33 +171,39 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) => QrDialog(
-                          code: QrCode.fromData(
-                            data: widget.visit.id.oid,
-                            errorCorrectLevel: QrErrorCorrectLevel.H,
-                          ),
-                        ),
+                        builder:
+                            (context) => QrDialog(
+                              code: QrCode.fromData(
+                                data: widget.visit.id.oid,
+                                errorCorrectLevel: QrErrorCorrectLevel.H,
+                              ),
+                            ),
                       );
                     },
                   ),
                   const SizedBox(width: 30),
                   IconButton.outlined(
                     tooltip: "View Attached Form",
-                    onPressed: widget.visit.formId == null
-                        ? null
-                        : () async {
-                            await showGeneralDialog(
-                              context: context,
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child:
-                                      VisitFormDataDialog(visit: widget.visit),
-                                );
-                              },
-                            );
-                          },
+                    onPressed:
+                        widget.visit.formId == null
+                            ? null
+                            : () async {
+                              await showGeneralDialog(
+                                context: context,
+                                pageBuilder: (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                ) {
+                                  return Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: VisitFormDataDialog(
+                                      visit: widget.visit,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                     icon: const Icon(Icons.insert_drive_file_outlined),
                   ),
                 ],
@@ -222,13 +226,14 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownButton<_typeOfVisit>(
                           isExpanded: true,
-                          items: _typeOfVisit.list.map((e) {
-                            return DropdownMenuItem<_typeOfVisit>(
-                              alignment: Alignment.center,
-                              value: e,
-                              child: Text(e.e),
-                            );
-                          }).toList(),
+                          items:
+                              _typeOfVisit.list.map((e) {
+                                return DropdownMenuItem<_typeOfVisit>(
+                                  alignment: Alignment.center,
+                                  value: e,
+                                  child: Text(e.e),
+                                );
+                              }).toList(),
                           hint: const Text(
                             "Select Visit Type...",
                             textAlign: TextAlign.center,
@@ -290,14 +295,16 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                     labelStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    selected:
-                                        widget.visit.procedures.contains(e),
+                                    selected: widget.visit.procedures.contains(
+                                      e,
+                                    ),
                                     onSelected: (value) async {
                                       if (widget.visit.procedures.contains(e)) {
                                         return;
                                       } else {
                                         await EasyLoading.show(
-                                            status: "Loading...");
+                                          status: "Loading...",
+                                        );
                                         if (context.mounted) {
                                           await context
                                               .read<PxVisits>()
@@ -316,16 +323,19 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                     },
                                     onDeleted: () async {
                                       await EasyLoading.show(
-                                          status: "Loading...");
+                                        status: "Loading...",
+                                      );
                                       if (context.mounted) {
                                         final original = [
-                                          ...widget.visit.procedures
+                                          ...widget.visit.procedures,
                                         ];
-                                        original
-                                            .removeWhere((x) => x.id == e.id);
-                                        final update = original
-                                            .map((e) => e.toJson())
-                                            .toList();
+                                        original.removeWhere(
+                                          (x) => x.id == e.id,
+                                        );
+                                        final update =
+                                            original
+                                                .map((e) => e.toJson())
+                                                .toList();
                                         await context
                                             .read<PxVisits>()
                                             .updateVisitDetails(
@@ -339,7 +349,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                                       await EasyLoading.dismiss();
                                     },
                                   );
-                                })
+                                }),
                               ],
                             ),
                           ),
@@ -358,9 +368,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   const SizedBox(width: 50),
                   const Text("Set Follow Up Date"),
                   const Spacer(),
-                  PickedDateText(
-                    visit: widget.visit,
-                  ),
+                  PickedDateText(visit: widget.visit),
                   const Spacer(),
                   FloatingActionButton(
                     heroTag: "${widget.visit.id}+followup",
@@ -370,9 +378,9 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) => DateAndTimePickerDialog(
-                          visit: widget.visit,
-                        ),
+                        builder:
+                            (context) =>
+                                DateAndTimePickerDialog(visit: widget.visit),
                       );
                       setState(() {});
                     },
@@ -404,10 +412,7 @@ class PickedDateText extends StatelessWidget {
         }
         return Text(
           formatDateForVisitCard(snapshot.data!.dateTime),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         );
       },

@@ -1,8 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
@@ -73,8 +71,8 @@ class PxSocketProvider extends ChangeNotifier {
     _socket?.sink.add(message.toJson());
   }
 
-  List<int>? _socketMessage;
-  List<int>? get socketMessage => _socketMessage;
+  String? _socketMessage;
+  String? get socketMessage => _socketMessage;
 
   void listenToSocket(BuildContext context) {
     _socket?.stream.asBroadcastStream().listen(
@@ -108,9 +106,9 @@ class PxSocketProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void parseSocketEvent(List<int>? event, BuildContext context) async {
+  void parseSocketEvent(String? event, BuildContext context) async {
     if (event != null) {
-      final String strMessage = utf8.decode(_socketMessage!);
+      final String strMessage = event;
       final msg = SocketNotificationMessage.fromJson(strMessage);
       //todo: fire notification
       await context.read<PxAppNotifications>().addNotification(
