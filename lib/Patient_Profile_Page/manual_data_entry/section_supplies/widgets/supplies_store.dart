@@ -56,15 +56,15 @@ class SuppliesStore extends StatelessWidget {
                               ),
                               title: Text(item.nameEn),
                               subtitle: Text(
-                                  "Available: ${item.amount} Units\nPrice: ${item.price} L.E."),
+                                "Available: ${item.amount} Units\nPrice: ${item.price} L.E.",
+                              ),
                               trailing: FloatingActionButton.small(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                backgroundColor: Theme.of(context)
-                                    .cardTheme
-                                    .shadowColor
-                                    ?.withOpacity(0.7),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).cardTheme.shadowColor?.withOpacity(0.7),
                                 heroTag: item.id,
                                 child: const Icon(Icons.add),
                                 onPressed: () async {
@@ -74,7 +74,8 @@ class SuppliesStore extends StatelessWidget {
                                     await context
                                         .read<PxVisitData>()
                                         .addSuppliesToVisit(
-                                            item.toVisitSupplyItem());
+                                          item.toVisitSupplyItem(),
+                                        );
                                   }
                                   await EasyLoading.dismiss();
 
@@ -83,10 +84,12 @@ class SuppliesStore extends StatelessWidget {
                                         .read<PxSupplies>()
                                         .fetchAllDoctorSupplies()
                                         .whenComplete(() {
-                                      context
-                                          .read<PxSupplies>()
-                                          .filterSupplies('');
-                                    });
+                                          if (context.mounted) {
+                                            context
+                                                .read<PxSupplies>()
+                                                .filterSupplies('');
+                                          }
+                                        });
                                   }
                                 },
                               ),

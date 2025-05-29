@@ -23,31 +23,31 @@ Future<Uint8List> generatePrescriptionFromScratch({
   final Uint8List fontData = File('assets\\fonts\\font.ttf').readAsBytesSync();
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
   final style = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
+    color: PdfColor.fromInt(Colors.black.toARGB32()),
     font: ttf,
     letterSpacing: 1,
     fontSize: 12,
   );
   final titleStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
+    color: PdfColor.fromInt(Colors.black.toARGB32()),
     font: ttf,
     letterSpacing: 1,
     fontSize: 24,
   );
   final drugStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
+    color: PdfColor.fromInt(Colors.black.toARGB32()),
     font: ttf,
     letterSpacing: 1,
     fontSize: 18,
   );
   final subtitleStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
+    color: PdfColor.fromInt(Colors.black.toARGB32()),
     font: ttf,
     letterSpacing: 1,
     fontSize: 14,
   );
   final rxStyle = pw.TextStyle(
-    color: PdfColor.fromInt(Colors.black.value),
+    color: PdfColor.fromInt(Colors.black.toARGB32()),
     font: ttf,
     letterSpacing: 1,
     fontSize: 24,
@@ -125,8 +125,9 @@ Future<Uint8List> generatePrescriptionFromScratch({
                             ),
                             pw.SizedBox(width: 10),
                             pw.Padding(
-                              padding:
-                                  const pw.EdgeInsets.symmetric(vertical: 4.0),
+                              padding: const pw.EdgeInsets.symmetric(
+                                vertical: 4.0,
+                              ),
                               child: pw.Text(
                                 isEnglish ? doctor.docnameEN : doctor.docnameAR,
                                 textAlign: pw.TextAlign.center,
@@ -141,7 +142,7 @@ Future<Uint8List> generatePrescriptionFromScratch({
                             textAlign: pw.TextAlign.center,
                             style: style,
                           );
-                        }).toList(),
+                        }),
                       ],
                     ),
                   ),
@@ -151,7 +152,7 @@ Future<Uint8List> generatePrescriptionFromScratch({
             pw.Divider(
               height: 5,
               thickness: 1,
-              color: PdfColor.fromInt(Colors.black.value),
+              color: PdfColor.fromInt(Colors.black.toARGB32()),
             ),
             pw.Expanded(
               // flex: 8,
@@ -162,9 +163,10 @@ Future<Uint8List> generatePrescriptionFromScratch({
                   if (!hasSheet)
                     ...data.drugs.map((e) {
                       return pw.Row(
-                        mainAxisAlignment: isEnglish
-                            ? pw.MainAxisAlignment.start
-                            : pw.MainAxisAlignment.end,
+                        mainAxisAlignment:
+                            isEnglish
+                                ? pw.MainAxisAlignment.start
+                                : pw.MainAxisAlignment.end,
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
                           pw.SizedBox(width: 30),
@@ -185,23 +187,18 @@ Future<Uint8List> generatePrescriptionFromScratch({
                             ),
                           pw.SizedBox(width: 30),
                           pw.Column(
-                            crossAxisAlignment: isEnglish
-                                ? pw.CrossAxisAlignment.start
-                                : pw.CrossAxisAlignment.end,
+                            crossAxisAlignment:
+                                isEnglish
+                                    ? pw.CrossAxisAlignment.start
+                                    : pw.CrossAxisAlignment.end,
                             children: [
-                              pw.Text(
-                                e.name,
-                                style: drugStyle,
-                              ),
+                              pw.Text(e.name, style: drugStyle),
                               pw.Text(
                                 e.dose.formatArabic(),
                                 style: subtitleStyle,
                                 textDirection: pw.TextDirection.rtl,
                               ),
-                              pw.Text(
-                                "- - -",
-                                style: style,
-                              ),
+                              pw.Text("- - -", style: style),
                             ],
                           ),
                           pw.SizedBox(width: 30),
@@ -223,13 +220,14 @@ Future<Uint8List> generatePrescriptionFromScratch({
                           pw.SizedBox(width: 30),
                         ],
                       );
-                    }).toList(),
+                    }),
                   if (hasSheet)
                     ...data.data.entries.map((e) {
                       return pw.Row(
-                        mainAxisAlignment: isEnglish
-                            ? pw.MainAxisAlignment.start
-                            : pw.MainAxisAlignment.end,
+                        mainAxisAlignment:
+                            isEnglish
+                                ? pw.MainAxisAlignment.start
+                                : pw.MainAxisAlignment.end,
                         children: [
                           pw.SizedBox(width: 30),
                           pw.Text(
@@ -244,12 +242,12 @@ Future<Uint8List> generatePrescriptionFromScratch({
                           pw.SizedBox(width: 30),
                         ],
                       );
-                    }).toList(),
+                    }),
                   pw.SizedBox(height: 10),
                   pw.Divider(
                     height: 2,
                     thickness: 1,
-                    color: PdfColor.fromInt(Colors.black.value),
+                    color: PdfColor.fromInt(Colors.black.toARGB32()),
                   ),
                   pw.SizedBox(height: 10),
                   pw.Text(
@@ -258,16 +256,13 @@ Future<Uint8List> generatePrescriptionFromScratch({
                     textAlign: pw.TextAlign.center,
                   ),
                   ...data.labs.map((e) {
-                    return pw.Text(
-                      "** $e",
-                      style: style,
-                    );
-                  }).toList(),
+                    return pw.Text("** $e", style: style);
+                  }),
                   pw.SizedBox(height: 10),
                   pw.Divider(
                     height: 2,
                     thickness: 1,
-                    color: PdfColor.fromInt(Colors.black.value),
+                    color: PdfColor.fromInt(Colors.black.toARGB32()),
                   ),
                   pw.SizedBox(height: 10),
                   pw.Text(
@@ -275,22 +270,19 @@ Future<Uint8List> generatePrescriptionFromScratch({
                     style: subtitleStyle,
                   ),
                   ...data.rads.map((e) {
-                    return pw.Text(
-                      "** $e",
-                      style: style,
-                    );
-                  }).toList(),
+                    return pw.Text("** $e", style: style);
+                  }),
                   pw.SizedBox(height: 10),
                   pw.Divider(
                     height: 2,
                     thickness: 1,
-                    color: PdfColor.fromInt(Colors.black.value),
+                    color: PdfColor.fromInt(Colors.black.toARGB32()),
                   ),
                   pw.Spacer(),
                   pw.Divider(
                     height: 2,
                     thickness: 1,
-                    color: PdfColor.fromInt(Colors.black.value),
+                    color: PdfColor.fromInt(Colors.black.toARGB32()),
                   ),
                   ...doctor.clinicDetails.map((e) {
                     return pw.Text(
@@ -298,7 +290,7 @@ Future<Uint8List> generatePrescriptionFromScratch({
                       style: style,
                       textAlign: pw.TextAlign.center,
                     );
-                  }).toList(),
+                  }),
                 ],
               ),
             ),

@@ -137,7 +137,7 @@ class PrescriptionSettingsPage extends StatelessWidget {
                                 ),
                               ),
                             );
-                          }).toList(),
+                          }),
                       ],
                     ),
                   ),

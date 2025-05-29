@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +47,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
     File(settings.path!).readAsBytesSync(),
   );
 
-  pw.Page _genPage(List<PrescribedDrug> drugs) {
+  pw.Page genPage(List<PrescribedDrug> drugs) {
     return pw.Page(
       pageTheme: pw.PageTheme(
         margin: pw.EdgeInsets.zero,
@@ -162,7 +161,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                     pw.SizedBox(width: 10),
                                   ],
                                 );
-                              }).toList(),
+                              }),
                             ],
                           )
                         : pw.SizedBox(),
@@ -188,7 +187,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                   style: style,
                                   textDirection: pw.TextDirection.ltr,
                                 );
-                              }).toList(),
+                              }),
                             ],
                           )
                         : pw.SizedBox(),
@@ -214,7 +213,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                   style: style,
                                   textDirection: pw.TextDirection.ltr,
                                 );
-                              }).toList(),
+                              }),
                             ],
                           )
                         : pw.SizedBox(),
@@ -253,7 +252,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                     pw.SizedBox(height: 5),
                                   ],
                                 );
-                              }).toList(),
+                              }),
                             ],
                           )
                         : showFormData
@@ -288,7 +287,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                                           pw.SizedBox(height: 5),
                                         ],
                                       );
-                                    }).toList(),
+                                    }),
                                 ],
                               )
                             : pw.SizedBox(),
@@ -333,7 +332,7 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
                     top: y,
                   ),
               };
-            }).toList(),
+            }),
           ],
         );
       },
@@ -346,10 +345,10 @@ Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({
       final length = data.drugs.length;
       final drugs = data.drugs
           .sublist(i * 8, (i + 1) * 8 > length ? length : (i + 1) * 8);
-      doc.addPage(_genPage(drugs), index: i);
+      doc.addPage(genPage(drugs), index: i);
     }
   } else {
-    doc.addPage(_genPage(data.drugs), index: 0);
+    doc.addPage(genPage(data.drugs), index: 0);
   }
 
   return doc.save();

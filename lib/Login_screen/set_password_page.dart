@@ -4,7 +4,7 @@ import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:provider/provider.dart';
 
 class PasswordSettingPage extends StatefulWidget {
-  const PasswordSettingPage({Key? key}) : super(key: key);
+  const PasswordSettingPage({super.key});
   @override
   State<PasswordSettingPage> createState() => _PasswordSettingPageState();
 }

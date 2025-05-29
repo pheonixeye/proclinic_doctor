@@ -56,25 +56,19 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(width: 150.0, child: Text('Clinic')),
-                          SizedBox(
-                            width: 20.0,
-                          ),
+                          SizedBox(width: 20.0),
                           SizedBox(
                             width: 350.0,
                             child: NewlyFormatedDoctorsDropDownButton(),
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 40.0,
-                      ),
+                      const SizedBox(height: 40.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const SizedBox(width: 150.0, child: Text('Password')),
-                          const SizedBox(
-                            width: 20.0,
-                          ),
+                          const SizedBox(width: 20.0),
                           SizedBox(
                             width: 350.0,
                             child: TextField(
@@ -89,9 +83,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 40.0,
-                      ),
+                      const SizedBox(height: 40.0),
                       SizedBox(
                         width: 400,
                         child: Row(
@@ -107,32 +99,39 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                       setState(() {});
                                       if (d.doctor == null) {
                                         showAlertDialogselectdoctorfirst(
-                                            context);
+                                          context,
+                                        );
                                       } else if (d.doctor?.password == null) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                const PasswordSettingPage(),
+                                            builder:
+                                                (context) =>
+                                                    const PasswordSettingPage(),
                                           ),
                                         );
                                       } else if (d.doctor?.password ==
                                           passwordController.text) {
                                         await EasyLoading.show(
-                                            status: "Loading...");
+                                          status: "Loading...",
+                                        );
                                         if (context.mounted) {
                                           await context
                                               .read<PxSupplies>()
                                               .fetchAllDoctorSupplies()
                                               .whenComplete(() async {
-                                            //todo: notify reception
-                                            //TODO: find a better configuration
-                                            await context
-                                                .read<PxSocketProvider>()
-                                                .initSocketConnection(context);
+                                                //todo: notify reception
+                                                //TODO: find a better configuration
+                                                if (context.mounted) {
+                                                  await context
+                                                      .read<PxSocketProvider>()
+                                                      .initSocketConnection(
+                                                        context,
+                                                      );
+                                                }
 
-                                            await EasyLoading.dismiss();
-                                          });
+                                                await EasyLoading.dismiss();
+                                              });
                                         }
                                         if (context.mounted) {
                                           Navigator.pushReplacementNamed(
@@ -154,9 +153,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 40.0,
-                      ),
+                      const SizedBox(height: 40.0),
                       SizedBox(
                         width: 400,
                         child: Row(
@@ -172,15 +169,16 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                       setState(() {});
                                       if (d.doctor == null) {
                                         showAlertDialogselectdoctorfirst(
-                                            context);
+                                          context,
+                                        );
                                       } else if (d.doctor != null) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                PasswordChangePage(
-                                              docname: d.doctor!.docnameEN,
-                                            ),
+                                            builder:
+                                                (context) => PasswordChangePage(
+                                                  docname: d.doctor!.docnameEN,
+                                                ),
                                           ),
                                         );
                                       }
@@ -192,9 +190,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 40,
-                      ),
+                      const SizedBox(height: 40),
                       // SizedBox(
                       //   width: 400,
                       //   child: Row(

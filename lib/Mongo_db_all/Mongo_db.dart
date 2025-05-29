@@ -39,10 +39,14 @@ class Database {
 
   static Future<void> _ensureConnection() async {
     if (!mongo.isConnected) {
-      print('MongoDB disconnected—reconnecting...');
+      if (kDebugMode) {
+        print('MongoDB disconnected—reconnecting...');
+      }
       await mongo.close();
       await mongo.open();
-      print('MongoDB reconnected');
+      if (kDebugMode) {
+        print('MongoDB reconnected');
+      }
     }
   }
 }

@@ -142,7 +142,7 @@ class PreviewVisitDialog extends StatelessWidget {
                     const SizedBox(width: 30),
                     ...visit.procedures.map((e) {
                       return SelectableText("${e.nameEn},");
-                    }).toList(),
+                    }),
                   ],
                 ),
               ),

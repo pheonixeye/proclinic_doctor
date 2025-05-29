@@ -48,14 +48,18 @@ class _SectionFormState extends State<SectionForm> {
 
       if (vd.data != null && vd.data!.formId != null && fl.forms != null) {
         fl.selectForm(
-            fl.forms!.firstWhere((x) => x.id == vd.data!.formId), vd.data);
+          fl.forms!.firstWhere((x) => x.id == vd.data!.formId),
+          vd.data,
+        );
       } else {
         fl.selectForm(null);
       }
       if (fl.selectedForm != null) {
-        _controllers = Map.fromEntries(fl.selectedForm!.elements.map((e) {
-          return MapEntry(e.title, TextEditingController());
-        }));
+        _controllers = Map.fromEntries(
+          fl.selectedForm!.elements.map((e) {
+            return MapEntry(e.title, TextEditingController());
+          }),
+        );
       }
     });
   }
@@ -73,9 +77,10 @@ class _SectionFormState extends State<SectionForm> {
         while (d.doctor == null || v.data == null || l.forms == null) {
           return const CentralLoading();
         }
-        final pages = l.selectedForm == null
-            ? [0]
-            : l.selectedForm!.elements.map((e) => e.page).toList();
+        final pages =
+            l.selectedForm == null
+                ? [0]
+                : l.selectedForm!.elements.map((e) => e.page).toList();
         pages.sort();
         final totalPages = pages.last;
         if (kDebugMode) {
@@ -98,9 +103,8 @@ class _SectionFormState extends State<SectionForm> {
                         //todo
                         await showDialog(
                           context: context,
-                          builder: (context) => SelectFormDialog(
-                            forms: l.forms!,
-                          ),
+                          builder:
+                              (context) => SelectFormDialog(forms: l.forms!),
                         );
                       },
                       child: const Icon(Icons.add),
@@ -138,8 +142,13 @@ class _SectionFormState extends State<SectionForm> {
                         if (formKey.currentState!.validate()) {
                           //todo
                           if (context.mounted) {
-                            await EasyLoading.show(status: "Loading...")
-                                .then((_) async => await l.saveForm(context));
+                            await EasyLoading.show(status: "Loading...").then((
+                              _,
+                            ) async {
+                              if (context.mounted) {
+                                await l.saveForm(context);
+                              }
+                            });
                             await EasyLoading.showSuccess("Form Saved...");
                           }
                           if (kDebugMode) {
@@ -175,7 +184,8 @@ class _SectionFormState extends State<SectionForm> {
                           if (l.selectedForm != null)
                             ...l.selectedForm!.elements.map((e) {
                               return Positioned(
-                                top: e.startY +
+                                top:
+                                    e.startY +
                                     ((e.page - 1) *
                                         (height + (20 * (totalPages)))),
                                 left: e.startX,
@@ -183,36 +193,36 @@ class _SectionFormState extends State<SectionForm> {
                                 height: e.spanY,
                                 child: switch (e.formElement) {
                                   FormElement.textfield => TextFormField(
-                                      controller: _controllers?[e.title]
-                                        ?..text = l.formState?[e.title] ?? "",
-                                      decoration: InputDecoration(
-                                        labelText: e.title,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                      onChanged: (value) {
-                                        //todo
-                                        l.updateFormState(e.title, value);
-                                      },
-                                      validator: e.required
-                                          ? _textFieldValidator
-                                          : null,
+                                    controller:
+                                        _controllers?[e.title]
+                                          ?..text = l.formState?[e.title] ?? "",
+                                    decoration: InputDecoration(
+                                      labelText: e.title,
+                                      border: const OutlineInputBorder(),
                                     ),
+                                    onChanged: (value) {
+                                      //todo
+                                      l.updateFormState(e.title, value);
+                                    },
+                                    validator:
+                                        e.required ? _textFieldValidator : null,
+                                  ),
                                   FormElement.checkbox => CheckboxListTile(
-                                      title: Text(e.title),
-                                      tristate: true,
-                                      value: l.formState?[e.title],
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        side: const BorderSide(
-                                          color: Colors.white,
-                                        ),
+                                    title: Text(e.title),
+                                    tristate: true,
+                                    value: l.formState?[e.title],
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      side: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      contentPadding: const EdgeInsets.all(12),
-                                      onChanged: (value) {
-                                        //todo
-                                        l.updateFormState(e.title, value);
-                                      },
                                     ),
+                                    contentPadding: const EdgeInsets.all(12),
+                                    onChanged: (value) {
+                                      //todo
+                                      l.updateFormState(e.title, value);
+                                    },
+                                  ),
                                   FormElement.dropdown =>
                                     DropdownButtonFormField<String>(
                                       isExpanded: true,
@@ -225,36 +235,42 @@ class _SectionFormState extends State<SectionForm> {
                                         ),
                                       ),
                                       hint: Text(e.title),
-                                      items: e.options.map((x) {
-                                        return DropdownMenuItem<String>(
-                                          alignment: Alignment.center,
-                                          value: x.value,
-                                          child: Text(x.title),
-                                        );
-                                      }).toList(),
+                                      items:
+                                          e.options.map((x) {
+                                            return DropdownMenuItem<String>(
+                                              alignment: Alignment.center,
+                                              value: x.value,
+                                              child: Text(x.title),
+                                            );
+                                          }).toList(),
                                       onChanged: (value) {
                                         //todo
                                         l.updateFormState(e.title, value);
                                       },
                                       value: l.formState?[e.title],
-                                      validator: e.required
-                                          ? _dropdownValidator
-                                          : null,
+                                      validator:
+                                          e.required
+                                              ? _dropdownValidator
+                                              : null,
                                     ),
                                   FormElement.image => Image.memory(
-                                      base64Decode(e.options.first.value),
-                                      fit: BoxFit.cover,
-                                      frameBuilder: (context, child, frame,
-                                          wasSynchronouslyLoaded) {
-                                        return Card.outlined(
-                                          elevation: 6,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: child,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                    base64Decode(e.options.first.value),
+                                    fit: BoxFit.cover,
+                                    frameBuilder: (
+                                      context,
+                                      child,
+                                      frame,
+                                      wasSynchronouslyLoaded,
+                                    ) {
+                                      return Card.outlined(
+                                        elevation: 6,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: child,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   FormElement.text => Text(e.title),
                                 },
                               );

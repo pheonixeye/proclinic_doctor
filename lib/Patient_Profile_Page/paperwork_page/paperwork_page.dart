@@ -6,30 +6,15 @@ import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 
 List<Icon> iconlist = [
-  const Icon(
-    Icons.contact_page,
-    size: 100,
-  ),
-  const Icon(
-    Icons.format_list_numbered,
-    size: 100,
-  ),
-  const Icon(
-    Icons.radio,
-    size: 100,
-  ),
-  const Icon(
-    Icons.description,
-    size: 100,
-  ),
-  const Icon(
-    Icons.comment_bank,
-    size: 100,
-  ),
+  const Icon(Icons.contact_page, size: 100),
+  const Icon(Icons.format_list_numbered, size: 100),
+  const Icon(Icons.radio, size: 100),
+  const Icon(Icons.description, size: 100),
+  const Icon(Icons.comment_bank, size: 100),
 ];
 
 class PaperWorkPage extends StatefulWidget {
-  const PaperWorkPage({Key? key, this.subPage = true}) : super(key: key);
+  const PaperWorkPage({super.key, this.subPage = true});
   final bool subPage;
   @override
   State<PaperWorkPage> createState() => _PaperWorkPageState();
@@ -39,15 +24,16 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.subPage
-          ? null
-          : AppBar(
-              title: const Text(
-                'Scanned Documents',
-                textScaler: TextScaler.linear(1.4),
-                style: TextStyle(fontWeight: FontWeight.bold),
+      appBar:
+          widget.subPage
+              ? null
+              : AppBar(
+                title: const Text(
+                  'Scanned Documents',
+                  textScaler: TextScaler.linear(1.4),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
       body: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -66,18 +52,26 @@ class _PaperWorkPageState extends State<PaperWorkPage> {
                   if (context.mounted) {
                     await context
                         .read<PxScannedDocuments>()
-                        .fetchDocumentsOfType(VisitAttribute.fromString(
-                            VisitData.paperData.values.toList()[index]))
-                        .whenComplete(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ScannedDocumentsPage(
-                            data: VisitData.paperData.entries.toList()[index],
+                        .fetchDocumentsOfType(
+                          VisitAttribute.fromString(
+                            VisitData.paperData.values.toList()[index],
                           ),
-                        ),
-                      );
-                    });
+                        )
+                        .whenComplete(() {
+                          if (context.mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => ScannedDocumentsPage(
+                                      data:
+                                          VisitData.paperData.entries
+                                              .toList()[index],
+                                    ),
+                              ),
+                            );
+                          }
+                        });
                   }
                   await EasyLoading.dismiss();
                 },

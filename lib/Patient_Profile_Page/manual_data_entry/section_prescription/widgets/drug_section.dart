@@ -124,7 +124,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -155,7 +155,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -187,7 +187,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -220,7 +220,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -252,7 +252,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -285,7 +285,7 @@ class _DrugPrescriptionSectionState extends State<DrugPrescriptionSection> {
                                         },
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),

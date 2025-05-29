@@ -157,7 +157,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                       e.titleAr,
                                       textAlign: TextAlign.center,
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -209,7 +209,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                         child: Text(e.dose.formatArabic()),
                                       ),
                                     );
-                                  }).toList()
+                                  })
                                 else
                                   ...widget.data.data.entries.map((e) {
                                     return ListTile(
@@ -241,7 +241,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                         child: Text(e.value.toString()),
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -272,7 +272,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                     ),
                                     title: Text(e),
                                   );
-                                }).toList(),
+                                }),
                               ],
                             ),
                           ),
@@ -295,7 +295,7 @@ class _FinalPrescriptionState extends State<FinalPrescription> {
                                     ),
                                     title: Text(e),
                                   );
-                                }).toList(),
+                                }),
                               ],
                             ),
                           ),

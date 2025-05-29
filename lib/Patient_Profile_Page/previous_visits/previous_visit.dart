@@ -210,7 +210,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage>
                                             ],
                                           ),
                                         );
-                                      }).toList()
+                                      })
                                     ],
                                   ),
                                   ListView(
@@ -253,7 +253,7 @@ class _PreviousVisitsPageState extends State<PreviousVisitsPage>
                                               ],
                                             ),
                                           );
-                                        }).toList()
+                                        })
                                     ],
                                   ),
                                 ],

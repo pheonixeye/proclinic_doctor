@@ -19,7 +19,9 @@ class _SuppliesSectionState extends State<SuppliesSection>
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
     await context.read<PxSupplies>().fetchAllDoctorSupplies().whenComplete(() {
-      context.read<PxSupplies>().filterSupplies('');
+      if (context.mounted) {
+        context.read<PxSupplies>().filterSupplies('');
+      }
     });
   }
 

@@ -49,19 +49,23 @@ class SelectFormDialog extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: CircleAvatar(
-                      child: Text("${index + 1}"),
-                    ),
+                    leading: CircleAvatar(child: Text("${index + 1}")),
                     title: Text(item.titleEn),
                     onTap: () async {
                       await EasyLoading.show(status: "Loading...");
                       if (context.mounted) {
                         context.read<PxFormLoader>().selectForm(item);
-                        await context
-                            .read<PxVisitData>()
-                            .updateVisitData(SxVD.FORMID, item.id);
-                        await EasyLoading.showSuccess("Form Attached...")
-                            .then((_) => Navigator.pop(context));
+                        await context.read<PxVisitData>().updateVisitData(
+                          SxVD.FORMID,
+                          item.id,
+                        );
+                        await EasyLoading.showSuccess("Form Attached...").then((
+                          _,
+                        ) {
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        });
                       }
                     },
                   ),

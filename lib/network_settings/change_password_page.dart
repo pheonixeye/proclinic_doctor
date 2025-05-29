@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class PasswordChangePage extends StatefulWidget {
   final String docname;
 
-  const PasswordChangePage({Key? key, required this.docname}) : super(key: key);
+  const PasswordChangePage({super.key, required this.docname});
   @override
   State<PasswordChangePage> createState() => _PasswordChangePageState();
 }
