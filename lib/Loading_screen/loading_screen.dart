@@ -26,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    await Database.openYaMongo()
+    await Database.ensureConnection()
         .then((_) {
           Timer(
             const Duration(seconds: 5),
@@ -54,8 +54,9 @@ class _LoadingScreenState extends State<LoadingScreen> with AfterLayoutMixin {
     return Consumer<ThemeChanger>(
       builder: (context, t, _) {
         return Scaffold(
-          backgroundColor:
-              t.currentTheme == ThemeMode.dark ? null : Colors.blue.shade400,
+          backgroundColor: t.currentTheme == ThemeMode.dark
+              ? null
+              : Colors.blue.shade400,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

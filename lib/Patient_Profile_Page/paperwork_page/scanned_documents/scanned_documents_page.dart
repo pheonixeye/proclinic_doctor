@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:pdfrx/pdfrx.dart';
 import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
 import 'package:provider/provider.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ScannedDocumentsPage extends StatefulWidget {
   const ScannedDocumentsPage({super.key, required this.data});
@@ -46,23 +48,20 @@ class _ScannedDocumentsPageState extends State<ScannedDocumentsPage> {
                   child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                    ),
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20,
+                        ),
                     itemCount: d.docs.length,
                     itemBuilder: (context, index) {
-                      final controller = PdfViewerController();
+                      //d.docs[index].path
 
                       return Stack(
                         children: [
                           Card.filled(
                             elevation: 20,
-                            child: PdfViewer(
-                              PdfDocumentRefFile(d.docs[index].path),
-                              controller: controller,
-                            ),
+                            child: SfPdfViewer.file(File(d.docs[index].path)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(16.0),

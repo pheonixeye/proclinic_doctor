@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
+import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clinic_details_page.dart';
 import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
 import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
@@ -19,9 +20,9 @@ void main() async {
   //todo: ADD MODELS PACKAGE
   await initHive();
 
-  await initThemes();
+  initTheme();
 
-  // await Database.openYaMongo();
+  await Database.openYaMongo();
 
   runApp(const AppProvider());
 
@@ -34,17 +35,12 @@ class AppProvider extends StatelessWidget {
   const AppProvider({super.key});
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: MyApp(light: lightTheme, dark: darkTheme),
-    );
+    return MultiProvider(providers: providers, child: const MyApp());
   }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.light, required this.dark});
-  final ThemeData light;
-  final ThemeData dark;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +51,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'ProClinic Doctors',
           builder: EasyLoading.init(),
-          theme: light,
-          darkTheme: dark,
+          theme: theme.light(),
+          darkTheme: theme.dark(),
           themeMode: t.currentTheme,
           home: const LoadingScreen(),
           routes: {
@@ -65,8 +61,8 @@ class MyApp extends StatelessWidget {
             '/controlpanel': (context) => const ControlPanelPage(),
             '/labsrads': (context) => const LabsAndRadsSettingsPage(),
             '/clinicdetails': (context) => const ClinicDetailsPage(),
-            '/prescriptionsettings':
-                (context) => const PrescriptionSettingsPage(),
+            '/prescriptionsettings': (context) =>
+                const PrescriptionSettingsPage(),
           },
         );
       },

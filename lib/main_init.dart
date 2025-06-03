@@ -1,29 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:json_theme/json_theme.dart';
 import 'package:minisound/engine.dart';
 import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
 import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
+import 'package:proclinic_doctor_windows/theme/theme.dart';
 import 'package:proclinic_models/proclinic_models.dart';
-
-///init sockets
-///
-// late final Socket socket;
-
-// Future<void> _initSocket() async {
-//   //todo: EXPAND ON IT
-//   //todo: get network address from hive
-//   //todo: define socket on login not app initiation
-//   //todo: send login ack to reception with doctor id that logged in
-//   //todo: implement socket holder class
-//   //todo: add notification holder class
-//   socket = await Socket.connect(InternetAddress('192.168.0.88'), 6789);
-//   socket.write("Hello from the other side !");
-// }
 
 ///init hive package
 ///
@@ -42,17 +24,12 @@ Future<void> initHive() async {
 
 ///init themes
 ///
-late final ThemeData lightTheme;
-late final ThemeData darkTheme;
-Future<void> initThemes() async {
-  final themeStringLight =
-      await rootBundle.loadString('assets/themes/theme_light.json');
-  final themeJsonLight = jsonDecode(themeStringLight);
-  lightTheme = ThemeDecoder.decodeThemeData(themeJsonLight)!;
-  final themeStringDark =
-      await rootBundle.loadString('assets/themes/theme_dark.json');
-  final themeJsonDark = jsonDecode(themeStringDark);
-  darkTheme = ThemeDecoder.decodeThemeData(themeJsonDark)!;
+late final MaterialTheme theme;
+late final TextTheme textTheme;
+
+void initTheme() {
+  textTheme = TextTheme();
+  theme = MaterialTheme(textTheme);
 }
 
 ///init sound package

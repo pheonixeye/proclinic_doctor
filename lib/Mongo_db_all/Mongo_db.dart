@@ -30,14 +30,14 @@ class Database {
     );
     // print('mongoURL => $url');
     await mongo.open();
-    await _ensureConnection();
+    await ensureConnection();
     if (kDebugMode) {
       // print("mongo-server-status => ${await mongo.serverStatus()}");
       print('shobeek lobeek El mongo been eidek, totlob eih??');
     }
   }
 
-  static Future<void> _ensureConnection() async {
+  static Future<void> ensureConnection() async {
     if (!mongo.isConnected) {
       if (kDebugMode) {
         print('MongoDB disconnected—reconnecting...');

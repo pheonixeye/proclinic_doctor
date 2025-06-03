@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: "^3.7.2"
+  sdk: "^3.8.1"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -52,21 +52,22 @@ dependencies:
   pdf: ^3.10.8
   cron: ^0.6.0
   minisound: ^2.0.2
-  json_theme: ^8.0.0+3
+  # json_theme: ^8.0.0+3
   open_filex: ^4.4.0
   pretty_qr_code: ^3.3.0
   proclinic_models:
     path: ../proclinic_models
-  pdfrx: ^1.1.29
+  # pdfrx: ^1.1.29
   retry: ^3.1.2
   web_socket_channel: ^3.0.3
   # pdfx: ^2.9.1
+  syncfusion_flutter_pdfviewer: ^29.2.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.4.7
   # freezed: ^2.4.6
   # json_serializable: ^6.7.1
@@ -88,7 +89,7 @@ flutter:
     - assets/
     - assets/fonts/
     - assets/translations/
-    - assets/themes/
+    # - assets/themes/
     - assets/sounds/
     - assets/color.png
     - assets/loading.gif

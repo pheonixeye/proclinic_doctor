@@ -30,9 +30,7 @@ class _BookKeepingPageState extends State<BookKeepingPage> {
                     child: ListView.separated(
                       itemCount: v.visits.length,
                       itemBuilder: (context, index) {
-                        return BookKeepingListItem(
-                          visit: v.visits[index],
-                        );
+                        return BookKeepingListItem(visit: v.visits[index]);
                       },
                       separatorBuilder: (context, index) {
                         return const Divider(
@@ -55,30 +53,36 @@ class _BookKeepingPageState extends State<BookKeepingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Total Number of Patients : '),
-                        const SizedBox(width: 20),
-                        CircleAvatar(
-                          child: Text(
-                            '${v.visits.length}'.toString(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                        const SizedBox(width: 10),
+                        Card.outlined(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${v.visits.length}'.toString(),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
+                        const SizedBox(width: 10),
                         const Text('Total income in searched duration in L.E.'),
-                        const SizedBox(
-                          width: 20,
-                        ),
+                        const SizedBox(width: 10),
                         Builder(
                           builder: (context) {
-                            final List<int> amounts =
-                                v.visits.map((e) => e.amount).toList();
+                            final List<int> amounts = v.visits
+                                .map((e) => e.amount)
+                                .toList();
                             final money = amounts.fold<int>(0, (a, b) => a + b);
-                            return CircleAvatar(
-                              child: Text('$money'),
+                            return Card.outlined(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('$money'),
+                              ),
                             );
                           },
-                        )
+                        ),
                       ],
                     ),
                   ),
