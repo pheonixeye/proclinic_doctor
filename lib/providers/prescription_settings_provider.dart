@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:pdf/pdf.dart';
 import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor_windows/providers/font_file_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -78,9 +79,9 @@ class PxPrescriptionSettings extends ChangeNotifier {
       {
         r'$set': {
           "data"
-                  "."
-                  "${newData.type.name}":
-              newData.toJson(),
+              "."
+              "${newData.type.name}": newData
+              .toJson(),
         },
       },
     );
@@ -100,8 +101,9 @@ class PxPrescriptionSettings extends ChangeNotifier {
   Map<String, PdfPageFormat> get pageFormats => _pageFormats;
 
   //TODO: change at build time
-  static final Uint8List fontData =
-      File('assets\\fonts\\font.ttf').readAsBytesSync();
+  static final Uint8List fontData = File(
+    FontFileProvider.box.get('font_file_path')!,
+  ).readAsBytesSync();
   static final ttf = pw.Font.ttf(fontData.buffer.asByteData());
   final style = pw.TextStyle(
     color: PdfColor.fromInt(Colors.black.value),

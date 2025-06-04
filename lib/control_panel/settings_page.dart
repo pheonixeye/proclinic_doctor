@@ -3,6 +3,7 @@ import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
 import 'package:proclinic_doctor_windows/functions/print_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:proclinic_doctor_windows/providers/font_file_provider.dart';
 import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
 import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
@@ -43,10 +44,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.table_rows),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Single Column')
+          SizedBox(width: 10),
+          Text('Single Column'),
         ],
       ),
     ),
@@ -56,10 +55,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.view_column),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Two Columns')
+          SizedBox(width: 10),
+          Text('Two Columns'),
         ],
       ),
     ),
@@ -93,9 +90,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.15,
                           width: MediaQuery.of(context).size.width * 0.92,
@@ -103,7 +98,11 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                             elevation: 6,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(
-                                  8.0, 16.0, 8.0, 8.0),
+                                8.0,
+                                16.0,
+                                8.0,
+                                8.0,
+                              ),
                               child: ListTile(
                                 leading: const CircleAvatar(),
                                 title: const Padding(
@@ -132,7 +131,11 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                             elevation: 6,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(
-                                  8.0, 16.0, 8.0, 8.0),
+                                8.0,
+                                16.0,
+                                8.0,
+                                8.0,
+                              ),
                               child: ListTile(
                                 leading: const CircleAvatar(),
                                 title: const Padding(
@@ -162,9 +165,50 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.92,
+                          child: Card(
+                            elevation: 6,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                8.0,
+                                16.0,
+                                8.0,
+                                8.0,
+                              ),
+                              child: ListTile(
+                                leading: const CircleAvatar(),
+                                title: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('Select Font File Path'),
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Consumer<FontFileProvider>(
+                                    builder: (context, f, _) {
+                                      return Text(
+                                        f.fontFilePathInstance ?? "Unselected.",
+                                      );
+                                    },
+                                  ),
+                                ),
+                                trailing: FloatingActionButton(
+                                  heroTag: 'set-font-file-path-btn',
+                                  onPressed: () async {
+                                    if (context.mounted) {
+                                      await context
+                                          .read<FontFileProvider>()
+                                          .setFontFilePath();
+                                    }
+                                  },
+                                  child: const Icon(Icons.search),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
+                        const SizedBox(height: 30),
                         //textfield for addition of medical field + add Button
                         //layout selection button
                         SizedBox(
@@ -187,20 +231,19 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           child: Text('Choose Layout :'),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
+                                      const SizedBox(width: 50),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.2,
+                                            0.2,
                                         child: Consumer<PxSelectedDoctor>(
                                           builder: (context, d, c) {
                                             return Card(
                                               elevation: 6,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
                                                 child: DropdownButton<bool>(
                                                   icon: const Icon(
                                                     Icons
@@ -213,24 +256,25 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                   ),
                                                   hint: const Center(
                                                     child: Text(
-                                                        'Select Layout ... '),
+                                                      'Select Layout ... ',
+                                                    ),
                                                   ),
                                                   isExpanded: true,
                                                   items: _items,
                                                   value: d.doctor!.grid,
-                                                  onChanged:
-                                                      (bool? value) async {
+                                                  onChanged: (bool? value) async {
                                                     await EasyLoading.show(
-                                                        status: 'Loading...');
+                                                      status: 'Loading...',
+                                                    );
                                                     await d
                                                         .updateSelectedDoctor(
-                                                      id: d.doctor!.id,
-                                                      attribute: 'grid',
-                                                      value: value,
+                                                          id: d.doctor!.id,
+                                                          attribute: 'grid',
+                                                          value: value,
+                                                        );
+                                                    await EasyLoading.showSuccess(
+                                                      'Updated.',
                                                     );
-                                                    await EasyLoading
-                                                        .showSuccess(
-                                                            'Updated.');
                                                   },
                                                 ),
                                               ),
@@ -240,9 +284,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
+                                  const SizedBox(height: 30),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -252,20 +294,19 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           child: Text('Add Clinic Fields : '),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
+                                      const SizedBox(width: 50),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.3,
+                                            0.3,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Card(
                                             elevation: 6,
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(
+                                                8.0,
+                                              ),
                                               child: TextFormField(
                                                 validator: (value) {
                                                   if (value == null ||
@@ -281,7 +322,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                   border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8),
+                                                          8,
+                                                        ),
                                                   ),
                                                   labelText:
                                                       'Add Patient Data Fields',
@@ -292,9 +334,7 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
+                                      const SizedBox(width: 50),
                                       Consumer<PxSelectedDoctor>(
                                         builder: (context, d, c) {
                                           return ElevatedButton.icon(
@@ -306,10 +346,11 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                 final fields = d.doctor!.fields;
                                                 final newFields = [
                                                   ...fields,
-                                                  _medfieldController.text
+                                                  _medfieldController.text,
                                                 ];
                                                 await EasyLoading.show(
-                                                    status: "Loading...");
+                                                  status: "Loading...",
+                                                );
                                                 await d.updateSelectedDoctor(
                                                   id: d.doctor!.id,
                                                   attribute: 'fields',
@@ -317,26 +358,27 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                                 );
 
                                                 await Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 50));
+                                                  const Duration(
+                                                    milliseconds: 50,
+                                                  ),
+                                                );
                                                 _medfieldController.clear();
                                                 await EasyLoading.showSuccess(
-                                                    "Field ${_medfieldController.text} Added.");
+                                                  "Field ${_medfieldController.text} Added.",
+                                                );
                                               }
                                             },
                                           );
                                         },
-                                      )
+                                      ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         //choose layout
                         // +
                         //List of medical fields created
@@ -346,13 +388,12 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                             //1 = true = double column = gridview.builder
                             Widget deleteBtn(int index) {
                               return IconButton.filled(
-                                icon: const Icon(
-                                  Icons.delete_forever,
-                                ),
+                                icon: const Icon(Icons.delete_forever),
                                 onPressed: () async {
                                   final fields = d.doctor!.fields;
-                                  final newFields =
-                                      fields.remove(fields[index]);
+                                  final newFields = fields.remove(
+                                    fields[index],
+                                  );
                                   await EasyLoading.show(status: "Loading...");
                                   await d.updateSelectedDoctor(
                                     id: d.doctor!.id,
@@ -360,7 +401,8 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                     value: newFields,
                                   );
                                   await EasyLoading.showSuccess(
-                                      'Field ${d.doctor!.fields[index]} Deleted.');
+                                    'Field ${d.doctor!.fields[index]} Deleted.',
+                                  );
                                 },
                               );
                             }
@@ -424,9 +466,9 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                           },
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                            childAspectRatio: 5,
-                                            crossAxisCount: 2,
-                                          ),
+                                                childAspectRatio: 5,
+                                                crossAxisCount: 2,
+                                              ),
                                         ),
                                       ),
                                     ),

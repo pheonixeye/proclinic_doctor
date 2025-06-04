@@ -35,7 +35,7 @@ class PxSocketProvider extends ChangeNotifier {
       _isConnected = true;
 
       if (kDebugMode) {
-        print(docid);
+        print('connected to ${_socket?.closeReason} with docid => $docid');
       }
 
       notifyListeners();
