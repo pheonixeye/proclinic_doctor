@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:minisound/engine.dart';
-import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
-import 'package:proclinic_doctor_windows/providers/font_file_provider.dart';
-import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
-import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
-import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_doctor/network_settings/network_class.dart';
+import 'package:proclinic_doctor/providers/font_file_provider.dart';
+import 'package:proclinic_doctor/providers/notification_provider.dart';
+import 'package:proclinic_doctor/providers/theme_changer.dart';
+import 'package:proclinic_doctor/theme/theme.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 ///init hive package

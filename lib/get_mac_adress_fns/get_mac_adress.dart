@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:proclinic_doctor_windows/get_mac_adress_fns/wrong_mac_adress_page/wrong_mac_address.dart';
+import 'package:proclinic_doctor/get_mac_adress_fns/wrong_mac_adress_page/wrong_mac_address.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

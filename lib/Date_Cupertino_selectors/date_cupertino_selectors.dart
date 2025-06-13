@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
+// import 'package:proclinic_doctor/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class YearClinicPicker extends StatefulWidget {

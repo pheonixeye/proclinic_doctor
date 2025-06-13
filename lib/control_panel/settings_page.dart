@@ -1,11 +1,11 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/functions/print_logic.dart';
+import 'package:proclinic_doctor/control_panel/setting_nav_drawer.dart';
+import 'package:proclinic_doctor/functions/print_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/font_file_provider.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
+import 'package:proclinic_doctor/providers/font_file_provider.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
 
 class FieldCreationPage extends StatefulWidget {

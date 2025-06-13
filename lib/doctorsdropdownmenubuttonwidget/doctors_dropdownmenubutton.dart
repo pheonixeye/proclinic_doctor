@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/doctorListProvider.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/doctorListProvider.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

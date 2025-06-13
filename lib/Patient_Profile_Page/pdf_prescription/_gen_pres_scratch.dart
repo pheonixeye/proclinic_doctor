@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:proclinic_doctor_windows/functions/visit_type_translate.dart';
+import 'package:proclinic_doctor/functions/visit_type_translate.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 Future<Uint8List> generatePrescriptionFromScratch({

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:proclinic_doctor_windows/functions/format_time.dart';
+import 'package:proclinic_doctor/functions/format_time.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 Future<Uint8List> generatePrescritionOnAlreadyPrintedPrescription({

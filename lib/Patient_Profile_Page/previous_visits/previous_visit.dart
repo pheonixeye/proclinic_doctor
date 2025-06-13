@@ -1,9 +1,9 @@
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/popupmenubutton_custom.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/final_prescription/final_presc.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/previous_visits/popupmenubutton_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/one_patient_visits.dart';
-import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
+import 'package:proclinic_doctor/providers/one_patient_visits.dart';
+import 'package:proclinic_doctor/providers/scanned_documents.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/app_organizer_provider.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/today_visit_card.dart';
+import 'package:proclinic_doctor/providers/app_organizer_provider.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
+import 'package:proclinic_doctor/widgets/today_visit_card.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 

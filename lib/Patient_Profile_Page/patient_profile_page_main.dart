@@ -1,10 +1,10 @@
 import 'dart:math' show Random;
 
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/manual_entry_page.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/previous_visits/previous_visit.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/manual_entry_page.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/previous_visits/previous_visit.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/widgets/central_loading.dart';
 import 'package:provider/provider.dart';
 
 class PatientProfilePage extends StatefulWidget {

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 class PxDoctorListProvider extends ChangeNotifier {

@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
-import 'package:proclinic_doctor_windows/Login_screen/login_page.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/Not_Connected_To_Db/not_connected_db.dart';
-import 'package:proclinic_doctor_windows/functions/print_logic.dart';
+import 'package:proclinic_doctor/Login_screen/login_Page.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/Not_Connected_To_Db/not_connected_db.dart';
+import 'package:proclinic_doctor/functions/print_logic.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
+import 'package:proclinic_doctor/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
 
 class LoadingScreen extends StatefulWidget {

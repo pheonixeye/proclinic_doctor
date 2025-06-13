@@ -1,9 +1,9 @@
-import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
-import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
+import 'package:proclinic_doctor/Loading_screen/loading_screen.dart';
+import 'package:proclinic_doctor/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.dart';
+import 'package:proclinic_doctor/network_settings/network_settings_ui.dart';
 
 class NoDBConnectionPage extends StatefulWidget {
   final String? error;

@@ -1,8 +1,8 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Alert_dialogs_random/snackbar_custom.dart';
-import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
+import 'package:proclinic_doctor/Alert_dialogs_random/snackbar_custom.dart';
+import 'package:proclinic_doctor/control_panel/setting_nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:provider/provider.dart';
 
 class LabsAndRadsSettingsPage extends StatefulWidget {

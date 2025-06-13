@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:proclinic_doctor_windows/providers/overlay_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/notification_overlay_card.dart';
+import 'package:proclinic_doctor/providers/overlay_provider.dart';
+import 'package:proclinic_doctor/widgets/notification_overlay_card.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

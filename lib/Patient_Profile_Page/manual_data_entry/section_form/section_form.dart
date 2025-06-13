@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/widgets/confim_detatch_form_dialog.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/widgets/select_form_dialog.dart';
-import 'package:proclinic_doctor_windows/providers/form_loader.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_form/widgets/confim_detatch_form_dialog.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_form/widgets/select_form_dialog.dart';
+import 'package:proclinic_doctor/providers/form_loader.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/widgets/central_loading.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

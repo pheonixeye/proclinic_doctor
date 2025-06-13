@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/notification_provider.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_doctor/providers/notification_provider.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';

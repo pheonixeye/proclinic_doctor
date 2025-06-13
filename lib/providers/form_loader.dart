@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

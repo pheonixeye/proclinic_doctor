@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/scanned_documents.dart';
+import 'package:proclinic_doctor/providers/scanned_documents.dart';
 import 'package:provider/provider.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';

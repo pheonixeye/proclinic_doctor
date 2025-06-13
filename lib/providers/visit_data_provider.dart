@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/errors/no_visit_selected.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/errors/no_visit_selected.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 class PxVisitData extends ChangeNotifier {

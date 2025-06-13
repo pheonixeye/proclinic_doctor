@@ -2,8 +2,8 @@ import 'dart:io' show File, FileMode;
 
 import 'package:flutter/foundation.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/functions/print_logic.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/functions/print_logic.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 class PxScannedDocuments extends ChangeNotifier {

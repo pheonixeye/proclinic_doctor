@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io' show exit;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/network_settings/network_class.dart';
+import 'package:proclinic_doctor/network_settings/network_class.dart';
 import 'package:flutter/material.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
+// import 'package:proclinic_doctor/theme/theme.dart';
 
 class NetworkSettingsPage extends StatefulWidget {
   const NetworkSettingsPage({super.key});

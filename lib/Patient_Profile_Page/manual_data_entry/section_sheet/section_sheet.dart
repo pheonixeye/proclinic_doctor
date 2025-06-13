@@ -1,9 +1,9 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/final_prescription/final_presc.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
 // ignore: camel_case_types

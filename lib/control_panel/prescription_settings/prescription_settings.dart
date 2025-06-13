@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:printing/printing.dart';
-import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
-import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
+import 'package:proclinic_doctor/control_panel/setting_nav_drawer.dart';
+import 'package:proclinic_doctor/providers/prescription_settings_provider.dart';
+import 'package:proclinic_doctor/widgets/central_loading.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

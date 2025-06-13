@@ -1,7 +1,7 @@
-import 'package:proclinic_doctor_windows/BookKeeping_Page/bookKeeping_item.dart';
-import 'package:proclinic_doctor_windows/BookKeeping_Page/bookkeeping_selector.dart';
+import 'package:proclinic_doctor/BookKeeping_Page/bookKeeping_item.dart';
+import 'package:proclinic_doctor/BookKeeping_Page/bookkeeping_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
 import 'package:provider/provider.dart';
 
 class BookKeepingPage extends StatefulWidget {

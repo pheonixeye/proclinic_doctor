@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/pdf_prescription.dart';
-import 'package:proclinic_doctor_windows/functions/print_logic.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/pdf_prescription/pdf_prescription.dart';
+import 'package:proclinic_doctor/functions/print_logic.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

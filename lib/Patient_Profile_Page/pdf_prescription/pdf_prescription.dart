@@ -3,10 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_gen_pres_printed.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/pdf_prescription/_gen_pres_scratch.dart';
-import 'package:proclinic_doctor_windows/providers/prescription_settings_provider.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/pdf_prescription/_gen_pres_printed.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/pdf_prescription/_gen_pres_scratch.dart';
+import 'package:proclinic_doctor/providers/prescription_settings_provider.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

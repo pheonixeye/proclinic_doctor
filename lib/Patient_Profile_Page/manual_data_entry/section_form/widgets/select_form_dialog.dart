@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/providers/form_loader.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/providers/form_loader.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

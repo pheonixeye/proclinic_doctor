@@ -1,17 +1,17 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Loading_screen/loading_screen.dart';
-import 'package:proclinic_doctor_windows/Mongo_db_all/mongo_db.dart';
-import 'package:proclinic_doctor_windows/control_panel/clinic_details_page/clinic_details_page.dart';
-import 'package:proclinic_doctor_windows/control_panel/control_panel.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
-import 'package:proclinic_doctor_windows/control_panel/labs_rads_settings_page/labs_rads_settings.dart';
-import 'package:proclinic_doctor_windows/control_panel/prescription_settings/prescription_settings.dart';
-import 'package:proclinic_doctor_windows/control_panel/settings_page.dart';
+import 'package:proclinic_doctor/Loading_screen/loading_screen.dart';
+import 'package:proclinic_doctor/Mongo_db_all/mongo_db.dart';
+import 'package:proclinic_doctor/control_panel/clinic_details_page/clinic_details_page.dart';
+import 'package:proclinic_doctor/control_panel/control_panel.dart';
+import 'package:proclinic_doctor/control_panel/drugs_prescription_settings_page/drugs_procedures_page.dart';
+import 'package:proclinic_doctor/control_panel/labs_rads_settings_page/labs_rads_settings.dart';
+import 'package:proclinic_doctor/control_panel/prescription_settings/prescription_settings.dart';
+import 'package:proclinic_doctor/control_panel/settings_page.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/main_init.dart';
-import 'package:proclinic_doctor_windows/providers/_main.dart';
-import 'package:proclinic_doctor_windows/providers/theme_changer.dart';
-import 'package:proclinic_doctor_windows/scroll/scroll_behaviour.dart';
+import 'package:proclinic_doctor/main_init.dart';
+import 'package:proclinic_doctor/providers/_main.dart';
+import 'package:proclinic_doctor/providers/theme_changer.dart';
+import 'package:proclinic_doctor/scroll/scroll_behaviour.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/add_new_button.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/add_new_button.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
+// import 'package:proclinic_doctor/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class LabRadPrescriptionSection extends StatefulWidget {

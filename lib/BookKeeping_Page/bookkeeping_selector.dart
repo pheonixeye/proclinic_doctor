@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/Date_Cupertino_selectors/date_cupertino_selectors.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
+import 'package:proclinic_doctor/Date_Cupertino_selectors/date_cupertino_selectors.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
 import 'package:provider/provider.dart';
 
 class BookKeepingSelector extends StatelessWidget {

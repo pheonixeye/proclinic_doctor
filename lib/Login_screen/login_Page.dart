@@ -1,15 +1,15 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/network_settings/change_password_page.dart';
-import 'package:proclinic_doctor_windows/Login_screen/set_password_page.dart';
-import 'package:proclinic_doctor_windows/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
-// import 'package:proclinic_doctor_windows/network_settings/network_settings_ui.dart';
+import 'package:proclinic_doctor/network_settings/change_password_page.dart';
+import 'package:proclinic_doctor/Login_screen/set_password_page.dart';
+import 'package:proclinic_doctor/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
+// import 'package:proclinic_doctor/network_settings/network_settings_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Alert_dialogs_random/alert_dialogs.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
-import 'package:proclinic_doctor_windows/providers/supplies_provider.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
+import 'package:proclinic_doctor/Alert_dialogs_random/alert_dialogs.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/socket_provider.dart';
+import 'package:proclinic_doctor/providers/supplies_provider.dart';
+// import 'package:proclinic_doctor/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/constants/uuid.dart';
-import 'package:proclinic_doctor_windows/providers/selected_doctor.dart';
-import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
-import 'package:proclinic_doctor_windows/widgets/qr_dialog.dart';
+import 'package:proclinic_doctor/constants/uuid.dart';
+import 'package:proclinic_doctor/providers/selected_doctor.dart';
+import 'package:proclinic_doctor/providers/socket_provider.dart';
+import 'package:proclinic_doctor/widgets/central_loading.dart';
+import 'package:proclinic_doctor/widgets/qr_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:proclinic_doctor_windows/constants/uuid.dart';
+import 'package:proclinic_doctor/constants/uuid.dart';
 
 bool checkUUID() {
   ProcessResult uuidresult = Process.runSync(

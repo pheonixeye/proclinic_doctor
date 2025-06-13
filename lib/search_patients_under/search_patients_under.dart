@@ -1,8 +1,8 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/providers/visits_provider.dart';
-// import 'package:proclinic_doctor_windows/theme/theme.dart';
-import 'package:proclinic_doctor_windows/widgets/Visit_card.dart';
+import 'package:proclinic_doctor/providers/visits_provider.dart';
+// import 'package:proclinic_doctor/theme/theme.dart';
+import 'package:proclinic_doctor/widgets/Visit_card.dart';
 import 'package:provider/provider.dart';
 
 class SearchPatientsUnder extends StatefulWidget {

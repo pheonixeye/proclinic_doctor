@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:proclinic_doctor_windows/functions/format_time.dart';
-import 'package:proclinic_doctor_windows/providers/app_organizer_provider.dart';
-import 'package:proclinic_doctor_windows/providers/socket_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/time_picker.dart';
+import 'package:proclinic_doctor/functions/format_time.dart';
+import 'package:proclinic_doctor/providers/app_organizer_provider.dart';
+import 'package:proclinic_doctor/providers/socket_provider.dart';
+import 'package:proclinic_doctor/widgets/time_picker.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/final_prescription/final_presc.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/drug_section.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/lab_rad_section.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/final_prescription/final_presc.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/drug_section.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_prescription/widgets/lab_rad_section.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class SectionPrescription extends StatefulWidget {

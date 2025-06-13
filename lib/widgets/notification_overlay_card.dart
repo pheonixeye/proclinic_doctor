@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:minisound/engine.dart';
-import 'package:proclinic_doctor_windows/functions/format_time.dart';
-import 'package:proclinic_doctor_windows/functions/visit_requests.dart';
-import 'package:proclinic_doctor_windows/main_init.dart';
-import 'package:proclinic_doctor_windows/providers/overlay_provider.dart';
-import 'package:proclinic_doctor_windows/widgets/central_loading.dart';
-import 'package:proclinic_doctor_windows/widgets/show_visit_dialog.dart';
+import 'package:proclinic_doctor/functions/format_time.dart';
+import 'package:proclinic_doctor/functions/visit_requests.dart';
+import 'package:proclinic_doctor/main_init.dart';
+import 'package:proclinic_doctor/providers/overlay_provider.dart';
+import 'package:proclinic_doctor/widgets/central_loading.dart';
+import 'package:proclinic_doctor/widgets/show_visit_dialog.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 import 'package:provider/provider.dart';
 

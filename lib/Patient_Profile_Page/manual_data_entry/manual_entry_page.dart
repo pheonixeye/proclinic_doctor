@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_form/section_form.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_sheet/section_sheet.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_form/section_form.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_sheet/section_sheet.dart';
 
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_prescription/section_prescription.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/manual_data_entry/section_supplies/section_supplies.dart';
-import 'package:proclinic_doctor_windows/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
-import 'package:proclinic_doctor_windows/providers/visit_data_provider.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_prescription/section_prescription.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/manual_data_entry/section_supplies/section_supplies.dart';
+import 'package:proclinic_doctor/Patient_Profile_Page/paperwork_page/paperwork_page.dart';
+import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class EntryPageByDoctor extends StatefulWidget {

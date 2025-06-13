@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proclinic_doctor_windows/functions/format_time.dart';
+import 'package:proclinic_doctor/functions/format_time.dart';
 import 'package:proclinic_models/proclinic_models.dart';
 
 class PreviewVisitDialog extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/widgets/drug_input_form.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/widgets/drugs_view.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/widgets/procedure_input_form.dart';
-import 'package:proclinic_doctor_windows/control_panel/drugs_prescription_settings_page/widgets/procedures_view.dart';
-import 'package:proclinic_doctor_windows/control_panel/setting_nav_drawer.dart';
+import 'package:proclinic_doctor/control_panel/drugs_prescription_settings_page/widgets/drug_input_form.dart';
+import 'package:proclinic_doctor/control_panel/drugs_prescription_settings_page/widgets/drugs_view.dart';
+import 'package:proclinic_doctor/control_panel/drugs_prescription_settings_page/widgets/procedure_input_form.dart';
+import 'package:proclinic_doctor/control_panel/drugs_prescription_settings_page/widgets/procedures_view.dart';
+import 'package:proclinic_doctor/control_panel/setting_nav_drawer.dart';
 import 'package:flutter/material.dart';
 
 class DrugsAndProceduresPage extends StatelessWidget {
