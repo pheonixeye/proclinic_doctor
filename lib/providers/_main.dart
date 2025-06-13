@@ -13,8 +13,7 @@ import 'package:proclinic_doctor/providers/supplies_provider.dart';
 import 'package:proclinic_doctor/providers/theme_changer.dart';
 import 'package:proclinic_doctor/providers/visit_data_provider.dart';
 import 'package:proclinic_doctor/providers/visits_provider.dart';
-import 'package:provider/provider.dart'
-    show ChangeNotifierProvider, ReadContext;
+import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 final List<SingleChildWidget> providers = [
