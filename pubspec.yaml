@@ -56,7 +56,9 @@ dependencies:
   open_filex: ^4.4.0
   pretty_qr_code: ^3.3.0
   proclinic_models:
-    path: ../proclinic_models
+    git:
+      url: https://github.com/pheonixeye/proclinic_models.git
+    # path: ../proclinic_models
   # pdfrx: ^1.1.29
   retry: ^3.1.2
   web_socket_channel: ^3.0.3
