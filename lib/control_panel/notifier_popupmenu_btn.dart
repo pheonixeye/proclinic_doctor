@@ -19,10 +19,7 @@ class NotifierPopupMenuBtn extends StatelessWidget {
         }
         final doc = d.doctor!;
         final docid = doc.id;
-        final tr = Tr(
-          e: doc.docnameEN,
-          a: doc.docnameAR,
-        );
+        final tr = Tr(e: doc.docnameEN, a: doc.docnameAR);
         return CircleAvatar(
           child: PopupMenuButton(
             elevation: 8,
@@ -99,9 +96,7 @@ class NotifierPopupMenuBtn extends StatelessWidget {
                   onTap: () async {
                     await showDialog(
                       context: context,
-                      builder: (context) => QrDialog(
-                        code: qrCodeUUID,
-                      ),
+                      builder: (context) => QrDialog(code: qrCodeUUID),
                     );
                   },
                   child: const Row(

@@ -24,7 +24,7 @@ final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => PxSelectedDoctor()),
   ChangeNotifierProvider(
     create: (context) =>
-        PxSocketProvider(docid: context.read<PxSelectedDoctor>().doctor!.id)
+        PxSocketProvider.instance(context.read<PxSelectedDoctor>().doctor!.id)
           ..listenToSocket(context),
   ),
   ChangeNotifierProvider(

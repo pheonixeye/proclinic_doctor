@@ -105,9 +105,8 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder:
-                                                (context) =>
-                                                    const PasswordSettingPage(),
+                                            builder: (context) =>
+                                                const PasswordSettingPage(),
                                           ),
                                         );
                                       } else if (d.doctor?.password ==
@@ -175,8 +174,8 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder:
-                                                (context) => PasswordChangePage(
+                                            builder: (context) =>
+                                                PasswordChangePage(
                                                   docname: d.doctor!.docnameEN,
                                                 ),
                                           ),

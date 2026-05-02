@@ -7,6 +7,7 @@ on:
 env:
   MONGODB_URL: mongodb://192.168.1.88:27017/proclinic
   APP_ENV: production
+  SOCKET_SERVER_TYPE: local
 
 jobs:
   build-windows:
@@ -24,12 +25,17 @@ jobs:
       - name: Enable Windows Desktop
         run: flutter config --enable-windows-desktop
 
-      - name: Cache Flutter
+      - name: Cache Pub
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.pub-cache
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}  
+          path: C:\Users\runneradmin\AppData\Local\Pub\Cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+      
+      - name: Cache Flutter SDK
+        uses: actions/cache@v4
+        with:
+          path: C:\hostedtoolcache\windows\flutter
+          key: ${{ runner.os }}-flutter-sdk
 
       - name: Install dependencies
         run: flutter pub get
@@ -37,6 +43,7 @@ jobs:
       - name: Generate .env file
         run: |
           echo "MONGODB_URL=mongodb://192.168.1.88:27017/proclinic" >> .env
+          echo "SOCKET_SERVER_TYPE=local" >> .env
 
       - name: Build Windows app
         run: flutter build windows --release --dart-define-from-file=.env

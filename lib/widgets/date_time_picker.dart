@@ -34,16 +34,11 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
             child: Text(
               "Pick Date For Follow Up.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 1000,
-            ),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: const Divider(),
           ),
           Padding(
@@ -63,9 +58,7 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
                       child: CalendarDatePicker(
                         initialDate: DateTime.now(),
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(
-                          const Duration(days: 365),
-                        ),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
                         currentDate: _currentDate,
                         onDateChanged: (value) {
                           setState(() {
@@ -76,10 +69,7 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
                     ),
                   ),
                 ),
-                const VerticalDivider(
-                  thickness: 5,
-                  width: 3,
-                ),
+                const VerticalDivider(thickness: 5, width: 3),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxHeight: 300,
@@ -113,20 +103,17 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
             ),
           ),
           ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 1000,
-            ),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: const Divider(),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-                "Picked Date : ${formatDate(_currentDate.toIso8601String())}"),
+              "Picked Date : ${formatDate(_currentDate.toIso8601String())}",
+            ),
           ),
           ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 1000,
-            ),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: const Divider(),
           ),
           Padding(
@@ -136,9 +123,7 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ChangeNotifierProvider.value(
-                  value: PxAppOrganizer(
-                    visitId: widget.visit.id,
-                  ),
+                  value: PxAppOrganizer(visitId: widget.visit.id),
                   builder: (context, child) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -156,13 +141,13 @@ class _DateAndTimePickerDialogState extends State<DateAndTimePickerDialog> {
                             final s = context.read<PxSocketProvider>();
                             final msg =
                                 SocketNotificationMessage.setFollowUpDate(
-                              widget.visit.docid!,
-                              Tr(
-                                e: widget.visit.docNameEN,
-                                a: widget.visit.docNameAR,
-                              ),
-                              widget.visit.id.oid,
-                            );
+                                  widget.visit.docid!,
+                                  Tr(
+                                    e: widget.visit.docNameEN,
+                                    a: widget.visit.docNameAR,
+                                  ),
+                                  widget.visit.id.oid,
+                                );
                             s.sendSocketMessage(msg);
                           }
                           if (context.mounted) {
