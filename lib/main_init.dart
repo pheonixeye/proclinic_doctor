@@ -4,6 +4,7 @@ import 'package:minisound/engine.dart';
 import 'package:proclinic_doctor/network_settings/network_class.dart';
 import 'package:proclinic_doctor/providers/font_file_provider.dart';
 import 'package:proclinic_doctor/providers/notification_provider.dart';
+import 'package:proclinic_doctor/providers/notification_sound_file_provider.dart';
 import 'package:proclinic_doctor/providers/theme_changer.dart';
 import 'package:proclinic_doctor/theme/theme.dart';
 import 'package:proclinic_models/proclinic_models.dart';
@@ -22,6 +23,9 @@ Future<void> initHive() async {
   //init font file path
   Hive.init('assets\\font_file_path.hive');
   FontFileProvider.box = await Hive.openBox('font_file_path');
+  //init sound file path
+  Hive.init('assets\\sound_file_path.hive');
+  NotificationSoundFileProvider.box = await Hive.openBox('sound_file_path');
   //init network settings
   await NetworkSettings.init();
 }

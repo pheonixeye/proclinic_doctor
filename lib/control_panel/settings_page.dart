@@ -4,6 +4,7 @@ import 'package:proclinic_doctor/functions/print_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor/providers/font_file_provider.dart';
+import 'package:proclinic_doctor/providers/notification_sound_file_provider.dart';
 import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:proclinic_doctor/providers/theme_changer.dart';
 import 'package:provider/provider.dart';
@@ -200,6 +201,53 @@ class _FieldCreationPageState extends State<FieldCreationPage> {
                                       await context
                                           .read<FontFileProvider>()
                                           .setFontFilePath();
+                                    }
+                                  },
+                                  child: const Icon(Icons.search),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.92,
+                          child: Card(
+                            elevation: 6,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                8.0,
+                                16.0,
+                                8.0,
+                                8.0,
+                              ),
+                              child: ListTile(
+                                leading: const CircleAvatar(),
+                                title: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Select Notification Sound File Path',
+                                  ),
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child:
+                                      Consumer<NotificationSoundFileProvider>(
+                                        builder: (context, f, _) {
+                                          return Text(
+                                            f.soundFilePathInstance ??
+                                                "Unselected.",
+                                          );
+                                        },
+                                      ),
+                                ),
+                                trailing: FloatingActionButton(
+                                  heroTag: 'set-sound-file-path-btn',
+                                  onPressed: () async {
+                                    if (context.mounted) {
+                                      await context
+                                          .read<NotificationSoundFileProvider>()
+                                          .setSoundFilePath();
                                     }
                                   },
                                   child: const Icon(Icons.search),

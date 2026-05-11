@@ -125,7 +125,7 @@ class _TodayVisitCardState extends State<TodayVisitCard> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton.small(
-                      heroTag: widget.visit.id,
+                      heroTag: '${widget.visit.id}#${widget.visit.entryNumber}',
                       onPressed: null,
                       child: Text('${widget.visit.entryNumber}'),
                     ),

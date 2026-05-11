@@ -3,6 +3,7 @@ import 'package:proclinic_doctor/providers/doctorListProvider.dart';
 import 'package:proclinic_doctor/providers/font_file_provider.dart';
 import 'package:proclinic_doctor/providers/form_loader.dart';
 import 'package:proclinic_doctor/providers/notification_provider.dart';
+import 'package:proclinic_doctor/providers/notification_sound_file_provider.dart';
 import 'package:proclinic_doctor/providers/one_patient_visits.dart';
 import 'package:proclinic_doctor/providers/overlay_provider.dart';
 import 'package:proclinic_doctor/providers/prescription_settings_provider.dart';
@@ -19,6 +20,7 @@ import 'package:provider/single_child_widget.dart';
 final List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => PxOverlay()),
   ChangeNotifierProvider(create: (context) => ThemeChanger()),
+  ChangeNotifierProvider(create: (context) => NotificationSoundFileProvider()),
   ChangeNotifierProvider(create: (context) => PxAppNotifications()),
   ChangeNotifierProvider(create: (context) => PxDoctorListProvider()),
   ChangeNotifierProvider(create: (context) => PxSelectedDoctor()),

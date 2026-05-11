@@ -1,11 +1,13 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:proclinic_doctor/logic/socket_server_type.dart';
 import 'package:proclinic_doctor/network_settings/change_password_page.dart';
 import 'package:proclinic_doctor/Login_screen/set_password_page.dart';
 import 'package:proclinic_doctor/doctorsdropdownmenubuttonwidget/doctors_dropdownmenubutton.dart';
 // import 'package:proclinic_doctor/network_settings/network_settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:proclinic_doctor/Alert_dialogs_random/alert_dialogs.dart';
+import 'package:proclinic_doctor/network_settings/network_settings_ui.dart';
 import 'package:proclinic_doctor/providers/selected_doctor.dart';
 import 'package:proclinic_doctor/providers/socket_provider.dart';
 import 'package:proclinic_doctor/providers/supplies_provider.dart';
@@ -190,28 +192,30 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      // SizedBox(
-                      //   width: 400,
-                      //   child: Row(
-                      //     children: [
-                      //       Expanded(
-                      //         child: ElevatedButton.icon(
-                      //           icon: const Icon(Icons.network_check),
-                      //           label: const Text('Network Settings'),
-                      //           onPressed: () {
-                      //             Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) =>
-                      //                     const NetworkSettingsPage(),
-                      //               ),
-                      //             );
-                      //           },
-                      //         ),
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
+                      if (SocketServerType.fromString() ==
+                          SocketServerType.local)
+                        SizedBox(
+                          width: 400,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.network_check),
+                                  label: const Text('Network Settings'),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NetworkSettingsPage(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                 ),
